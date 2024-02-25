@@ -61,13 +61,13 @@
                         item-value="id_tipo_comprobante"
                         ></v-select>
                 </v-col>
-                <v-col cols="2">
+                <!-- <v-col cols="2">
                     <v-select label="Estado de Documento" v-model="filter.id_estado"
                         :items="estados_comp"
                         item-text="estado"
                         item-value="id_estado_comprobante"
                         ></v-select>
-                </v-col>
+                </v-col> -->
                 <v-col class="text-right">
                     <v-btn color="primary" class="mr-2" @click="getRegistros">
                         <v-icon>mdi-magnify</v-icon>Buscar
@@ -111,9 +111,9 @@
                 <template v-slot:[`item.fecha_emision`]="{ item }">
                     {{item.fecha_emision | formatDate}}
                 </template>
-                <template v-slot:[`item.estado`]="{ item }">
+                <!-- <template v-slot:[`item.estado`]="{ item }">
                     <v-chip class="ma-2" :color="getStatusColor(item.estado.id_estado_comprobante)">{{item.estado.estado}}</v-chip>
-                </template>
+                </template> -->
             </v-data-table>
             <div class="text-center pt-2">
                 <v-pagination
@@ -150,7 +150,7 @@ export default {
             { text: 'Gravado', sortable: false, value: 'op_gravadas' },
             { text: 'IGV', sortable: false, value: 'igv' },
             { text: 'Total', sortable: false, value: 'total' },
-            { text: 'Estado', sortable: false, value: 'estado' },
+            // { text: 'Estado', sortable: false, value: 'estado' },
         ],
 
         menuFechaInicio: false,
@@ -170,7 +170,7 @@ export default {
         this.estadosInvoiceCombo();
         this.tiposComprobantesCombo();
 
-        this.filter.fechaInicio = this.firstDateMonth();
+        // this.filter.fechaInicio = this.firstDateMonth();
         this.filter.fechaFin    = this.todaysDateDefault();
     },
 
@@ -196,7 +196,7 @@ export default {
         },
         limpiarFiltros(){
             this.filter = {};
-            this.filter.fechaInicio = this.firstDateMonth();
+            // this.filter.fechaInicio = this.firstDateMonth();
             this.filter.fechaFin    = this.todaysDateDefault();
             
             this.getRegistros();

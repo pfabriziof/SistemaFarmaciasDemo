@@ -459,7 +459,7 @@ class ExportsController extends Controller
         $sheet->setCellValue('F5', 'GRAVADO');
         $sheet->setCellValue('G5', 'IGV');
         $sheet->setCellValue('H4', 'TOTAL');
-        $sheet->setCellValue('I4', 'ESTADO');
+        // $sheet->setCellValue('I4', 'ESTADO');
         //--- End ---
 
         //--- Contenido de la Tabla ---
@@ -473,7 +473,7 @@ class ExportsController extends Controller
             $sheet->setCellValue('F'.$sprst_row, $dt->op_gravadas);
             $sheet->setCellValue('G'.$sprst_row, $dt->igv);
             $sheet->setCellValue('H'.$sprst_row, $dt->total);
-            $sheet->setCellValue('I'.$sprst_row, $dt->estado->estado);
+            // $sheet->setCellValue('I'.$sprst_row, $dt->estado->estado);
 
             $sprst_row+=1;
         }

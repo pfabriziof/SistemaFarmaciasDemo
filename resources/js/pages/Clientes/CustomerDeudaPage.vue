@@ -292,7 +292,7 @@ export default {
 
     mounted(){
         this.filter.id_cliente = this.$route.params.id;
-        this.filter.fecha_inicio = this.firstDateMonth();
+        // this.filter.fecha_inicio = this.firstDateMonth();
         this.filter.fecha_fin    = this.todaysDateDefault();
         this.form_payment.fecha_pago = this.todaysDateDefault();
         this.getCliente();

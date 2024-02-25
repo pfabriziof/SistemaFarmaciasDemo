@@ -109,7 +109,7 @@ input {
     flex-grow: 1;
     overflow: auto;
     padding: 1rem;
-    background-color: #526b77;
+    background-color: #D4F1F4;
 }
 
 .message+.message {

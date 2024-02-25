@@ -287,7 +287,7 @@ export default {
     }),
 
     mounted () {
-        this.filter.fechaInicio = this.firstDateMonth();
+        // this.filter.fechaInicio = this.firstDateMonth();
         this.filter.fechaFin    = this.todaysDateDefault();
 
         this.consultarCaja();
@@ -314,7 +314,7 @@ export default {
             }).finally(() => (this.loadingTable = false));
         },
         limpiarFiltros(){
-            this.filter.fechaInicio = this.firstDateMonth();
+            // this.filter.fechaInicio = this.firstDateMonth();
             this.filter.fechaFin    = this.todaysDateDefault();
 
             this.getRegistros();

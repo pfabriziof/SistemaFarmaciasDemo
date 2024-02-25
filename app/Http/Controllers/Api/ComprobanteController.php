@@ -84,7 +84,7 @@ class ComprobanteController extends Controller
                 }
             }
         }
-        //--- End ---
+        //--- End ---Stock
         //--- Validacion de Stock ---
         function searchForId($id, $array) {
             foreach ($array as $key => $val) {
@@ -236,22 +236,22 @@ class ComprobanteController extends Controller
 
 
             //--- Gestion de movimiento en almacen ---
-            // $movimiento = new AlmacenMovimiento();
-            // $movimiento->id_sucursal = $id_sucursal;
-            // $movimiento->id_usuario  = $id_usuario;
-            // $movimiento->id_tipo_movimiento = 2; // Salida
-            // $movimiento->id_producto      = $detalle->id_producto;
-            // $movimiento->NombreProducto   = $detalle->nombre_producto;
-            // $movimiento->id_unidad_medida = $detalle->id_unidad_medida;
-            // $movimiento->und_simbolo      = $detalle->und_simbolo;
+            $movimiento = new AlmacenMovimiento();
+            $movimiento->id_sucursal = $id_sucursal;
+            $movimiento->id_usuario  = $id_usuario;
+            $movimiento->id_tipo_movimiento = 2; // Salida
+            $movimiento->id_producto      = $detalle->id_producto;
+            $movimiento->NombreProducto   = $detalle->nombre_producto;
+            $movimiento->id_unidad_medida = $detalle->id_unidad_medida;
+            $movimiento->und_simbolo      = $detalle->und_simbolo;
 
-            // $movimiento->cantidad         = $detalle->cantidad;
-            // $movimiento->precioUnitario   = $detalle->precio_unitario;
-            // $movimiento->precioTotal      = $detalle->precio_total;
-            // $movimiento->stock_actual     = $product_i->stock;
-            // $movimiento->fecha_movimiento = date('Y-m-d');
-            // $movimiento->save();
-            //--- End ---
+            $movimiento->cantidad         = $detalle->cantidad;
+            $movimiento->precioUnitario   = $detalle->precio_unitario;
+            $movimiento->precioTotal      = $detalle->precio_total;
+            $movimiento->stock_actual     = $product_i->stock;
+            $movimiento->fecha_movimiento = date('Y-m-d');
+            $movimiento->save();
+            // --- End ---
         }
         //--- End ---
 
@@ -302,7 +302,7 @@ class ComprobanteController extends Controller
         // return $response_sunat;
         //--- End ---
 
-        return response()->json(['success'=>true, 'message' => 'Comprobante creado correctamente!']);
+        return response()->json(['success'=>true, 'message' => 'Comprobante creado correctamente!', 'id_comprobante' => $comprobante->id_comprobante]);
     }
 
     public function show($id){

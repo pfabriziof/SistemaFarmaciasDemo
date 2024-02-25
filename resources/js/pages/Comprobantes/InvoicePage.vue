@@ -61,13 +61,13 @@
                         item-value="id_tipo_comprobante"
                         ></v-select>
                 </v-col>
-                <v-col cols="2">
+                <!-- <v-col cols="2">
                     <v-select label="Estado de Documento" v-model="filter.id_estado"
                         :items="estados_comp"
                         item-text="estado"
                         item-value="id_estado_comprobante"
                         ></v-select>
-                </v-col>
+                </v-col> -->
                 <v-col class="text-right">
                     <v-btn color="primary" class="mr-2" @click="getRegistros">
                         <v-icon>mdi-magnify</v-icon>Buscar
@@ -183,7 +183,7 @@ export default {
     }),
 
     mounted () {
-        this.filter.fechaInicio = this.firstDateMonth();
+        // this.filter.fechaInicio = this.firstDateMonth();
         this.filter.fechaFin    = this.todaysDateDefault();
 
         this.consultarCaja();
@@ -212,7 +212,7 @@ export default {
         },
         limpiarFiltros(){
             this.filter = {};
-            this.filter.fechaInicio = this.firstDateMonth();
+            // this.filter.fechaInicio = this.firstDateMonth();
             this.filter.fechaFin    = this.todaysDateDefault();
 
             this.getRegistros();

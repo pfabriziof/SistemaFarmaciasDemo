@@ -61,9 +61,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     ]);
 
     //--- DASHBOARD ---
-    Route::get('getDashboardHistoric', [DashboardController::class, 'getDashboardHistoric']);
-    Route::get('getDashboardToday', [DashboardController::class, 'getDashboardToday']);
-    Route::get('getDashboardStock', [DashboardController::class, 'getDashboardStock']);
+    Route::get('getDashboardHistorico', [DashboardController::class, 'getDashboardHistorico']);
+    Route::get('getVentasEgresos', [DashboardController::class, 'getVentasEgresos']);
+    Route::get('getTopProductos', [DashboardController::class, 'getTopProductos']);
     //--- END ---
 
 

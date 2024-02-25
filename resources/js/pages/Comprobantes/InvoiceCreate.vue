@@ -578,13 +578,13 @@ export default {
             this.preloader = true;
             this.addForm.inv_detalle = this.invoice_detail;
             this.addForm.inv_total = this.inv_total;
-            this.addForm.post('/api/comprobante').then((result)=>{
+            this.addForm.post('/api/comprobante').then((response)=>{
                 this.$swal.fire({
                     icon: 'success',
                     title: 'Comprobante creado correctamente!',
                     confirmButtonText: 'Aceptar'
                 });
-                this.$router.push('/comprobantes_visualize/'+result.data.id_comprobante);
+                this.$router.push('/comprobantes_visualize/'+response.data.id_comprobante);
 
             }).catch(e => {
                 var error_messages = e.response.data.errors;

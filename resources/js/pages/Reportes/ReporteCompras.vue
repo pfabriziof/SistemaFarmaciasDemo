@@ -146,7 +146,7 @@ export default {
     }),
 
     mounted(){
-        this.filter.fechaInicio = this.firstDateMonth();
+        // this.filter.fechaInicio = this.firstDateMonth();
         this.filter.fechaFin    = this.todaysDateDefault();
     },
 
@@ -172,7 +172,7 @@ export default {
         },
         limpiarFiltros(){
             this.filter = {};
-            this.filter.fechaInicio = this.firstDateMonth();
+            // this.filter.fechaInicio = this.firstDateMonth();
             this.filter.fechaFin    = this.todaysDateDefault();
             this.filter.estadoCompra = 1;
 

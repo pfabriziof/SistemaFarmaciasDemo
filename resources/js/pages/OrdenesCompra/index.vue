@@ -145,7 +145,7 @@ export default {
         //--- End ---
     }),
     mounted(){
-        this.filter.fechaInicio = this.firstDateMonth();
+        // this.filter.fechaInicio = this.firstDateMonth();
         this.filter.fechaFin    = this.todaysDateDefault();
     },
     methods:{
@@ -169,7 +169,7 @@ export default {
         },
         limpiarFiltros(){
             this.filter = {};
-            this.filter.fechaInicio = this.firstDateMonth();
+            // this.filter.fechaInicio = this.firstDateMonth();
             this.filter.fechaFin    = this.todaysDateDefault();
 
             this.getRegistros();

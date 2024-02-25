@@ -12,7 +12,9 @@
     <tr>
         <td width="70%" class="pl-3">
             <div class="company_logo_box">
-                <img src="{{url('..'.$document->sucursal->empresa->file_path->path .$document->sucursal->empresa->file_path->filename)}}" class="company_logo" style="max-width: 250px;">
+                @if ($document->sucursal->empresa->file_path)
+                    <img src="{{url('..'.$document->sucursal->empresa->file_path->path .$document->sucursal->empresa->file_path->filename)}}" class="company_logo" style="max-width: 250px;">
+                @endif
             </div>
         </td>
         <td width="30%" class="border-box py-3 px-2 text-center">
