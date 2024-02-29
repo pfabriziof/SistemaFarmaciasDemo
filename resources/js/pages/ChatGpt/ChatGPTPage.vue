@@ -9,7 +9,7 @@
         <v-card class="mb-4" light style="padding: 15px">
             <v-row dense class="pa-2 align-center">
                 <v-col class="text-right">
-                    <v-select label="Tabla" v-model="chatForm.dbTable"
+                    <v-select label="Tópico" v-model="chatForm.dbTable"
                         :items="dbTableList"
                         item-text="title" 
                         item-value="table_name"

@@ -25,7 +25,7 @@ export default {
 }
 
 .message.dark {
-    background: #22c3e3;
+    background: #6fe5fc;
 }
 
 h5 {

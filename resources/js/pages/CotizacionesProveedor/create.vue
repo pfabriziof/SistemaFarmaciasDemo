@@ -1,5 +1,8 @@
 <template>
     <div class="flex-grow-1">
+        <div v-if="preloader" class="overlay">
+            <div class="triple-spinner"></div>
+        </div>
         <div class="d-flex align-center py-3">
             <div>
                 <h2 style="color: #37474F">Nueva Cotización de Proveedor</h2>
@@ -98,6 +101,7 @@
 <script>
 export default {
     data: () => ({
+        preloader: false,
         breadcrumbs: [{
             text: 'Proveedor Cotizaciones',
             disabled: false,
@@ -105,6 +109,8 @@ export default {
         }, {
             text: 'Nueva Cotización de Proveedor'
         }],
+
+
         form: new Form({
             id_proveedor: null,
             email: null,
@@ -113,9 +119,7 @@ export default {
             productos: null,
         }),
         menuFechEmi: false,
-        //--- Autocomplete ---
         cotz_detail: [],
-        //--- End ---
         
         requiredRules: [
             v => !!v || 'Campo obligatorio',
@@ -127,6 +131,7 @@ export default {
     methods:{
         //--- Funciones Cotizacion ---
         createCotizacionProveedor(){
+            this.preloader = true;
             this.form.productos = this.cotz_detail;
             this.form.post('api/prv_cotizacion').then((result)=>{
                 Toast.fire({

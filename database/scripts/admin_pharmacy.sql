@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 03, 2024 at 10:07 AM
--- Server version: 8.0.35-0ubuntu0.22.04.1
+-- Generation Time: Feb 28, 2024 at 08:51 PM
+-- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -145,6 +145,20 @@ CREATE TABLE `almacen_movimientos` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `almacen_movimientos`
+--
+
+INSERT INTO `almacen_movimientos` (`id_almacen_movimientos`, `id_sucursal`, `id_usuario`, `id_producto`, `NombreProducto`, `id_tipo_movimiento`, `id_unidad_medida`, `und_simbolo`, `cantidad`, `precioUnitario`, `precioTotal`, `stock_actual`, `fecha_movimiento`, `updated_at`, `created_at`) VALUES
+(1, 1, 2, 2, 'Producto 2', 2, 2, 'UND', '8.00', '12.00', '12.00', '992.00', '2024-02-25', '2024-02-25 16:55:24', '2024-02-25 16:55:24'),
+(2, 1, 2, 3, 'Producto 3', 2, 2, 'UND', '10.00', '25.00', '25.00', '990.00', '2024-02-25', '2024-02-25 16:59:23', '2024-02-25 16:59:23'),
+(3, 1, 2, 3, 'Producto 3', 2, 2, 'UND', '5.00', '2.50', '12.50', '985.00', '2024-02-25', '2024-02-25 17:01:53', '2024-02-25 17:01:53'),
+(4, 1, 2, 3, 'Producto 3', 1, 2, 'UND', '1200.00', '65.00', '1950.00', '2185.00', '2024-02-25', '2024-02-25 17:17:54', '2024-02-25 17:17:54'),
+(5, 1, 2, 3, 'Producto 3', 2, 2, 'UND', '50.00', '250.00', '1250.00', '2135.00', '2024-02-25', '2024-02-26 01:00:10', '2024-02-26 01:00:10'),
+(6, 1, 2, 2, 'Producto 2', 2, 2, 'UND', '300.00', '80.00', '400.00', '692.00', '2024-02-25', '2024-02-26 01:02:02', '2024-02-26 01:02:02'),
+(7, 1, 2, 1, 'Producto 1', 1, 2, 'UND', '1000.00', '4.00', '4000.00', '1995.00', '2024-02-25', '2024-02-26 01:19:58', '2024-02-26 01:19:58'),
+(8, 1, 2, 2, 'Producto 2', 1, 2, 'UND', '1000.00', '0.60', '600.00', '1692.00', '2024-02-25', '2024-02-26 01:20:00', '2024-02-26 01:20:00');
+
 -- --------------------------------------------------------
 
 --
@@ -166,7 +180,8 @@ CREATE TABLE `caja` (
 --
 
 INSERT INTO `caja` (`id_caja`, `id_sucursal`, `id_usuario`, `fecha_apertura`, `fecha_cierre`, `monto_apertura`, `monto_cierre`) VALUES
-(1, 1, 1, '2024-01-17 02:05:54', NULL, '0.00', NULL);
+(1, 1, 1, '2024-01-17 02:05:54', '2024-02-25 17:02:15', '0.00', '53.50'),
+(2, 1, 2, '2024-02-25 17:15:31', '2024-02-27 01:55:56', '0.00', '1650.00');
 
 -- --------------------------------------------------------
 
@@ -180,6 +195,18 @@ CREATE TABLE `caja_detalle` (
   `id_medio_pago` tinyint UNSIGNED DEFAULT NULL,
   `monto` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `caja_detalle`
+--
+
+INSERT INTO `caja_detalle` (`id_caja_det`, `id_caja`, `id_medio_pago`, `monto`) VALUES
+(1, 1, 1, '53.50'),
+(2, 1, 2, '0.00'),
+(3, 1, 3, '0.00'),
+(4, 2, 1, '1650.00'),
+(5, 2, 2, '0.00'),
+(6, 2, 3, '0.00');
 
 -- --------------------------------------------------------
 
@@ -212,7 +239,8 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `id_tipo_doc`, `id_sucursal`, `tipo_cliente`, `nombre`, `nro_doc`, `email`, `telefono`, `contacto_nombre`, `contacto_telefono`, `id_departamento`, `id_provincia`, `id_distrito`, `estado`, `updated_at`, `created_at`) VALUES
 (1, 2, 1, 1, 'CLIENTES VARIOS', '00000000', NULL, NULL, NULL, NULL, 4, 401, 40101, 1, '2024-02-03 14:46:49', '2024-02-03 14:43:57'),
-(2, 2, 1, 1, 'RENZO PAREDES RAMIREZ', '12345678', NULL, NULL, NULL, NULL, 15, 1501, 150122, 1, '2024-02-03 14:47:59', '2024-02-03 14:47:59');
+(2, 2, 1, 1, 'RENZO PAREDES RAMIREZ', '12345678', NULL, NULL, NULL, NULL, 15, 1501, 150122, 1, '2024-02-03 14:47:59', '2024-02-03 14:47:59'),
+(3, 2, 1, 1, 'LUIS FERNANDO JAMANCA TREJO', '45678942', NULL, NULL, NULL, NULL, 6, 601, 60101, 1, '2024-02-26 00:55:36', '2024-02-26 00:55:36');
 
 -- --------------------------------------------------------
 
@@ -234,7 +262,8 @@ CREATE TABLE `cliente_direcciones` (
 INSERT INTO `cliente_direcciones` (`id_direccion`, `id_cliente`, `direccion`, `estado`) VALUES
 (1, 1, 'Calle Las Rosas 123', 1),
 (2, 1, 'Calle Las Petunias 456', 1),
-(3, 2, 'URB. LOS GIRASOLES 123', 1);
+(3, 2, 'URB. LOS GIRASOLES 123', 1),
+(4, 3, 'Urb. Rosales G-23', 1);
 
 -- --------------------------------------------------------
 
@@ -277,6 +306,14 @@ CREATE TABLE `compras` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `compras`
+--
+
+INSERT INTO `compras` (`id_compra`, `id_usuario`, `id_sucursal`, `id_proveedor`, `id_moneda`, `id_medio_pago`, `id_tipo_cambio`, `id_tipo_comprobante`, `correlativo`, `nombreProveedor`, `nroDocProveedor`, `email`, `nro_guia_remision`, `serie_factura`, `nro_factura`, `fecha_emision`, `fecha_vencimiento`, `origen_dinero`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `deuda_id`, `deuda_generada`, `deuda_adelanto`, `id_estado`, `fecha_anulacion`, `updated_at`, `created_at`) VALUES
+(1, 2, 1, 1, 1, 1, 1, 1, 1, 'PROVEEDOR INTERNO', '12345678912', 'proveedorinterno@gmail.com', NULL, 'F001', '1234', '2024-02-25', '2024-02-25', 1, '1950.00', '0.00', '0.00', '0.00', '18.00', '0.00', '1950.00', NULL, NULL, NULL, 1, NULL, '2024-02-25 17:17:53', '2024-02-25 17:17:47'),
+(2, 2, 1, 2, 1, 1, 1, 1, 2, 'PROVEEDOR DISTRIBUIDOR', '98765432198', 'proveedordistribuidor@gmail.com', NULL, 'F002', '45681', '2024-02-25', '2024-02-25', 1, '0.00', '600.00', '3389.83', '0.00', '18.00', '610.17', '4600.00', 1, 1, '500.00', 1, NULL, '2024-02-26 01:20:01', '2024-02-26 01:19:50');
+
 -- --------------------------------------------------------
 
 --
@@ -299,6 +336,15 @@ CREATE TABLE `compras_detalle` (
   `precio_unitario` decimal(11,2) DEFAULT NULL,
   `precio_total` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `compras_detalle`
+--
+
+INSERT INTO `compras_detalle` (`id_compra_detalle`, `id_compra`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `lote_id`, `lote_name`, `lote_fecha_exp`, `cantidad`, `cantidad_visual`, `precio_unitario`, `precio_total`) VALUES
+(1, 1, 3, 'Producto 3', 2, 'UND', 9, 4, 'L3002', '2024-12-31', '1200.00', '30.00', '65.00', '1950.00'),
+(2, 2, 1, 'Producto 1', 2, 'UND', 3, 5, 'L1002', '2024-12-31', '1000.00', '1000.00', '4.00', '4000.00'),
+(3, 2, 2, 'Producto 2', 2, 'UND', 8, 6, 'L2002', '2024-12-31', '1000.00', '1000.00', '0.60', '600.00');
 
 -- --------------------------------------------------------
 
@@ -386,7 +432,12 @@ CREATE TABLE `comprobantes` (
 --
 
 INSERT INTO `comprobantes` (`id_comprobante`, `id_cliente`, `id_usuario`, `id_sucursal`, `id_tipo_comprobante`, `id_moneda`, `id_estado_comprobante`, `id_medio_pago`, `id_tipo_cambio`, `id_serie`, `correlativo`, `nombreCliente`, `nroDocCliente`, `direccionCliente`, `fecha_emision`, `fecha_vencimiento`, `comentario`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `external_id`, `formato_impresion`, `fecha_anulacion`, `motivo_anulacion`, `updated_at`, `created_at`) VALUES
-(2, 1, 1, 1, 2, 1, 3, 1, 1, 2, 1, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-03', '2024-02-03', NULL, '0.00', '0.00', '3.39', '0.00', '18.00', '0.61', '4.00', NULL, 'ticket', NULL, NULL, '2024-02-03 15:01:22', '2024-02-03 15:01:19');
+(2, 1, 1, 1, 2, 1, 3, 1, 1, 2, 1, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-03', '2024-02-03', NULL, '0.00', '0.00', '3.39', '0.00', '18.00', '0.61', '4.00', NULL, 'ticket', NULL, NULL, '2024-02-03 15:01:22', '2024-02-03 15:01:19'),
+(3, 1, 2, 1, 2, 1, 4, 1, 1, 2, 2, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-25', '2024-02-25', NULL, '0.00', '12.00', '0.00', '0.00', '18.00', '0.00', '12.00', NULL, 'ticket', NULL, NULL, '2024-02-25 16:55:24', '2024-02-25 16:55:22'),
+(4, 1, 2, 1, 2, 1, 4, 1, 1, 2, 3, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-25', '2024-02-25', 'Test comentarios', '25.00', '0.00', '0.00', '0.00', '18.00', '0.00', '25.00', NULL, 'ticket', NULL, NULL, '2024-02-25 16:59:23', '2024-02-25 16:59:21'),
+(5, 1, 2, 1, 2, 1, 4, 1, 1, 2, 4, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-25', '2024-02-25', NULL, '12.50', '0.00', '0.00', '0.00', '18.00', '0.00', '12.50', NULL, 'ticket', NULL, NULL, '2024-02-25 17:01:53', '2024-02-25 17:01:51'),
+(6, 2, 2, 1, 2, 1, 4, 1, 1, 2, 5, 'RENZO PAREDES RAMIREZ', '12345678', 'URB. LOS GIRASOLES 123', '2024-02-25', '2024-02-25', NULL, '1250.00', '0.00', '0.00', '0.00', '18.00', '0.00', '1250.00', NULL, 'ticket', NULL, NULL, '2024-02-26 01:00:11', '2024-02-26 01:00:09'),
+(7, 3, 2, 1, 2, 1, 4, 1, 1, 2, 6, 'LUIS FERNANDO JAMANCA TREJO', '45678942', 'Urb. Rosales G-23', '2024-02-25', '2024-02-25', NULL, '0.00', '400.00', '0.00', '0.00', '18.00', '0.00', '400.00', NULL, 'ticket', NULL, NULL, '2024-02-26 01:02:03', '2024-02-26 01:02:01');
 
 -- --------------------------------------------------------
 
@@ -415,7 +466,12 @@ CREATE TABLE `comprobante_detalle` (
 --
 
 INSERT INTO `comprobante_detalle` (`id_comp_detalle`, `id_comprobante`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `id_lote`, `lote_producto`, `precio_unitario`, `cantidad`, `cantidad_visual`, `precio_total`) VALUES
-(1, 2, 1, 'Producto 1', 2, 'UND', 3, 1, 'L1001', '0.80', '5.00', '5.00', '4.00');
+(1, 2, 1, 'Producto 1', 2, 'UND', 3, 1, 'L1001', '0.80', '5.00', '5.00', '4.00'),
+(2, 3, 2, 'Producto 2', 2, 'UND', 6, 2, 'L2001', '12.00', '8.00', '1.00', '12.00'),
+(3, 4, 3, 'Producto 3', 2, 'UND', 1, 3, 'L3001', '25.00', '10.00', '1.00', '25.00'),
+(4, 5, 3, 'Producto 3', 2, 'UND', 2, 3, 'L3001', '2.50', '5.00', '5.00', '12.50'),
+(5, 6, 3, 'Producto 3', 2, 'UND', 1, 4, 'L3002', '250.00', '50.00', '5.00', '1250.00'),
+(6, 7, 2, 'Producto 2', 2, 'UND', 7, 2, 'L2001', '80.00', '300.00', '5.00', '400.00');
 
 -- --------------------------------------------------------
 
@@ -477,6 +533,13 @@ CREATE TABLE `deudas_compras` (
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `deudas_compras`
+--
+
+INSERT INTO `deudas_compras` (`id_deuda`, `id_compra`, `id_proveedor`, `total_adelanto`, `total_deuda`, `total_monto_pagado`, `total_monto_pendiente`, `fecha`, `estado`) VALUES
+(1, 2, 2, '500.00', '4600.00', '500.00', '4100.00', '2024-02-25', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -491,6 +554,13 @@ CREATE TABLE `deudas_compras_pagos` (
   `fecha` date DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `deudas_compras_pagos`
+--
+
+INSERT INTO `deudas_compras_pagos` (`id_pago`, `id_deuda`, `monto_pagado`, `comentario`, `fecha`, `estado`) VALUES
+(1, 1, '500.00', NULL, '2024-02-25', 1);
 
 -- --------------------------------------------------------
 
@@ -544,6 +614,14 @@ CREATE TABLE `egresos` (
   `detalle` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `egresos`
+--
+
+INSERT INTO `egresos` (`id_egreso`, `id_sucursal`, `id_usuario`, `id_compra`, `id_tipo_egreso`, `id_motivo_egreso`, `metodo_gasto`, `fecha_egreso`, `monto`, `detalle`, `estado`) VALUES
+(1, 1, 2, 1, 4, 3, 1, '2024-02-25 12:17:55', '1950.00', NULL, 1),
+(2, 1, 2, 2, 4, 3, 1, '2024-02-25 20:20:01', '4600.00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -716,8 +794,11 @@ CREATE TABLE `lote_productos` (
 
 INSERT INTO `lote_productos` (`id_lote`, `id_sucursal`, `id_producto`, `lote`, `cantidad`, `fecha_expiracion`) VALUES
 (1, 1, 1, 'L1001', 995, '2024-12-31'),
-(2, 1, 2, 'L2001', 1000, '2024-12-31'),
-(3, 1, 3, 'L3001', 1000, '2024-12-31');
+(2, 1, 2, 'L2001', 692, '2024-12-31'),
+(3, 1, 3, 'L3001', 985, '2024-12-31'),
+(4, 1, 3, 'L3002', 1150, '2024-12-31'),
+(5, 1, 1, 'L1002', 1000, '2024-12-31'),
+(6, 1, 2, 'L2002', 1000, '2024-12-31');
 
 -- --------------------------------------------------------
 
@@ -1024,6 +1105,13 @@ CREATE TABLE `orden_compra` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `orden_compra`
+--
+
+INSERT INTO `orden_compra` (`id_orden_compra`, `id_usuario`, `id_sucursal`, `id_proveedor`, `id_moneda`, `id_medio_pago`, `id_tipo_cambio`, `email`, `fecha_emision`, `fecha_vencimiento`, `numeracion`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 2, 1, 1, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', '2024-02-25', 1, '0.00', '700.00', '338.98', '0.00', '18.00', '61.02', '1100.00', 1, '2024-02-26 01:12:28', '2024-02-26 01:12:38');
+
 -- --------------------------------------------------------
 
 --
@@ -1043,6 +1131,14 @@ CREATE TABLE `orden_compra_detalle` (
   `precio_unitario` decimal(11,2) DEFAULT NULL,
   `precio_total` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `orden_compra_detalle`
+--
+
+INSERT INTO `orden_compra_detalle` (`id_orden_detalle`, `id_orden_compra`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `cantidad`, `cantidad_visual`, `precio_unitario`, `precio_total`) VALUES
+(1, 1, 1, 'Producto 1', 2, 'UND', 4, '100.00', NULL, '4.00', '400.00'),
+(2, 1, 2, 'Producto 2', 2, 'UND', 6, '100.00', NULL, '7.00', '700.00');
 
 -- --------------------------------------------------------
 
@@ -1259,9 +1355,9 @@ CREATE TABLE `productos_servicios` (
 --
 
 INSERT INTO `productos_servicios` (`id_producto`, `codigo_producto`, `id_marca`, `id_categoria`, `id_unidad_medida`, `id_sucursal`, `id_laboratorio`, `id_condicion_alm`, `id_tipo_producto`, `nombreProducto`, `stock`, `stock_minimo`, `servicio`, `principio_activo`, `indicaciones`, `concentracion`, `registro_sanitario`, `vigencia_registro`, `ubicacion`, `estado`, `updated_at`, `created_at`) VALUES
-(1, 'PR001', 1, 1, 2, 1, 1, 1, 1, 'Producto 1', '995.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-03 15:01:20', '2023-12-16 17:32:03'),
-(2, 'PR002', 2, 1, 2, 1, 2, 1, 8, 'Producto 2', '1000.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2023-12-16 17:32:03', '2023-12-16 17:32:03'),
-(3, 'PR003', 2, 1, 2, 1, 3, 1, 10, 'Producto 3', '1000.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2023-12-16 17:32:04', '2023-12-16 17:32:04');
+(1, 'PR001', 1, 1, 2, 1, 1, 1, 1, 'Producto 1', '1995.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-26 01:19:57', '2023-12-16 17:32:03'),
+(2, 'PR002', 2, 1, 2, 1, 2, 1, 8, 'Producto 2', '1692.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-26 01:19:59', '2023-12-16 17:32:03'),
+(3, 'PR003', 2, 1, 2, 1, 3, 1, 10, 'Producto 3', '2135.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-26 01:00:09', '2023-12-16 17:32:04');
 
 -- --------------------------------------------------------
 
@@ -1353,6 +1449,13 @@ CREATE TABLE `prv_cotizaciones` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `prv_cotizaciones`
+--
+
+INSERT INTO `prv_cotizaciones` (`id_cotizacion_prv`, `id_usuario`, `id_sucursal`, `id_proveedor`, `numeracion`, `email`, `fecha_emision`, `id_estado`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 2, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', 1, '2024-02-25 17:23:18', '2024-02-25 17:23:26');
+
 -- --------------------------------------------------------
 
 --
@@ -1368,6 +1471,14 @@ CREATE TABLE `prv_cotizacion_detalle` (
   `und_simbolo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cantidad` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `prv_cotizacion_detalle`
+--
+
+INSERT INTO `prv_cotizacion_detalle` (`id_cotz_detalle_prv`, `id_cotizacion_prv`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `cantidad`) VALUES
+(1, 1, 1, 'Producto 1', 2, 'UND', '100.00'),
+(2, 1, 2, 'Producto 2', 2, 'UND', '100.00');
 
 -- --------------------------------------------------------
 
@@ -1627,6 +1738,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (103, 2),
 (104, 2),
 (105, 2),
+(106, 2),
 (107, 2),
 (108, 2),
 (109, 2),
@@ -1802,6 +1914,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (114, 4),
 (116, 4),
 (120, 4),
+(2, 5),
 (15, 5),
 (19, 5),
 (26, 5),
@@ -2026,7 +2139,7 @@ CREATE TABLE `tipo_cambio` (
 --
 
 INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `tipo_cambio`, `cambio`) VALUES
-(1, 'Dólares', '3.83');
+(1, 'Dólares', '3.80');
 
 -- --------------------------------------------------------
 
@@ -4734,43 +4847,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `almacen_movimientos`
 --
 ALTER TABLE `almacen_movimientos`
-  MODIFY `id_almacen_movimientos` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_almacen_movimientos` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id_caja` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_caja` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `caja_detalle`
 --
 ALTER TABLE `caja_detalle`
-  MODIFY `id_caja_det` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_caja_det` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cliente` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cliente_direcciones`
 --
 ALTER TABLE `cliente_direcciones`
-  MODIFY `id_direccion` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_direccion` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `compras_detalle`
 --
 ALTER TABLE `compras_detalle`
-  MODIFY `id_compra_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_compra_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `compra_estado`
@@ -4788,13 +4901,13 @@ ALTER TABLE `compressed_tables`
 -- AUTO_INCREMENT for table `comprobantes`
 --
 ALTER TABLE `comprobantes`
-  MODIFY `id_comprobante` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_comprobante` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `comprobante_detalle`
 --
 ALTER TABLE `comprobante_detalle`
-  MODIFY `id_comp_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_comp_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `comprobante_estados`
@@ -4812,13 +4925,13 @@ ALTER TABLE `condiciones_almacenamiento`
 -- AUTO_INCREMENT for table `deudas_compras`
 --
 ALTER TABLE `deudas_compras`
-  MODIFY `id_deuda` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_deuda` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `deudas_compras_pagos`
 --
 ALTER TABLE `deudas_compras_pagos`
-  MODIFY `id_pago` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pago` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `deudas_comprobantes`
@@ -4836,7 +4949,7 @@ ALTER TABLE `deudas_comprobantes_pagos`
 -- AUTO_INCREMENT for table `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_egreso` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `egreso_motivos`
@@ -4884,7 +4997,7 @@ ALTER TABLE `lista_precios_detalle`
 -- AUTO_INCREMENT for table `lote_productos`
 --
 ALTER TABLE `lote_productos`
-  MODIFY `id_lote` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_lote` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `marcas_productos`
@@ -4920,13 +5033,13 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `orden_compra`
 --
 ALTER TABLE `orden_compra`
-  MODIFY `id_orden_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_orden_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orden_compra_detalle`
 --
 ALTER TABLE `orden_compra_detalle`
-  MODIFY `id_orden_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_orden_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -4962,13 +5075,13 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT for table `prv_cotizaciones`
 --
 ALTER TABLE `prv_cotizaciones`
-  MODIFY `id_cotizacion_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cotizacion_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `prv_cotizacion_detalle`
 --
 ALTER TABLE `prv_cotizacion_detalle`
-  MODIFY `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`

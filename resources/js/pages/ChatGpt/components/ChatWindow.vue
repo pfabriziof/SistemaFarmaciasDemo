@@ -27,9 +27,21 @@ export default {
     data: () => ({
         username: {},
         messages: [],
+        text_help: [
+            "Déjame saber qué otra duda tienes",
+            "¿En qué más puedo ayudarte?",
+            "Dime, ¿en qué más te puedo apoyar?",
+            "Cuéntame, ¿qué otra pregunta tienes?",
+            "Quedo atenta a cualquier otra consulta"
+        ],
     }),
     created() {
         this.username = JSON.parse(localStorage.getItem('user_data')).name;
+        this.messages.push({
+            isMine: false,
+            text: "Hola "+this.username+", elige un tópico en el selector de arriba y hazme una pregunta sobre él.",
+            author: "ChatGPT"
+        });
     },
     methods: {
         // Este metodo se llamara cuando un nuevo mensaje es enviado
@@ -46,22 +58,35 @@ export default {
         },
         SendQueryToChatGPT(text){
             this.$parent.$parent.chatForm.text = text;
+            this.$parent.$parent.preloader = true;
             axios.post('/api/chatgpt/SendQuery', this.$parent.$parent.chatForm).then((response)=>{
                 this.messages.push({
                     isMine: false,
                     text: response.data.message,
                     author: "ChatGPT"
                 });
+                this.messages.push({
+                    isMine: false,
+                    text: this.text_help[Math.floor(Math.random()* this.text_help.length)],
+                    author: "ChatGPT"
+                });
                 this.ScrollToLastMessage();
 
             }).catch(e => {
+                console.error(e);
                 this.messages.push({
                     isMine: false,
                     text: e.response.data.message,
                     author: "ChatGPT"
                 });
-                console.error(e);
-            });
+                this.messages.push({
+                    isMine: false,
+                    text: this.text_help[Math.floor(Math.random()* this.text_help.length)],
+                    author: "ChatGPT"
+                });
+                this.ScrollToLastMessage();
+                
+            }).finally(() =>{this.$parent.$parent.preloader = false});
         },
 
         ScrollToLastMessage(){

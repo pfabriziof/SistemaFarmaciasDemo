@@ -30,12 +30,20 @@ class ChatGptController extends Controller
             ]);
             $sqlQuery = $sqlQuery['choices'][0]['text'];
             $sqlQuery = trim(preg_replace('/\s\s+/', ' ', $sqlQuery));
-            
-            // 2. Se ejecuta la consulta SQL en la base de datos
-            $queryResult = DB::select(DB::raw("$sqlQuery"));//!!!! quitar informacion innecesaria del resultado
+
+            // 5. Se detectan comandos con riesgo de SQL Injection
+            $forbidden_commands = ["INSERT", "UPDATE", "DELETE", "DROP"];
+            foreach ($forbidden_commands as $command){
+                if(strpos($sqlQuery, $command) !== FALSE){
+                    return response()->json(['success'=>false, 'message'=>"Los comandos que alteren información de la base de datos no están permitidos"], 500);
+                }
+            }
+
+            // 3. Se ejecuta la consulta SQL en la base de datos
+            $queryResult = DB::select(DB::raw("$sqlQuery"));
             $queryResult = json_encode($queryResult);
-            
-            // 3. Se inserta el resultado de la consulta SQL en el siguiente formato para el segundo envio
+
+            // 4. Se inserta el resultado de la consulta SQL en el siguiente formato para el segundo envio
             // a OpenAI API
             $chatQueryFormat ="
                 Devuelve este resultado de una consulta SQL en una muy corta respuesta de una sola línea en lenguaje natural:
@@ -50,11 +58,10 @@ class ChatGptController extends Controller
             ]);
             $chatResponse = $chatResponse['choices'][0]['text'];
             $chatResponse = trim(preg_replace('/\s\s+/', ' ', $chatResponse));
-            
+
             return response()->json(['success'=>true, 'message'=>$chatResponse]);
 
         }catch(\Exception $e){
-            dd($e);
             return response()->json(['success'=>false, 'message'=>"Lo lamento, tu consulta no pudo ser procesada"], 500);
         }
     }

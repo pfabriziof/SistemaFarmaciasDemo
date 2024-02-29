@@ -264,6 +264,7 @@ export default {
         },
         //--- Funciones Orden Compra ---
         createOrdenCompra(){
+            this.preloader = true;
             this.addForm.ord_detalle = this.order_detail;
             this.addForm.post('/api/orden_compra').then((result)=>{
                 Toast.fire({
@@ -281,7 +282,7 @@ export default {
                     });
                 }
                 
-            }).finally(() => (this.cargando = false));
+            }).finally(() => (this.preloader = false));
         },
         //--- End ---
 
