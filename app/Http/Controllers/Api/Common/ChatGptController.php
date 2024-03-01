@@ -35,24 +35,27 @@ class ChatGptController extends Controller
             $forbidden_commands = ["INSERT", "UPDATE", "DELETE", "DROP"];
             foreach ($forbidden_commands as $command){
                 if(strpos($sqlQuery, $command) !== FALSE){
-                    return response()->json(['success'=>false, 'message'=>"Los comandos que alteren información de la base de datos no están permitidos"], 500);
+                    return response()->json(['success'=>false, 'message'=>"Las consultas que modifiquen o agreguen información a la base de datos no están permitidas"], 500);
                 }
             }
             // dd($sqlQuery);
             // 3. Se ejecuta la consulta SQL generada por el modelo sobre la base de datos
             $queryResult = DB::select(DB::raw("$sqlQuery"));
             $queryResult = json_encode($queryResult);
-
+            // dd($queryResult);
             // 4. Segundo llamado a modelo GPT, expresa la respuesta de la base de datos en
             // lenguaje natural.
-            $naturalLangPrompt ="
-                Devuelve este resultado de una consulta SQL en una muy corta respuesta de una sola línea en lenguaje natural:
-                {$queryResult}
+            $naturalLangPrompt = "
+                Dada la pregunta del usuario: {$inputText} \n
+                Devuelve este resultado de una consulta SQL en una muy corta respuesta en lenguaje natural:
+                {$queryResult}\n
+                {$table->prompt}
             ";
+
             $chatResponse = OpenAI::completions()->create([
                 'model' => 'gpt-3.5-turbo-instruct',
                 'prompt' => $naturalLangPrompt,
-                'max_tokens' => 125,
+                'max_tokens' => 150,
                 'temperature' => 0,
                 'n'=> 2
             ]);

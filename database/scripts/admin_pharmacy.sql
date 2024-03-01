@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 29, 2024 at 08:12 PM
+-- Generation Time: Feb 29, 2024 at 11:44 PM
 -- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.27
 
@@ -385,9 +385,9 @@ CREATE TABLE `compressed_tables` (
 --
 
 INSERT INTO `compressed_tables` (`id`, `title`, `table_name`, `query`, `prompt`) VALUES
-(1, 'Productos', 'productos_servicios', 'TABLE productos_servicios(id_producto int,codigo_producto varchar,id_marca int,id_categoria int,id_unidad_medida int,id_sucursal int,nombreProducto varchar,stock decimal,servicio tinyint COMMENT \'0=no, 1=si\',registro_sanitario varchar,vigencia_registro date,estado tinyint COMMENT \'0=inactivo, 1=activo\')\r\nTABLE marcas_productos (id_marca int,marca varchar,estado tinyint COMMENT \'0=inactivo,1=activo\')', NULL),
-(2, 'Comprobantes', 'comprobantes', 'TABLE comprobantes(id_comprobante int,id_tipo_comprobante tinyint,id_estado_comprobante tinyint,id_serie int,correlativo int,nombreCliente varchar,nroDocCliente varchar,fecha_emision date,igv float,total float) TABLE comprobantes_detalle(id int,id_comprobante int, nombre_producto,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', NULL),
-(3, 'Compras', 'compras', 'TABLE compras(id_compra int,id_sucursal int, id_tipo_comprobante tinyint,nombreProveedor varchar,nroDocProveedor varchar,nro_guia_remision varchar, serie_factura varchar, nro_factura,fecha_emision date,igv float,total float) TABLE compras_detalle(id int,id_compra int, nombre_producto,lote_name varchar,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', NULL);
+(1, 'Productos', 'productos_servicios', 'TABLE productos_servicios(id_producto int,codigo_producto varchar,id_marca int,id_categoria int,id_unidad_medida int,id_sucursal int,nombreProducto varchar,stock decimal,servicio tinyint COMMENT \'0=no, 1=si\',registro_sanitario varchar,vigencia_registro date,estado tinyint COMMENT \'0=inactivo, 1=activo\')\r\nTABLE marcas_productos (id_marca int,marca varchar,estado tinyint COMMENT \'0=inactivo,1=activo\')', 'Si existen los siguientes datos en la consulta, debes incluirlos: codigo producto, nombre producto, stock, stock minimo, servicio, ubicacion, registro sanitario y marca.'),
+(2, 'Comprobantes', 'comprobantes', 'TABLE comprobantes(id_comprobante int,id_tipo_comprobante tinyint,id_estado_comprobante tinyint,id_serie int,correlativo int,nombreCliente varchar,nroDocCliente varchar,fecha_emision date,igv float,total float) TABLE comprobantes_detalle(id int,id_comprobante int, nombre_producto,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', 'Si existen los siguientes datos en la consulta, debes incluirlos: tipo_comprobante, serie, correlativo, nombreCliente, nroDocCliente, fecha_emision, igv, total, nombre_producto, precio_unitario, cantidad.'),
+(3, 'Compras', 'compras', 'TABLE compras(id_compra int,id_sucursal int, id_tipo_comprobante tinyint,nombreProveedor varchar,nroDocProveedor varchar,nro_guia_remision varchar, serie_factura varchar, nro_factura,fecha_emision date,igv float,total float) TABLE compras_detalle(id int,id_compra int, nombre_producto,lote_name varchar,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', 'Si existen los siguientes datos en la consulta, debes incluirlos: tipo_comprobante,nombreProveedor,nroDocProveedor,serie_factura,nro_factura,nro_guia_remision,fecha_emision,igv,total,nombre_producto,precio_unitario,cantidad,lote_name.');
 
 -- --------------------------------------------------------
 
