@@ -15,6 +15,7 @@ class CompressedTable extends Model
         'title',
         'table_name',
         'query',
+        'prompt',
     ];
     public $timestamps = false;
 }

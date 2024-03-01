@@ -15,15 +15,15 @@ class ChatGptController extends Controller
             $inputText = $request["text"];
             $table = CompressedTable::where('table_name', $request["dbTable"])->first();
 
-            // 1. Se inserta en el formato la tabla y la consulta del usuario para
-            // su envio a OpenAI API
-            $sqlQueryFormat = "
+            // 1. Primer llamado a modelo GPT, se construye la consulta SQL en base a la
+            // tabla seleccionada y pregunta del usuario.
+            $sqlQueryPrompt = "
                 Dada la tabla: {$table->query}
-                Genera una consulta mysql a partir de: {$inputText}
+                Genera una consulta MySQL a partir de: {$inputText}
             ";
             $sqlQuery = OpenAI::completions()->create([
                 'model' => 'gpt-3.5-turbo-instruct',
-                'prompt' => $sqlQueryFormat,
+                'prompt' => $sqlQueryPrompt,
                 'max_tokens' => 125,
                 'temperature' => 0,
                 'n'=> 2
@@ -31,27 +31,27 @@ class ChatGptController extends Controller
             $sqlQuery = $sqlQuery['choices'][0]['text'];
             $sqlQuery = trim(preg_replace('/\s\s+/', ' ', $sqlQuery));
 
-            // 5. Se detectan comandos con riesgo de SQL Injection
+            // 2. Se detectan comandos con riesgo de SQL Injection
             $forbidden_commands = ["INSERT", "UPDATE", "DELETE", "DROP"];
             foreach ($forbidden_commands as $command){
                 if(strpos($sqlQuery, $command) !== FALSE){
                     return response()->json(['success'=>false, 'message'=>"Los comandos que alteren información de la base de datos no están permitidos"], 500);
                 }
             }
-
-            // 3. Se ejecuta la consulta SQL en la base de datos
+            // dd($sqlQuery);
+            // 3. Se ejecuta la consulta SQL generada por el modelo sobre la base de datos
             $queryResult = DB::select(DB::raw("$sqlQuery"));
             $queryResult = json_encode($queryResult);
 
-            // 4. Se inserta el resultado de la consulta SQL en el siguiente formato para el segundo envio
-            // a OpenAI API
-            $chatQueryFormat ="
+            // 4. Segundo llamado a modelo GPT, expresa la respuesta de la base de datos en
+            // lenguaje natural.
+            $naturalLangPrompt ="
                 Devuelve este resultado de una consulta SQL en una muy corta respuesta de una sola línea en lenguaje natural:
                 {$queryResult}
             ";
             $chatResponse = OpenAI::completions()->create([
                 'model' => 'gpt-3.5-turbo-instruct',
-                'prompt' => $chatQueryFormat,
+                'prompt' => $naturalLangPrompt,
                 'max_tokens' => 125,
                 'temperature' => 0,
                 'n'=> 2

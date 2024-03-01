@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 28, 2024 at 08:51 PM
+-- Generation Time: Feb 29, 2024 at 08:12 PM
 -- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.27
 
@@ -377,16 +377,17 @@ CREATE TABLE `compressed_tables` (
   `title` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
   `table_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
   `query` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `prompt` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `compressed_tables`
 --
 
-INSERT INTO `compressed_tables` (`id`, `title`, `table_name`, `query`, `created_at`, `updated_at`) VALUES
-(1, 'Productos', 'productos_servicios', 'TABLE productos_servicios(id_producto bigint,codigo_producto varchar,id_marca bigint,id_categoria int,id_unidad_medida int,id_sucursal int,nombreProducto varchar,stock decimal,servicio tinyint COMMENT \'0=no, 1=si\',registro_sanitario varchar,vigencia_registro date,estado tinyint COMMENT \'0=inactivo, 1=activo\')\n            TABLE marcas_productos (id_marca bigint,marca varchar, estado tinyint COMMENT \'0=inactivo, 1=activo\')', NULL, NULL);
+INSERT INTO `compressed_tables` (`id`, `title`, `table_name`, `query`, `prompt`) VALUES
+(1, 'Productos', 'productos_servicios', 'TABLE productos_servicios(id_producto int,codigo_producto varchar,id_marca int,id_categoria int,id_unidad_medida int,id_sucursal int,nombreProducto varchar,stock decimal,servicio tinyint COMMENT \'0=no, 1=si\',registro_sanitario varchar,vigencia_registro date,estado tinyint COMMENT \'0=inactivo, 1=activo\')\r\nTABLE marcas_productos (id_marca int,marca varchar,estado tinyint COMMENT \'0=inactivo,1=activo\')', NULL),
+(2, 'Comprobantes', 'comprobantes', 'TABLE comprobantes(id_comprobante int,id_tipo_comprobante tinyint,id_estado_comprobante tinyint,id_serie int,correlativo int,nombreCliente varchar,nroDocCliente varchar,fecha_emision date,igv float,total float) TABLE comprobantes_detalle(id int,id_comprobante int, nombre_producto,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', NULL),
+(3, 'Compras', 'compras', 'TABLE compras(id_compra int,id_sucursal int, id_tipo_comprobante tinyint,nombreProveedor varchar,nroDocProveedor varchar,nro_guia_remision varchar, serie_factura varchar, nro_factura,fecha_emision date,igv float,total float) TABLE compras_detalle(id int,id_compra int, nombre_producto,lote_name varchar,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', NULL);
 
 -- --------------------------------------------------------
 
@@ -1110,7 +1111,8 @@ CREATE TABLE `orden_compra` (
 --
 
 INSERT INTO `orden_compra` (`id_orden_compra`, `id_usuario`, `id_sucursal`, `id_proveedor`, `id_moneda`, `id_medio_pago`, `id_tipo_cambio`, `email`, `fecha_emision`, `fecha_vencimiento`, `numeracion`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 1, 1, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', '2024-02-25', 1, '0.00', '700.00', '338.98', '0.00', '18.00', '61.02', '1100.00', 1, '2024-02-26 01:12:28', '2024-02-26 01:12:38');
+(1, 2, 1, 2, 1, 1, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', '2024-02-25', 1, '0.00', '700.00', '338.98', '0.00', '18.00', '61.02', '1100.00', 1, '2024-02-26 01:12:28', '2024-02-26 01:12:38'),
+(2, 2, 1, 1, 1, 1, 1, 'proveedorinterno@gmail.com', '2024-02-28', '2024-02-28', 2, '0.00', '7000.00', '0.00', '0.00', '18.00', '0.00', '7000.00', 1, '2024-02-29 01:59:25', '2024-02-29 01:59:33');
 
 -- --------------------------------------------------------
 
@@ -1138,7 +1140,8 @@ CREATE TABLE `orden_compra_detalle` (
 
 INSERT INTO `orden_compra_detalle` (`id_orden_detalle`, `id_orden_compra`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `cantidad`, `cantidad_visual`, `precio_unitario`, `precio_total`) VALUES
 (1, 1, 1, 'Producto 1', 2, 'UND', 4, '100.00', NULL, '4.00', '400.00'),
-(2, 1, 2, 'Producto 2', 2, 'UND', 6, '100.00', NULL, '7.00', '700.00');
+(2, 1, 2, 'Producto 2', 2, 'UND', 6, '100.00', NULL, '7.00', '700.00'),
+(3, 2, 2, 'Producto 2', 2, 'UND', 6, '1000.00', NULL, '7.00', '7000.00');
 
 -- --------------------------------------------------------
 
@@ -1454,7 +1457,8 @@ CREATE TABLE `prv_cotizaciones` (
 --
 
 INSERT INTO `prv_cotizaciones` (`id_cotizacion_prv`, `id_usuario`, `id_sucursal`, `id_proveedor`, `numeracion`, `email`, `fecha_emision`, `id_estado`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', 1, '2024-02-25 17:23:18', '2024-02-25 17:23:26');
+(1, 2, 1, 2, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', 1, '2024-02-25 17:23:18', '2024-02-25 17:23:26'),
+(2, 2, 1, 1, 2, 'proveedorinterno@gmail.com', '2024-02-28', 1, '2024-02-29 01:57:59', '2024-02-29 01:58:10');
 
 -- --------------------------------------------------------
 
@@ -1478,7 +1482,8 @@ CREATE TABLE `prv_cotizacion_detalle` (
 
 INSERT INTO `prv_cotizacion_detalle` (`id_cotz_detalle_prv`, `id_cotizacion_prv`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `cantidad`) VALUES
 (1, 1, 1, 'Producto 1', 2, 'UND', '100.00'),
-(2, 1, 2, 'Producto 2', 2, 'UND', '100.00');
+(2, 1, 2, 'Producto 2', 2, 'UND', '100.00'),
+(3, 2, 2, 'Producto 2', 2, 'UND', '1000.00');
 
 -- --------------------------------------------------------
 
@@ -2139,7 +2144,7 @@ CREATE TABLE `tipo_cambio` (
 --
 
 INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `tipo_cambio`, `cambio`) VALUES
-(1, 'Dólares', '3.80');
+(1, 'Dólares', '3.79');
 
 -- --------------------------------------------------------
 
@@ -4895,7 +4900,7 @@ ALTER TABLE `compra_estado`
 -- AUTO_INCREMENT for table `compressed_tables`
 --
 ALTER TABLE `compressed_tables`
-  MODIFY `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `comprobantes`
@@ -5033,13 +5038,13 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `orden_compra`
 --
 ALTER TABLE `orden_compra`
-  MODIFY `id_orden_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_orden_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orden_compra_detalle`
 --
 ALTER TABLE `orden_compra_detalle`
-  MODIFY `id_orden_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_orden_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -5075,13 +5080,13 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT for table `prv_cotizaciones`
 --
 ALTER TABLE `prv_cotizaciones`
-  MODIFY `id_cotizacion_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cotizacion_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `prv_cotizacion_detalle`
 --
 ALTER TABLE `prv_cotizacion_detalle`
-  MODIFY `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `roles`
