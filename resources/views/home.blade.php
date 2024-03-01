@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin</title>
+    <title>Demo Farmacias</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>

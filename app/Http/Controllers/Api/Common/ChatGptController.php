@@ -46,9 +46,9 @@ class ChatGptController extends Controller
             // 4. Segundo llamado a modelo GPT, expresa la respuesta de la base de datos en
             // lenguaje natural.
             $naturalLangPrompt = "
-                Dada la pregunta del usuario: {$inputText} \n
-                Devuelve este resultado de una consulta SQL en una muy corta respuesta en lenguaje natural:
-                {$queryResult}\n
+                Dada una consulta del usuario: {$inputText}\n
+                Se retornó este resultado desde la base de datos:{$queryResult}\n
+                Devuelve el resultado en una muy corta respuesta en lenguaje natural, sin decir que proviene de una base de datos.
                 {$table->prompt}
             ";
 
