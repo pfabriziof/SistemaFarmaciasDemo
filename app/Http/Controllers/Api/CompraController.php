@@ -13,9 +13,7 @@ use App\Models\ListaPreciosDetalle;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\LoteProducto;
-use App\Utils\EMailer;
 use Illuminate\Http\Request;
-use Mpdf\Mpdf;
 
 class CompraController extends Controller
 {
@@ -372,56 +370,5 @@ class CompraController extends Controller
         }
 
         return response()->json($compra, 200);
-    }
-
-    //--- Generar PDF Compra ---
-    public function vistaCompra($id){
-        $document = Compra::find($id);
-        $document_detail_pr = CompraDetalle::join('productos_servicios', 'compras_detalle.id_producto', '=', 'productos_servicios.id_producto')
-        ->where("id_compra", $id)
-        ->where("productos_servicios.servicio", 0)->get();
-
-        $document_detail_sv = CompraDetalle::join('productos_servicios', 'compras_detalle.id_producto', '=', 'productos_servicios.id_producto')
-        ->where("id_compra", $id)
-        ->where("productos_servicios.servicio", 1)->get();
-
-        return view('compras/compra_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
-    }
-    public function generarCompraPDF($id){
-        $html = $this->vistaCompra($id)->render();
-        $filename = 'pdf_'.time().'.pdf';
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($filename, 'I');
-    }
-    //--- End ---
-
-    public function sendMailCompra(Request $request){
-        //---Validacion de campos---
-        $messages = [
-            'to_email.required' => 'El campo email destinatario es requerido',
-            'to_email.email'    => 'El formato email destinatario es inválido',
-            
-            'to_name.required'  => 'El campo nombre destinatario es requerido',
-        ];
-        $this->validate($request, [
-            'to_email' => 'required|string|email',
-            'to_name'  => 'required|string',
-        ], $messages);
-        //--- End ---
-
-
-        $html =  $this->vistaCompra($request->id)->render();
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-
-        EMailer::send('compra_mail', $request->to_email,
-            [
-                "to_name"        => $request->to_name,
-                "pdf_attachment" => $mpdf->Output('', 'S'),
-            ]
-        );
-
-        return response()->json(['success'=>true, 'message' => 'El email con el archivo adjunto ha sido enviado correctamente',]);
     }
 }

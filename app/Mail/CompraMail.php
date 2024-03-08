@@ -32,11 +32,11 @@ class CompraMail extends Mailable
         $address = config('mail.from.address');
         $filename = 'PUR-'.time().'.pdf';
         return $this->view('emails.GenericMailFormat')
-                    ->subject('Envío de Compra')
-                    ->from($address, "Compra")
+                    ->subject('Demo Farmacias - Envío de Compra')
+                    ->from($address, "Admin Farmacias")
                     ->attachData($this->data['pdf_attachment'], $filename)
                     ->with([
-                        'content' => 'Estimado/a ' .$this->data['to_name']. ', informamos que la compra ha sido emitida exitosamente.',
+                        'content' => 'Estimado/a ' .$this->data['to_name']. ', informamos que la compra ha sido emitida satisfactoriamente.',
                     ]);
     }
 }

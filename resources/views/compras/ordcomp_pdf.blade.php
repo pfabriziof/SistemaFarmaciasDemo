@@ -4,7 +4,7 @@
 @endphp
 <html>
 <head>
-    <title>{{ $document_number }}</title>
+    <title>{Orden de Compra { $document_number }}</title>
     <link href="{{ asset('css/comprobante_pdf.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -13,7 +13,9 @@
         <td width="70%" class="pl-3">
             <div class="company_logo_box">
                 @if ($document->sucursal->empresa->file_path)
-                    <img src="{{url('..'.$document->sucursal->empresa->file_path->path .$document->sucursal->empresa->file_path->filename)}}" class="company_logo" style="max-width: 250px;">
+                    <img src="{{url('..'.$document->sucursal->empresa->file_path->path .$document->sucursal->empresa->file_path->filename)}}" class="company_logo" style="max-width: 300px;">
+                @else
+                    <img src="{{asset("assets/images/logo.png")}}" class="company_logo" style="max-width: 300px;">
                 @endif
             </div>
         </td>

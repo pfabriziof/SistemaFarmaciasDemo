@@ -18,7 +18,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportsController extends Controller
 {
-    public function exportarKardexValorizado($params){
+    public function exportarKardexValorizado($params, Xlsx $writer){
         $authUser = auth()->user();
 
         $params = json_decode($params);
@@ -126,8 +126,7 @@ class ExportsController extends Controller
         }
         //--- End ---
         
-
-        $writer = new Xlsx($spreadsheet);
+        $writer->setSpreadsheet($spreadsheet);
         $file_name = "Reporte_Kardex_Valorizado_".time().".xlsx";
         header('Content-type: application/vnd.ms-excel');
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
@@ -135,7 +134,7 @@ class ExportsController extends Controller
         //--- END --- 
     }
     
-    public function exportarReporteAlmacen($params){
+    public function exportarReporteAlmacen($params, Xlsx $writer){
         $authUser = auth()->user();
 
         $params = json_decode($params);
@@ -210,7 +209,7 @@ class ExportsController extends Controller
         }
         //--- End ---
 
-        $writer = new Xlsx($spreadsheet);
+        $writer->setSpreadsheet($spreadsheet);
         $file_name = "Reporte_Movimientos_Almacen".time().".xlsx";
         header('Content-type: application/vnd.ms-excel');
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
@@ -218,13 +217,13 @@ class ExportsController extends Controller
         //--- END ---
     }
 
-    public function exportarReporteCompraFormat($request){
+    public function exportarReporteCompraFormat($params, Xlsx $writer){
         $authUser = auth()->user();
-        $request = json_decode($request);
+        $params = json_decode($params);
         
-        $searchTerm = $request->searchTerm;
-        $fechaInicio = $request->fechaInicio;
-        $fechaFin    = $request->fechaFin;
+        $searchTerm = $params->searchTerm;
+        $fechaInicio = $params->fechaInicio;
+        $fechaFin    = $params->fechaFin;
 
         $datos = Compra::where([
             ["id_sucursal", $authUser->id_sucursal],
@@ -371,8 +370,7 @@ class ExportsController extends Controller
         }
         //--- End ---  
 
-        
-        $writer = new Xlsx($spreadsheet);
+        $writer->setSpreadsheet($spreadsheet);
         $file_name = "Reporte_Formato_Compras_141_".time().".xlsx";
         header('Content-type: application/vnd.ms-excel');
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
@@ -380,15 +378,15 @@ class ExportsController extends Controller
         //--- END ---
     }
 
-    public function exportarReporteComprobanteGeneral($params){
+    public function exportarReporteComprobanteGeneral($params, Xlsx $writer){
         $authUser = auth()->user();
 
         $params = json_decode($params);
         $searchTerm = $params->searchTerm;
         $fechaInicio = $params->fechaInicio;
-        $fechaFin    = $params->fechaFin;
-        $tipo_doc     = $params->id_tipo_comprobante;
-        $id_estado    = $params->id_estado;
+        $fechaFin = $params->fechaFin;
+        $tipo_doc = $params->id_tipo_comprobante;
+        $id_estado = $params->id_estado;
 
         $datos = Comprobante::where([
             ["id_sucursal", $authUser->id_sucursal],
@@ -410,10 +408,10 @@ class ExportsController extends Controller
                 $datos = $datos->where('fecha_emision', '>=', $fechaInicio);
             }
         }
-        if($tipo_doc != null){
+        if(isset($tipo_doc)){
             $datos = $datos->where('id_tipo_comprobante', $tipo_doc);
         }
-        if($id_estado != null){
+        if(isset($id_estado)){
             $datos = $datos->where('id_estado_comprobante', $id_estado);
         }
         $datos = $datos->get();
@@ -479,7 +477,7 @@ class ExportsController extends Controller
         }
         //--- End ---
 
-        $writer = new Xlsx($spreadsheet);
+        $writer->setSpreadsheet($spreadsheet);
         $file_name = "Reporte_Ventas_General".time().".xlsx";
         header('Content-type: application/vnd.ms-excel');
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
@@ -488,13 +486,13 @@ class ExportsController extends Controller
     }
 
     //--- Cuentas ---
-    public function exportarCuentasCobrar($params){
+    public function exportarCuentasCobrar($params, Excel $excel){
         $params_json = json_decode($params, true);
-        return Excel::download(new CuentasCobrarExport($params_json), 'cuentasCobrar.xlsx');
+        return $excel::download(new CuentasCobrarExport($params_json), 'ReporteCuentasCobrar_'.time().'.xlsx');
     }
-    public function exportarCuentasPagar($params){
+    public function exportarCuentasPagar($params, Excel $excel){
         $params_json = json_decode($params, true);
-        return Excel::download(new CuentasPagarExport($params_json), 'cuentasPagar.xlsx');
+        return $excel::download(new CuentasPagarExport($params_json), 'ReporteCuentasPagar_'.time().'.xlsx');
     }
     //--- End ---
 }

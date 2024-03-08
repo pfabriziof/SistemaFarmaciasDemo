@@ -32,11 +32,11 @@ class OrdenCompraMail extends Mailable
         $address = config('mail.from.address');
         $filename = 'OC-'.time().'.pdf';
         return $this->view('emails.GenericMailFormat')
-                    ->subject('Envío de Orden de Compra')
-                    ->from($address, "Orden de Compra")
+                    ->subject('Demo Farmacias - Envío de Orden de Compra')
+                    ->from($address, "Admin Farmacias")
                     ->attachData($this->data['pdf_attachment'], $filename)
                     ->with([
-                        'content' => 'Estimado/a ' .$this->data['to_name']. ', informamos que su orden de compra ha sido emitida exitosamente.',
+                        'content' => 'Estimado/a ' .$this->data['to_name']. ', informamos que su orden de compra ha sido emitida satisfactoriamente.',
                     ]);
     }
 }

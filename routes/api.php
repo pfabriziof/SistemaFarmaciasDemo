@@ -3,13 +3,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Common\ServicesController;
 use App\Http\Controllers\Api\Common\ChatGptController;
+use App\Http\Controllers\Api\Common\DocGenerationController;
 use App\Http\Controllers\Api\Common\UbigeoController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/auth/checkActiveSession', [LoginController::class, 'checkActiveSession']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResources([
@@ -88,9 +93,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('getMontosDelDia', [CajaController::class, 'getMontosDelDia']);
 
     //Compras
-    Route::post('sendMailCompra', [CompraController::class, 'sendMailCompra']);
-    Route::post('sendMailCotizacion', [ProveedorCotizacionController::class, 'sendMailCotizacion']);
-    Route::post('sendMailOrdenCompra', [OrdenCompraController::class, 'sendMailOrdenCompra']);
+    Route::post('sendMailCompra', [DocGenerationController::class, 'sendMailCompra']);
+    Route::post('sendMailCotizacion', [DocGenerationController::class, 'sendMailCotizacion']);
+    Route::post('sendMailOrdenCompra', [DocGenerationController::class, 'sendMailOrdenCompra']);
 
 
     //Cuentas Cobrar / Pagar

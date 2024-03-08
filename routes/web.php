@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Common\DocGenerationController;
 use App\Http\Controllers\Api\Common\ExportsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
@@ -27,18 +28,18 @@ Auth::routes([
     'reset' => false, // Password Reset Routes...
     // 'verify' => false, // Email Verification Routes...
 ]);
+
 Route::post('/login', [LoginController::class, 'authenticate']);
 
-
 Route::post('files/upload-company-file', [FilesUploadingController::class, 'uploadCompanyFile']);
-//--- End ---
+
 //--- Compras ---
-Route::get('/generarProveedorCotizacionPDF/{id}', [ProveedorCotizacionController::class, 'generarProveedorCotizacionPDF'])->middleware('auth');
-Route::get('/generarOrdenCompraPDF/{id}', [OrdenCompraController::class, 'generarOrdenCompraPDF'])->middleware('auth');
-Route::get('/generarCompraPDF/{id}', [CompraController::class, 'generarCompraPDF'])->middleware('auth');
+Route::get('/generarProveedorCotizacionPDF/{id}', [DocGenerationController::class, 'generarProveedorCotizacionPDF'])->middleware('auth');
+Route::get('/generarOrdenCompraPDF/{id}', [DocGenerationController::class, 'generarOrdenCompraPDF'])->middleware('auth');
+Route::get('/generarCompraPDF/{id}', [DocGenerationController::class, 'generarCompraPDF'])->middleware('auth');
 //--- End ---
 //--- Caja ---
-Route::get('/generarCajaPDF/{id}', [CajaController::class, 'generarCajaPDF'])->middleware('auth');
+Route::get('/generarCajaPDF/{id}', [DocGenerationController::class, 'generarCajaPDF'])->middleware('auth');
 //--- End ---
 
 //--- REPORTES ---

@@ -32,11 +32,11 @@ class CotizacionMail extends Mailable
         $address = config('mail.from.address');
         $filename = 'COT-'.time().'.pdf';
         return $this->view('emails.GenericMailFormat')
-                    ->subject('Envío de Cotización')
-                    ->from($address, "Cotización")
+                    ->subject('Demo Farmacias - Envío de Cotización')
+                    ->from($address, "Admin Farmacias")
                     ->attachData($this->data['pdf_attachment'], $filename)
                     ->with([
-                        'content' => 'Estimado/a ' .$this->data['to_name']. ', informamos que la cotización ha sido emitida exitosamente.',
+                        'content' => 'Estimado/a ' .$this->data['to_name']. ', informamos que la cotización ha sido emitida satisfactoriamente.',
                     ]);
     }
 }

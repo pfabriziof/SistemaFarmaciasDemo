@@ -6,6 +6,7 @@
 @endphp
 <html>
 <head>
+    <title>Reporte Caja {{ $fecha_reporte }}</title>
     <link href="{{ asset('css/comprobante_pdf.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -15,6 +16,8 @@
                 <div class="company_logo_box">
                     @if ($empresa->file_path)
                         <img src="{{url('..'.$empresa->file_path->path . $empresa->file_path->filename)}}" class="company_logo" style="max-width: 250px;">
+                    @else
+                        <img src="{{asset("assets/images/logo.png")}}" class="company_logo" style="max-width: 300px;">
                     @endif
                 </div>
             </td>

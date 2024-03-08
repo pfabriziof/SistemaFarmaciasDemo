@@ -14,10 +14,6 @@ class EMailer
     private static function getMailInstance($type, $data)
     {
         switch ($type) {
-            case 'invoice_mail':
-                return new InvoiceMail($data);
-                break;
-
             case 'compra_mail':
                 return new CompraMail($data);
                 break;

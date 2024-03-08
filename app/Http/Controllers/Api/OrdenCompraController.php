@@ -7,10 +7,8 @@ use App\Models\ListaPreciosDetalle;
 use App\Models\OrdenCompra;
 use App\Models\OrdenCompraDetalle;
 use App\Models\Producto;
-use App\Utils\EMailer;
 use Exception;
 use Illuminate\Http\Request;
-use Mpdf\Mpdf;
 
 class OrdenCompraController extends Controller
 {
@@ -190,56 +188,5 @@ class OrdenCompraController extends Controller
         }catch(Exception $e){
             return response()->json($e->getMessage(),500);
         }
-    }
-
-    //--- Generar PDF Orden Compra ---
-    public function vistaOrdenCompra($id){
-        $document = OrdenCompra::find($id);
-        $document_detail_pr = OrdenCompraDetalle::join('productos_servicios', 'orden_compra_detalle.id_producto', '=', 'productos_servicios.id_producto')
-        ->where("id_orden_compra", $id)
-        ->where("productos_servicios.servicio", 0)->get();
-
-        $document_detail_sv = OrdenCompraDetalle::join('productos_servicios', 'orden_compra_detalle.id_producto', '=', 'productos_servicios.id_producto')
-        ->where("id_orden_compra", $id)
-        ->where("productos_servicios.servicio", 1)->get();
-
-        return view('compras/ordcomp_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
-    }
-    public function generarOrdenCompraPDF($id){
-        $html =  $this->vistaOrdenCompra($id)->render();
-        $filename = 'pdf_'.time().'.pdf';
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($filename, 'I');
-    }
-    //--- End ---
-
-    public function sendMailOrdenCompra(Request $request){
-        //---Validacion de campos---
-        $messages = [
-            'to_email.required' => 'El campo email destinatario es requerido',
-            'to_email.email'    => 'El formato email destinatario es inválido',
-            
-            'to_name.required'  => 'El campo nombre destinatario es requerido',
-        ];
-        $this->validate($request, [
-            'to_email' => 'required|string|email',
-            'to_name'  => 'required|string',
-        ], $messages);
-        //--- End ---
-
-
-        $html =  $this->vistaOrdenCompra($request->id)->render();
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-
-        EMailer::send('orden_compra_mail', $request->to_email,
-            [
-                "to_name"        => $request->to_name,
-                "pdf_attachment" => $mpdf->Output('', 'S'),
-            ]
-        );
-
-        return response()->json(['success'=>true, 'message' => 'El email con el archivo adjunto ha sido enviado correctamente',]);
     }
 }

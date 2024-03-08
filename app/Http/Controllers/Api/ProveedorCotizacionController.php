@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\ProveedorCotizacion;
 use App\Models\ProveedorCotizacionDetalle;
-use App\Utils\EMailer;
 use Exception;
 use Illuminate\Http\Request;
-use Mpdf\Mpdf;
 
 class ProveedorCotizacionController extends Controller
 {
@@ -118,55 +116,5 @@ class ProveedorCotizacionController extends Controller
         }catch(Exception $e){
             return response()->json($e->getMessage(),500);
         }
-    }
-
-    //--- Generar PDF Cotizacion Proveedor ---
-    public function vistaProveedorCotizacion($id){
-        $document = ProveedorCotizacion::find($id);
-        $document_detail_pr = ProveedorCotizacionDetalle::join('productos_servicios', 'prv_cotizacion_detalle.id_producto', '=', 'productos_servicios.id_producto')
-        ->where("id_cotizacion_prv", $id)
-        ->where("productos_servicios.servicio", 0)->get();
-
-        $document_detail_sv = ProveedorCotizacionDetalle::join('productos_servicios', 'prv_cotizacion_detalle.id_producto', '=', 'productos_servicios.id_producto')
-        ->where("id_cotizacion_prv", $id)
-        ->where("productos_servicios.servicio", 1)->get();
-
-        return view('compras/prv_cotizacion_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
-    }
-    public function generarProveedorCotizacionPDF($id){
-        $html =  $this->vistaProveedorCotizacion($id)->render();
-        $filename = 'pdf_'.time().'.pdf';
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($filename, 'I');
-    }
-    //--- End ---
-
-    public function sendMailCotizacion(Request $request){
-        //---Validacion de campos---
-        $messages = [
-            'to_email.required' => 'El campo email destinatario es requerido',
-            'to_email.email'    => 'El formato email destinatario es inválido',
-            
-            'to_name.required'  => 'El campo nombre destinatario es requerido',
-        ];
-        $this->validate($request, [
-            'to_email' => 'required|string|email',
-            'to_name'  => 'required|string',
-        ], $messages);
-        //--- End ---
-
-        $html =  $this->vistaProveedorCotizacion($request->id)->render();
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($html);
-
-        EMailer::send('cotizacion_mail', $request->to_email,
-            [
-                "to_name"        => $request->to_name,
-                "pdf_attachment" => $mpdf->Output('', 'S'),
-            ]
-        );
-
-        return response()->json(['success'=>true, 'message' => 'El email con el archivo adjunto ha sido enviado correctamente',]);
     }
 }

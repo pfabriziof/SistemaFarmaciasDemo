@@ -63,4 +63,11 @@ class LoginController extends Controller
             //
         ]);
     }
+
+    public function checkActiveSession(){
+        if(auth('api')->user()){
+            return response()->json(['session_active' =>  true], 200);
+        }
+        return response()->json(['session_active' =>  false], 401);
+    }
 }
