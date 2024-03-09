@@ -12,47 +12,54 @@ use App\Models\LoteProducto;
 use App\Models\ListaPreciosDetalle;
 use App\Models\OrdenCompraDetalle;
 use App\Models\ProveedorCotizacionDetalle;
+use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
 {
     public function index(Request $request){
-        $authUser = auth('api')->user();
+        try {
+            $authUser = auth('api')->user();
+            $searchTerm = $request->searchTerm;
 
-        $searchTerm = $request->searchTerm;
-        $data = Producto::where([
-            ["id_sucursal", $authUser->id_sucursal],
-        ]);
+            $data = Producto::where([
+                ["id_sucursal", $authUser->id_sucursal],
+            ]);
 
-        if(isset($searchTerm)){
-            $data = $data->where(function ($query) use ($searchTerm) {
-                $query->where('nombreProducto', 'like', "%{$searchTerm}%")
-                      ->orWhere('codigo_producto', 'like', "%{$searchTerm}%");
-            });
+            if (isset($searchTerm)) {
+                $data = $data->where(function ($query) use ($searchTerm) {
+                    $query->where('nombreProducto', 'like', "%{$searchTerm}%")
+                          ->orWhere('codigo_producto', 'like', "%{$searchTerm}%");
+                });
+            }
+
+            return $data->latest()->paginate($request->perPage);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
-
-        return $data->latest()->paginate($request->perPage);
     }
 
     public function store(Request $request){
-        $messages = [
-            'data.stock_minimo.required'     => 'El campo stock mínimo es requerido',
-            'data.id_categoria.required'     => 'El campo categoria es requerido',
-            'data.id_laboratorio.required'   => 'El campo laboratorio es requerido',
-            'data.id_marca.required'         => 'El campo marca es requerido',
-            'data.nombreProducto.required'   => 'El campo nombre producto es requerido',
-            'data.codigo_producto.required'  => 'El campo codigo producto es requerido',
-        ];
+        // $messages = [
+        //     'data.stock_minimo.required'     => 'El campo stock mínimo es requerido',
+        //     'data.id_categoria.required'     => 'El campo categoria es requerido',
+        //     'data.id_laboratorio.required'   => 'El campo laboratorio es requerido',
+        //     'data.id_marca.required'         => 'El campo marca es requerido',
+        //     'data.nombreProducto.required'   => 'El campo nombre producto es requerido',
+        //     'data.codigo_producto.required'  => 'El campo codigo producto es requerido',
+        // ];
 
-        //---Validacion de campos---
-        $this->validate($request, [
-            'data.id_laboratorio'   => 'required|integer',
-            'data.stock_minimo'     => 'required',
-            'data.id_marca'         => 'required|integer',
-            'data.nombreProducto'   => 'required|string|max: 250',
-            'data.id_categoria'     => 'required|integer',
-            'data.codigo_producto'  => 'required|string|max: 250',
-        ], $messages);
+        // //---Validacion de campos---
+        // $this->validate($request, [
+        //     'data.id_laboratorio'   => 'required|integer',
+        //     'data.stock_minimo'     => 'required',
+        //     'data.id_marca'         => 'required|integer',
+        //     'data.nombreProducto'   => 'required|string|max: 250',
+        //     'data.id_categoria'     => 'required|integer',
+        //     'data.codigo_producto'  => 'required|string|max: 250',
+        // ], $messages);
         
         //====Validacion de Lotes====
         foreach($request->lotes as $lt){

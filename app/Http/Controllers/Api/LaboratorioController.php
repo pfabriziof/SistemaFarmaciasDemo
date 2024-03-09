@@ -12,13 +12,13 @@ class LaboratorioController extends Controller
 {
     public function index(Request $request){
         $searchTerm = $request->searchTerm;
-        $datos = new Laboratorio();
+        $data = new Laboratorio();
 
         if(isset($searchTerm)){
-            $datos = $datos->where("nombre", "LIKE", "%{$searchTerm}%");
+            $data = $data->where("nombre", "LIKE", "%{$searchTerm}%");
         }
 
-        return $datos->paginate($request->perPage);
+        return $data->paginate($request->perPage);
     }
     
     public function store(Request $request){
