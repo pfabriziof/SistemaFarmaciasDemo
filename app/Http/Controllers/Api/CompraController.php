@@ -14,6 +14,7 @@ use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\LoteProducto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CompraController extends Controller
 {
@@ -23,6 +24,8 @@ class CompraController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
+        // $startTime = microtime(true); // Capture start time
+
         $authUser   = auth('api')->user();
 
         $searchTerm = $request->searchTerm;
@@ -32,7 +35,7 @@ class CompraController extends Controller
         $datos = Compra::where([
             ["id_sucursal", $authUser->id_sucursal],
         ]);
-        
+
         if(isset($searchTerm)){
             $datos = $datos->where(function ($query) use ($searchTerm) {
                 $query->where('nombreProveedor', 'like', "%{$searchTerm}%")
@@ -52,21 +55,27 @@ class CompraController extends Controller
             $datos = $datos->where('id_estado', $estadoCompra);
         }
 
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Compra Index: Tiempo de ejecución: " . $executionTime . " segs");
+
         return $datos->latest()->paginate($request->perPage);
     }
-    
+
     public function create(){
         //
     }
-    
+
     public function store(Request $request){
+        // $startTime = microtime(true); // Capture start time
+
         //--- Validacion de campos ---
         $this->validate($request, [
             'id_tipo_cambio'    => 'required',
             'id_medio_pago'     => 'required',
             'id_moneda'         => 'required',
             'origen_dinero'     => 'required|integer',
-            
+
             'fecha_vencimiento' => 'required',
             'fecha_emision'     => 'required',
             'nro_factura'       => 'required|string|max: 45',
@@ -153,13 +162,13 @@ class CompraController extends Controller
 
             $detalle->lote_name      = $row["lote"];
             $detalle->lote_fecha_exp = $row["lote_fecha_exp"];
-            
+
             $detalle->cantidad        = (float) $listdet_und * (float) $row["cantidad"];
             $detalle->cantidad_visual = $row["cantidad"];
-            $detalle->precio_unitario = $row["precio_unitario"]; 
+            $detalle->precio_unitario = $row["precio_unitario"];
             $detalle->precio_total    = (float) $row["precio_unitario"] * (float) $row["cantidad"];
 
-            
+
             //--- SUMA SEGUN EL IMPUESTO ---
             switch ($tipo_impuesto) {
                 case 1:
@@ -184,12 +193,12 @@ class CompraController extends Controller
             $detalle->save();
             $sumaTotal += (float) $detalle->precio_total;
         }
-        
+
         //--- Actualizacion Totales ---
         $compra->op_inafectas  = $op_inafectas;
         $compra->op_exoneradas = $op_exoneradas;
         $compra->icbper        = $total_icbper;
-        
+
         $op_gravadas = $sum_gravadas/1.18;
         $compra->op_gravadas = $op_gravadas;
 
@@ -199,25 +208,31 @@ class CompraController extends Controller
         $compra->save();
         //--- End ---
 
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Compra Create: Tiempo de ejecución: " . $executionTime . " segs");
+
         return ['message' => 'Compra creada, pendiente de aprobación.', 'id_compra' => $compra->id_compra];
     }
-    
+
     public function show($id){
         $data = Compra::find($id);
         $data_detalle = CompraDetalle::where('id_compra',$id)->get();
 
         return response()->json(["compra"=>$data, "compra_detalle"=>$data_detalle]);
     }
-    
+
     public function edit($id){
         //
     }
-    
+
     public function update(Request $request, $id){
         //
     }
-    
+
     public function destroy($id){
+        // $startTime = microtime(true); // Capture start time
+
         $user = auth('api')->user();
         $id_sucursal = $user->id_sucursal;
         $id_usuario  = $user->id;
@@ -243,7 +258,8 @@ class CompraController extends Controller
 
                 //--- Gestion Lote ---
                 $lote = LoteProducto::find($detalle_i->lote_id);
-                $lote->cantidad = (float) $lote->cantidad - (float) $detalle_i->cantidad;
+                $lote->cantidad = 0;
+                $lote->estado = 0;
                 $lote->save();
                 //--- End ---
 
@@ -281,7 +297,7 @@ class CompraController extends Controller
                 $egreso->save();
             }
             //--- End ---
-            
+
         //--- COMPRA APROBADA ---
         } else if ($compra->id_estado==1) {
 
@@ -316,7 +332,7 @@ class CompraController extends Controller
                 $movimiento->NombreProducto   = $detalle_i->nombre_producto;
                 $movimiento->id_unidad_medida = $detalle_i->id_unidad_medida;
                 $movimiento->und_simbolo      = $detalle_i->und_simbolo;
-                
+
                 $movimiento->cantidad         = $detalle_i->cantidad;
                 $movimiento->precioUnitario   = $detalle_i->precio_unitario;
                 $movimiento->precioTotal      = $detalle_i->precio_total;
@@ -368,6 +384,10 @@ class CompraController extends Controller
             }
             //--- End ---
         }
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Compra Delete: Tiempo de ejecución: " . $executionTime . " segs");
 
         return response()->json($compra, 200);
     }

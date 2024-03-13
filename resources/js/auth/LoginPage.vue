@@ -16,20 +16,18 @@
                             <v-img src="/assets/images/logo.png" />
                         </v-col>
                         <v-card-title class="justify-center">Inicio de Sesión</v-card-title>
-                        <!-- <v-card-subtitle>Ingresa tu email y contraseña para iniciar sesión</v-card-subtitle> -->
-
                         <v-card-text>
                             <v-form ref="form" v-model="isFormValid" lazy-validation>
                                 <v-text-field
-                                        v-model="user.email"
-                                        :rules="emailRules"
-                                        :validate-on-blur="false"
-                                        :error="error"
-                                        label="Email"
-                                        name="email"
-                                        outlined
-                                        @keyup.enter="submit"
-                                        @change="resetErrors"
+                                    v-model="user.email"
+                                    :rules="emailRules"
+                                    :validate-on-blur="false"
+                                    :error="error"
+                                    label="Email"
+                                    name="email"
+                                    outlined
+                                    @keyup.enter="submit"
+                                    @change="resetErrors"
                                 ></v-text-field>
 
                                 <v-text-field
@@ -48,7 +46,7 @@
                                 ></v-text-field>
 
                                 <v-btn color="secondary" @click="login" block x-large>
-                                    Aceptar
+                                    Ingresar
                                 </v-btn>
                                 <div v-if="errorProvider" class="error--text">{{ errorProviderMessages }}</div>
                             </v-form>

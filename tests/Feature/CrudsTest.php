@@ -34,6 +34,7 @@ class CrudsTest extends TestCase
                 "nombreProducto" => "PRODTEST",
                 "id_marca" => 2,
                 "id_categoria" => 1,
+                "id_unidad_medida" => 2,
                 "id_laboratorio" => 1,
                 "id_condicion_alm" => 1,
                 "id_tipo_producto" => 10,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 29, 2024 at 11:44 PM
+-- Generation Time: Mar 12, 2024 at 11:02 PM
 -- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.27
 
@@ -132,10 +132,10 @@ CREATE TABLE `almacen_movimientos` (
   `id_sucursal` int UNSIGNED NOT NULL,
   `id_usuario` bigint UNSIGNED NOT NULL,
   `id_producto` bigint UNSIGNED NOT NULL,
-  `NombreProducto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NombreProducto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_tipo_movimiento` tinyint UNSIGNED NOT NULL,
   `id_unidad_medida` int UNSIGNED NOT NULL,
-  `und_simbolo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `und_simbolo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cantidad` decimal(11,2) DEFAULT NULL,
   `precioUnitario` decimal(11,2) DEFAULT NULL,
   `precioTotal` decimal(11,2) DEFAULT NULL,
@@ -150,14 +150,11 @@ CREATE TABLE `almacen_movimientos` (
 --
 
 INSERT INTO `almacen_movimientos` (`id_almacen_movimientos`, `id_sucursal`, `id_usuario`, `id_producto`, `NombreProducto`, `id_tipo_movimiento`, `id_unidad_medida`, `und_simbolo`, `cantidad`, `precioUnitario`, `precioTotal`, `stock_actual`, `fecha_movimiento`, `updated_at`, `created_at`) VALUES
-(1, 1, 2, 2, 'Producto 2', 2, 2, 'UND', '8.00', '12.00', '12.00', '992.00', '2024-02-25', '2024-02-25 16:55:24', '2024-02-25 16:55:24'),
-(2, 1, 2, 3, 'Producto 3', 2, 2, 'UND', '10.00', '25.00', '25.00', '990.00', '2024-02-25', '2024-02-25 16:59:23', '2024-02-25 16:59:23'),
-(3, 1, 2, 3, 'Producto 3', 2, 2, 'UND', '5.00', '2.50', '12.50', '985.00', '2024-02-25', '2024-02-25 17:01:53', '2024-02-25 17:01:53'),
-(4, 1, 2, 3, 'Producto 3', 1, 2, 'UND', '1200.00', '65.00', '1950.00', '2185.00', '2024-02-25', '2024-02-25 17:17:54', '2024-02-25 17:17:54'),
-(5, 1, 2, 3, 'Producto 3', 2, 2, 'UND', '50.00', '250.00', '1250.00', '2135.00', '2024-02-25', '2024-02-26 01:00:10', '2024-02-26 01:00:10'),
-(6, 1, 2, 2, 'Producto 2', 2, 2, 'UND', '300.00', '80.00', '400.00', '692.00', '2024-02-25', '2024-02-26 01:02:02', '2024-02-26 01:02:02'),
-(7, 1, 2, 1, 'Producto 1', 1, 2, 'UND', '1000.00', '4.00', '4000.00', '1995.00', '2024-02-25', '2024-02-26 01:19:58', '2024-02-26 01:19:58'),
-(8, 1, 2, 2, 'Producto 2', 1, 2, 'UND', '1000.00', '0.60', '600.00', '1692.00', '2024-02-25', '2024-02-26 01:20:00', '2024-02-26 01:20:00');
+(27, 1, 2, 1, 'Producto 1', 1, 2, 'UND', '1000.00', '4.00', '4000.00', '1995.00', '2024-03-12', '2024-03-13 02:07:41', '2024-03-13 02:07:41'),
+(28, 1, 2, 2, 'Producto 2', 1, 2, 'UND', '1000.00', '0.60', '600.00', '2692.00', '2024-03-12', '2024-03-13 02:07:43', '2024-03-13 02:07:43'),
+(29, 1, 2, 1, 'Producto 1', 3, 2, 'UND', '1000.00', '4.00', '4000.00', '995.00', '2024-03-12', '2024-03-13 02:08:45', '2024-03-13 02:08:45'),
+(30, 1, 2, 2, 'Producto 2', 3, 2, 'UND', '1000.00', '0.60', '600.00', '1692.00', '2024-03-12', '2024-03-13 02:08:46', '2024-03-13 02:08:46'),
+(31, 1, 2, 3, 'Producto 3', 3, 2, 'UND', '1000.00', '65.00', '1950.00', '935.00', '2024-03-12', '2024-03-13 02:35:27', '2024-03-13 02:09:27');
 
 -- --------------------------------------------------------
 
@@ -175,14 +172,6 @@ CREATE TABLE `caja` (
   `monto_cierre` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `caja`
---
-
-INSERT INTO `caja` (`id_caja`, `id_sucursal`, `id_usuario`, `fecha_apertura`, `fecha_cierre`, `monto_apertura`, `monto_cierre`) VALUES
-(1, 1, 1, '2024-01-17 02:05:54', '2024-02-25 17:02:15', '0.00', '53.50'),
-(2, 1, 2, '2024-02-25 17:15:31', '2024-02-27 01:55:56', '0.00', '1650.00');
-
 -- --------------------------------------------------------
 
 --
@@ -196,18 +185,6 @@ CREATE TABLE `caja_detalle` (
   `monto` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `caja_detalle`
---
-
-INSERT INTO `caja_detalle` (`id_caja_det`, `id_caja`, `id_medio_pago`, `monto`) VALUES
-(1, 1, 1, '53.50'),
-(2, 1, 2, '0.00'),
-(3, 1, 3, '0.00'),
-(4, 2, 1, '1650.00'),
-(5, 2, 2, '0.00'),
-(6, 2, 3, '0.00');
-
 -- --------------------------------------------------------
 
 --
@@ -219,12 +196,12 @@ CREATE TABLE `clientes` (
   `id_tipo_doc` tinyint UNSIGNED DEFAULT NULL,
   `id_sucursal` int UNSIGNED DEFAULT NULL,
   `tipo_cliente` tinyint UNSIGNED DEFAULT NULL COMMENT '1=Interno, 2=Distribuidor',
-  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nro_doc` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contacto_nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contacto_telefono` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nro_doc` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contacto_nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contacto_telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_departamento` int DEFAULT NULL,
   `id_provincia` int DEFAULT NULL,
   `id_distrito` int DEFAULT NULL,
@@ -251,7 +228,7 @@ INSERT INTO `clientes` (`id_cliente`, `id_tipo_doc`, `id_sucursal`, `tipo_client
 CREATE TABLE `cliente_direcciones` (
   `id_direccion` bigint UNSIGNED NOT NULL,
   `id_cliente` bigint UNSIGNED NOT NULL,
-  `direccion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -281,12 +258,12 @@ CREATE TABLE `compras` (
   `id_tipo_cambio` tinyint UNSIGNED DEFAULT NULL,
   `id_tipo_comprobante` tinyint UNSIGNED DEFAULT NULL,
   `correlativo` bigint DEFAULT NULL,
-  `nombreProveedor` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nroDocProveedor` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nro_guia_remision` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `serie_factura` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nro_factura` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombreProveedor` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nroDocProveedor` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nro_guia_remision` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serie_factura` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nro_factura` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_emision` date DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
   `origen_dinero` tinyint DEFAULT NULL COMMENT '1=Caja Chica, 2=Cuenta Bancaria, 3=Otra Fuente',
@@ -306,14 +283,6 @@ CREATE TABLE `compras` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `compras`
---
-
-INSERT INTO `compras` (`id_compra`, `id_usuario`, `id_sucursal`, `id_proveedor`, `id_moneda`, `id_medio_pago`, `id_tipo_cambio`, `id_tipo_comprobante`, `correlativo`, `nombreProveedor`, `nroDocProveedor`, `email`, `nro_guia_remision`, `serie_factura`, `nro_factura`, `fecha_emision`, `fecha_vencimiento`, `origen_dinero`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `deuda_id`, `deuda_generada`, `deuda_adelanto`, `id_estado`, `fecha_anulacion`, `updated_at`, `created_at`) VALUES
-(1, 2, 1, 1, 1, 1, 1, 1, 1, 'PROVEEDOR INTERNO', '12345678912', 'proveedorinterno@gmail.com', NULL, 'F001', '1234', '2024-02-25', '2024-02-25', 1, '1950.00', '0.00', '0.00', '0.00', '18.00', '0.00', '1950.00', NULL, NULL, NULL, 1, NULL, '2024-02-25 17:17:53', '2024-02-25 17:17:47'),
-(2, 2, 1, 2, 1, 1, 1, 1, 2, 'PROVEEDOR DISTRIBUIDOR', '98765432198', 'proveedordistribuidor@gmail.com', NULL, 'F002', '45681', '2024-02-25', '2024-02-25', 1, '0.00', '600.00', '3389.83', '0.00', '18.00', '610.17', '4600.00', 1, 1, '500.00', 1, NULL, '2024-02-26 01:20:01', '2024-02-26 01:19:50');
-
 -- --------------------------------------------------------
 
 --
@@ -324,27 +293,18 @@ CREATE TABLE `compras_detalle` (
   `id_compra_detalle` bigint UNSIGNED NOT NULL,
   `id_compra` bigint UNSIGNED DEFAULT NULL,
   `id_producto` bigint UNSIGNED DEFAULT NULL,
-  `nombre_producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_producto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_unidad_medida` int UNSIGNED DEFAULT NULL,
-  `und_simbolo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `und_simbolo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_lista_detalle` bigint UNSIGNED DEFAULT NULL,
   `lote_id` bigint UNSIGNED DEFAULT NULL,
-  `lote_name` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lote_name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lote_fecha_exp` date DEFAULT NULL,
   `cantidad` decimal(11,2) DEFAULT NULL,
   `cantidad_visual` decimal(11,2) DEFAULT NULL,
   `precio_unitario` decimal(11,2) DEFAULT NULL,
   `precio_total` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `compras_detalle`
---
-
-INSERT INTO `compras_detalle` (`id_compra_detalle`, `id_compra`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `lote_id`, `lote_name`, `lote_fecha_exp`, `cantidad`, `cantidad_visual`, `precio_unitario`, `precio_total`) VALUES
-(1, 1, 3, 'Producto 3', 2, 'UND', 9, 4, 'L3002', '2024-12-31', '1200.00', '30.00', '65.00', '1950.00'),
-(2, 2, 1, 'Producto 1', 2, 'UND', 3, 5, 'L1002', '2024-12-31', '1000.00', '1000.00', '4.00', '4000.00'),
-(3, 2, 2, 'Producto 2', 2, 'UND', 8, 6, 'L2002', '2024-12-31', '1000.00', '1000.00', '0.60', '600.00');
 
 -- --------------------------------------------------------
 
@@ -354,7 +314,7 @@ INSERT INTO `compras_detalle` (`id_compra_detalle`, `id_compra`, `id_producto`, 
 
 CREATE TABLE `compra_estado` (
   `id` tinyint UNSIGNED NOT NULL,
-  `estado` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `estado` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -374,10 +334,10 @@ INSERT INTO `compra_estado` (`id`, `estado`) VALUES
 
 CREATE TABLE `compressed_tables` (
   `id` tinyint UNSIGNED NOT NULL,
-  `title` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `table_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `query` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prompt` text COLLATE utf8mb4_unicode_ci
+  `title` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `table_name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `query` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prompt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -407,12 +367,12 @@ CREATE TABLE `comprobantes` (
   `id_tipo_cambio` tinyint UNSIGNED DEFAULT NULL,
   `id_serie` int UNSIGNED DEFAULT NULL,
   `correlativo` bigint DEFAULT NULL,
-  `nombreCliente` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nroDocCliente` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `direccionCliente` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombreCliente` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nroDocCliente` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccionCliente` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_emision` date DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
-  `comentario` text COLLATE utf8mb4_unicode_ci,
+  `comentario` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `op_inafectas` decimal(11,2) DEFAULT NULL,
   `op_exoneradas` decimal(11,2) DEFAULT NULL,
   `op_gravadas` decimal(11,2) DEFAULT NULL,
@@ -420,25 +380,13 @@ CREATE TABLE `comprobantes` (
   `porcentaje_igv` decimal(11,2) DEFAULT NULL,
   `igv` decimal(11,2) DEFAULT NULL,
   `total` decimal(11,2) DEFAULT NULL,
-  `external_id` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `formato_impresion` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `external_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `formato_impresion` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_anulacion` date DEFAULT NULL,
-  `motivo_anulacion` text COLLATE utf8mb4_unicode_ci,
+  `motivo_anulacion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `comprobantes`
---
-
-INSERT INTO `comprobantes` (`id_comprobante`, `id_cliente`, `id_usuario`, `id_sucursal`, `id_tipo_comprobante`, `id_moneda`, `id_estado_comprobante`, `id_medio_pago`, `id_tipo_cambio`, `id_serie`, `correlativo`, `nombreCliente`, `nroDocCliente`, `direccionCliente`, `fecha_emision`, `fecha_vencimiento`, `comentario`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `external_id`, `formato_impresion`, `fecha_anulacion`, `motivo_anulacion`, `updated_at`, `created_at`) VALUES
-(2, 1, 1, 1, 2, 1, 3, 1, 1, 2, 1, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-03', '2024-02-03', NULL, '0.00', '0.00', '3.39', '0.00', '18.00', '0.61', '4.00', NULL, 'ticket', NULL, NULL, '2024-02-03 15:01:22', '2024-02-03 15:01:19'),
-(3, 1, 2, 1, 2, 1, 4, 1, 1, 2, 2, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-25', '2024-02-25', NULL, '0.00', '12.00', '0.00', '0.00', '18.00', '0.00', '12.00', NULL, 'ticket', NULL, NULL, '2024-02-25 16:55:24', '2024-02-25 16:55:22'),
-(4, 1, 2, 1, 2, 1, 4, 1, 1, 2, 3, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-25', '2024-02-25', 'Test comentarios', '25.00', '0.00', '0.00', '0.00', '18.00', '0.00', '25.00', NULL, 'ticket', NULL, NULL, '2024-02-25 16:59:23', '2024-02-25 16:59:21'),
-(5, 1, 2, 1, 2, 1, 4, 1, 1, 2, 4, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-02-25', '2024-02-25', NULL, '12.50', '0.00', '0.00', '0.00', '18.00', '0.00', '12.50', NULL, 'ticket', NULL, NULL, '2024-02-25 17:01:53', '2024-02-25 17:01:51'),
-(6, 2, 2, 1, 2, 1, 4, 1, 1, 2, 5, 'RENZO PAREDES RAMIREZ', '12345678', 'URB. LOS GIRASOLES 123', '2024-02-25', '2024-02-25', NULL, '1250.00', '0.00', '0.00', '0.00', '18.00', '0.00', '1250.00', NULL, 'ticket', NULL, NULL, '2024-02-26 01:00:11', '2024-02-26 01:00:09'),
-(7, 3, 2, 1, 2, 1, 4, 1, 1, 2, 6, 'LUIS FERNANDO JAMANCA TREJO', '45678942', 'Urb. Rosales G-23', '2024-02-25', '2024-02-25', NULL, '0.00', '400.00', '0.00', '0.00', '18.00', '0.00', '400.00', NULL, 'ticket', NULL, NULL, '2024-02-26 01:02:03', '2024-02-26 01:02:01');
 
 -- --------------------------------------------------------
 
@@ -450,29 +398,17 @@ CREATE TABLE `comprobante_detalle` (
   `id_comp_detalle` bigint UNSIGNED NOT NULL,
   `id_comprobante` bigint UNSIGNED DEFAULT NULL,
   `id_producto` bigint UNSIGNED DEFAULT NULL,
-  `nombre_producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_producto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_unidad_medida` int UNSIGNED DEFAULT NULL,
-  `und_simbolo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `und_simbolo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_lista_detalle` bigint UNSIGNED DEFAULT NULL,
   `id_lote` bigint UNSIGNED DEFAULT NULL,
-  `lote_producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lote_producto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `precio_unitario` decimal(11,2) DEFAULT NULL,
   `cantidad` decimal(11,2) DEFAULT NULL,
   `cantidad_visual` decimal(11,2) DEFAULT NULL,
   `precio_total` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `comprobante_detalle`
---
-
-INSERT INTO `comprobante_detalle` (`id_comp_detalle`, `id_comprobante`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `id_lote`, `lote_producto`, `precio_unitario`, `cantidad`, `cantidad_visual`, `precio_total`) VALUES
-(1, 2, 1, 'Producto 1', 2, 'UND', 3, 1, 'L1001', '0.80', '5.00', '5.00', '4.00'),
-(2, 3, 2, 'Producto 2', 2, 'UND', 6, 2, 'L2001', '12.00', '8.00', '1.00', '12.00'),
-(3, 4, 3, 'Producto 3', 2, 'UND', 1, 3, 'L3001', '25.00', '10.00', '1.00', '25.00'),
-(4, 5, 3, 'Producto 3', 2, 'UND', 2, 3, 'L3001', '2.50', '5.00', '5.00', '12.50'),
-(5, 6, 3, 'Producto 3', 2, 'UND', 1, 4, 'L3002', '250.00', '50.00', '5.00', '1250.00'),
-(6, 7, 2, 'Producto 2', 2, 'UND', 7, 2, 'L2001', '80.00', '300.00', '5.00', '400.00');
 
 -- --------------------------------------------------------
 
@@ -482,7 +418,7 @@ INSERT INTO `comprobante_detalle` (`id_comp_detalle`, `id_comprobante`, `id_prod
 
 CREATE TABLE `comprobante_estados` (
   `id_estado_comprobante` tinyint UNSIGNED NOT NULL,
-  `estado` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `estado` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -503,7 +439,7 @@ INSERT INTO `comprobante_estados` (`id_estado_comprobante`, `estado`) VALUES
 
 CREATE TABLE `condiciones_almacenamiento` (
   `id_condicion_alm` int UNSIGNED NOT NULL,
-  `descripcion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -534,13 +470,6 @@ CREATE TABLE `deudas_compras` (
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `deudas_compras`
---
-
-INSERT INTO `deudas_compras` (`id_deuda`, `id_compra`, `id_proveedor`, `total_adelanto`, `total_deuda`, `total_monto_pagado`, `total_monto_pendiente`, `fecha`, `estado`) VALUES
-(1, 2, 2, '500.00', '4600.00', '500.00', '4100.00', '2024-02-25', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -551,17 +480,10 @@ CREATE TABLE `deudas_compras_pagos` (
   `id_pago` bigint UNSIGNED NOT NULL,
   `id_deuda` bigint UNSIGNED NOT NULL,
   `monto_pagado` decimal(11,2) DEFAULT NULL,
-  `comentario` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comentario` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `deudas_compras_pagos`
---
-
-INSERT INTO `deudas_compras_pagos` (`id_pago`, `id_deuda`, `monto_pagado`, `comentario`, `fecha`, `estado`) VALUES
-(1, 1, '500.00', NULL, '2024-02-25', 1);
 
 -- --------------------------------------------------------
 
@@ -591,7 +513,7 @@ CREATE TABLE `deudas_comprobantes_pagos` (
   `id_pago` bigint UNSIGNED NOT NULL,
   `id_deuda` bigint UNSIGNED NOT NULL,
   `monto_pagado` decimal(11,2) DEFAULT NULL,
-  `comentario` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comentario` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -612,17 +534,9 @@ CREATE TABLE `egresos` (
   `metodo_gasto` tinyint UNSIGNED DEFAULT NULL COMMENT '1=Caja Chica, 2=Cuenta Bancaria',
   `fecha_egreso` datetime DEFAULT NULL,
   `monto` decimal(11,2) DEFAULT NULL,
-  `detalle` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `detalle` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `egresos`
---
-
-INSERT INTO `egresos` (`id_egreso`, `id_sucursal`, `id_usuario`, `id_compra`, `id_tipo_egreso`, `id_motivo_egreso`, `metodo_gasto`, `fecha_egreso`, `monto`, `detalle`, `estado`) VALUES
-(1, 1, 2, 1, 4, 3, 1, '2024-02-25 12:17:55', '1950.00', NULL, 1),
-(2, 1, 2, 2, 4, 3, 1, '2024-02-25 20:20:01', '4600.00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -632,7 +546,7 @@ INSERT INTO `egresos` (`id_egreso`, `id_sucursal`, `id_usuario`, `id_compra`, `i
 
 CREATE TABLE `egreso_motivos` (
   `id_egreso_motivo` tinyint UNSIGNED NOT NULL,
-  `motivo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `motivo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -652,8 +566,8 @@ INSERT INTO `egreso_motivos` (`id_egreso_motivo`, `motivo`) VALUES
 
 CREATE TABLE `empresas` (
   `id_empresa` bigint UNSIGNED NOT NULL,
-  `ruc` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ruc` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_file` bigint UNSIGNED DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -675,11 +589,11 @@ INSERT INTO `empresas` (`id_empresa`, `ruc`, `nombre`, `id_file`, `estado`, `cre
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -691,9 +605,9 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `file_paths` (
   `id` bigint UNSIGNED NOT NULL,
-  `filename` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mime` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `size` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP
@@ -707,7 +621,7 @@ CREATE TABLE `file_paths` (
 
 CREATE TABLE `laboratorios` (
   `id_laboratorio` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -728,8 +642,8 @@ INSERT INTO `laboratorios` (`id_laboratorio`, `nombre`, `estado`) VALUES
 
 CREATE TABLE `lista_precios` (
   `id_lista_precio` int UNSIGNED NOT NULL,
-  `codigo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `codigo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -764,15 +678,15 @@ CREATE TABLE `lista_precios_detalle` (
 --
 
 INSERT INTO `lista_precios_detalle` (`id_lista_detalle`, `id_lista_precio`, `id_producto`, `id_sucursal`, `precio_venta`, `precio_compra`, `unidades`, `estado`) VALUES
-(1, 3, 3, 1, '25.00', '15.00', 10, 1),
-(2, 1, 3, 1, '2.50', '1.00', 1, 1),
-(3, 1, 1, 1, '0.80', '0.50', 1, 1),
-(4, 3, 1, 1, '8.00', '4.00', 10, 1),
-(5, 2, 1, 1, '45.00', '36.00', 50, 1),
-(6, 3, 2, 1, '12.00', '7.00', 8, 1),
-(7, 2, 2, 1, '80.00', '60.00', 60, 1),
-(8, 1, 2, 1, '1.50', '0.60', 1, 1),
-(9, 2, 3, 1, '100.00', '65.00', 40, 1);
+(1, 1, 1, 1, '2.00', '1.00', 5, 1),
+(2, 3, 1, 1, '5.00', '3.00', 10, 1),
+(3, 2, 1, 1, '60.00', '30.00', 50, 1),
+(4, 1, 2, 1, '2.00', '1.00', 1, 1),
+(5, 3, 2, 1, '7.00', '5.00', 8, 1),
+(6, 2, 2, 1, '70.00', '45.00', 80, 1),
+(7, 1, 3, 1, '4.00', '2.00', 1, 1),
+(8, 3, 3, 1, '15.00', '8.00', 10, 1),
+(9, 2, 3, 1, '135.00', '70.00', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -784,22 +698,23 @@ CREATE TABLE `lote_productos` (
   `id_lote` bigint UNSIGNED NOT NULL,
   `id_sucursal` int UNSIGNED NOT NULL,
   `id_producto` bigint UNSIGNED NOT NULL,
-  `lote` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lote` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `cantidad` int NOT NULL,
-  `fecha_expiracion` date NOT NULL
+  `fecha_expiracion` date NOT NULL,
+  `estado` tinyint UNSIGNED NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `lote_productos`
 --
 
-INSERT INTO `lote_productos` (`id_lote`, `id_sucursal`, `id_producto`, `lote`, `cantidad`, `fecha_expiracion`) VALUES
-(1, 1, 1, 'L1001', 995, '2024-12-31'),
-(2, 1, 2, 'L2001', 692, '2024-12-31'),
-(3, 1, 3, 'L3001', 985, '2024-12-31'),
-(4, 1, 3, 'L3002', 1150, '2024-12-31'),
-(5, 1, 1, 'L1002', 1000, '2024-12-31'),
-(6, 1, 2, 'L2002', 1000, '2024-12-31');
+INSERT INTO `lote_productos` (`id_lote`, `id_sucursal`, `id_producto`, `lote`, `cantidad`, `fecha_expiracion`, `estado`) VALUES
+(1, 1, 1, 'L1001', 1000, '2024-12-31', 1),
+(2, 1, 2, 'L2001', 1000, '2024-12-31', 1),
+(3, 1, 3, 'L3001', 1000, '2024-12-31', 1),
+(4, 1, 3, 'L3002', 1000, '2024-12-31', 1),
+(5, 1, 1, 'L1002', 1000, '2024-12-31', 1),
+(6, 1, 2, 'L2002', 1000, '2024-12-31', 1);
 
 -- --------------------------------------------------------
 
@@ -809,7 +724,7 @@ INSERT INTO `lote_productos` (`id_lote`, `id_sucursal`, `id_producto`, `lote`, `
 
 CREATE TABLE `marcas_productos` (
   `id_marca` bigint UNSIGNED NOT NULL,
-  `marca` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `marca` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -831,7 +746,7 @@ INSERT INTO `marcas_productos` (`id_marca`, `marca`, `estado`) VALUES
 
 CREATE TABLE `medio_pago` (
   `id_medio_pago` tinyint UNSIGNED NOT NULL,
-  `medio_pago` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `medio_pago` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -851,7 +766,7 @@ INSERT INTO `medio_pago` (`id_medio_pago`, `medio_pago`) VALUES
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -949,7 +864,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `model_has_permissions` (
   `permission_id` bigint UNSIGNED NOT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -961,7 +876,7 @@ CREATE TABLE `model_has_permissions` (
 
 CREATE TABLE `model_has_roles` (
   `role_id` bigint UNSIGNED NOT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -984,9 +899,9 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 
 CREATE TABLE `monedas` (
   `id_moneda` tinyint UNSIGNED NOT NULL,
-  `moneda` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `simbolo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `moneda` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `simbolo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1004,11 +919,11 @@ INSERT INTO `monedas` (`id_moneda`, `moneda`, `nombre`, `simbolo`) VALUES
 --
 
 CREATE TABLE `oauth_access_tokens` (
-  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `client_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1022,10 +937,10 @@ CREATE TABLE `oauth_access_tokens` (
 --
 
 CREATE TABLE `oauth_auth_codes` (
-  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `client_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `scopes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1037,12 +952,12 @@ CREATE TABLE `oauth_auth_codes` (
 --
 
 CREATE TABLE `oauth_clients` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `secret` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provider` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provider` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `redirect` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `personal_access_client` tinyint(1) NOT NULL,
   `password_client` tinyint(1) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
@@ -1058,7 +973,7 @@ CREATE TABLE `oauth_clients` (
 
 CREATE TABLE `oauth_personal_access_clients` (
   `id` bigint UNSIGNED NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1070,8 +985,8 @@ CREATE TABLE `oauth_personal_access_clients` (
 --
 
 CREATE TABLE `oauth_refresh_tokens` (
-  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1090,7 +1005,7 @@ CREATE TABLE `orden_compra` (
   `id_moneda` tinyint UNSIGNED NOT NULL,
   `id_medio_pago` tinyint UNSIGNED NOT NULL,
   `id_tipo_cambio` tinyint UNSIGNED NOT NULL,
-  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_emision` date DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
   `numeracion` bigint DEFAULT NULL,
@@ -1106,14 +1021,6 @@ CREATE TABLE `orden_compra` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `orden_compra`
---
-
-INSERT INTO `orden_compra` (`id_orden_compra`, `id_usuario`, `id_sucursal`, `id_proveedor`, `id_moneda`, `id_medio_pago`, `id_tipo_cambio`, `email`, `fecha_emision`, `fecha_vencimiento`, `numeracion`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 1, 1, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', '2024-02-25', 1, '0.00', '700.00', '338.98', '0.00', '18.00', '61.02', '1100.00', 1, '2024-02-26 01:12:28', '2024-02-26 01:12:38'),
-(2, 2, 1, 1, 1, 1, 1, 'proveedorinterno@gmail.com', '2024-02-28', '2024-02-28', 2, '0.00', '7000.00', '0.00', '0.00', '18.00', '0.00', '7000.00', 1, '2024-02-29 01:59:25', '2024-02-29 01:59:33');
-
 -- --------------------------------------------------------
 
 --
@@ -1124,24 +1031,15 @@ CREATE TABLE `orden_compra_detalle` (
   `id_orden_detalle` bigint UNSIGNED NOT NULL,
   `id_orden_compra` bigint UNSIGNED NOT NULL,
   `id_producto` bigint UNSIGNED NOT NULL,
-  `nombre_producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_producto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_unidad_medida` int UNSIGNED DEFAULT NULL,
-  `und_simbolo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `und_simbolo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_lista_detalle` bigint UNSIGNED DEFAULT NULL,
   `cantidad` decimal(11,2) DEFAULT NULL,
   `cantidad_visual` decimal(11,2) DEFAULT NULL,
   `precio_unitario` decimal(11,2) DEFAULT NULL,
   `precio_total` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `orden_compra_detalle`
---
-
-INSERT INTO `orden_compra_detalle` (`id_orden_detalle`, `id_orden_compra`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `id_lista_detalle`, `cantidad`, `cantidad_visual`, `precio_unitario`, `precio_total`) VALUES
-(1, 1, 1, 'Producto 1', 2, 'UND', 4, '100.00', NULL, '4.00', '400.00'),
-(2, 1, 2, 'Producto 2', 2, 'UND', 6, '100.00', NULL, '7.00', '700.00'),
-(3, 2, 2, 'Producto 2', 2, 'UND', 6, '1000.00', NULL, '7.00', '7000.00');
 
 -- --------------------------------------------------------
 
@@ -1150,8 +1048,8 @@ INSERT INTO `orden_compra_detalle` (`id_orden_detalle`, `id_orden_compra`, `id_p
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1163,9 +1061,9 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `permissions` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `active` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1308,8 +1206,8 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `title`, `status`, `activ
 
 CREATE TABLE `productos_categorias` (
   `id_categoria` int UNSIGNED NOT NULL,
-  `codigo` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `categoria` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `codigo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `categoria` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `estado` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1330,7 +1228,7 @@ INSERT INTO `productos_categorias` (`id_categoria`, `codigo`, `categoria`, `esta
 
 CREATE TABLE `productos_servicios` (
   `id_producto` bigint UNSIGNED NOT NULL,
-  `codigo_producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codigo_producto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_marca` bigint UNSIGNED DEFAULT NULL,
   `id_categoria` int UNSIGNED NOT NULL,
   `id_unidad_medida` int UNSIGNED DEFAULT NULL,
@@ -1338,16 +1236,16 @@ CREATE TABLE `productos_servicios` (
   `id_laboratorio` bigint UNSIGNED DEFAULT NULL,
   `id_condicion_alm` int UNSIGNED DEFAULT NULL,
   `id_tipo_producto` tinyint UNSIGNED DEFAULT NULL,
-  `nombreProducto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombreProducto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stock` decimal(11,2) DEFAULT '1.00',
   `stock_minimo` decimal(11,2) DEFAULT '1.00',
   `servicio` tinyint DEFAULT '0' COMMENT '0=no, 1=si',
-  `principio_activo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `indicaciones` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `concentracion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `registro_sanitario` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `principio_activo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `indicaciones` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `concentracion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `registro_sanitario` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vigencia_registro` date DEFAULT NULL,
-  `ubicacion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ubicacion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
@@ -1358,9 +1256,9 @@ CREATE TABLE `productos_servicios` (
 --
 
 INSERT INTO `productos_servicios` (`id_producto`, `codigo_producto`, `id_marca`, `id_categoria`, `id_unidad_medida`, `id_sucursal`, `id_laboratorio`, `id_condicion_alm`, `id_tipo_producto`, `nombreProducto`, `stock`, `stock_minimo`, `servicio`, `principio_activo`, `indicaciones`, `concentracion`, `registro_sanitario`, `vigencia_registro`, `ubicacion`, `estado`, `updated_at`, `created_at`) VALUES
-(1, 'PR001', 1, 1, 2, 1, 1, 1, 1, 'Producto 1', '1995.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-26 01:19:57', '2023-12-16 17:32:03'),
-(2, 'PR002', 2, 1, 2, 1, 2, 1, 8, 'Producto 2', '1692.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-26 01:19:59', '2023-12-16 17:32:03'),
-(3, 'PR003', 2, 1, 2, 1, 3, 1, 10, 'Producto 3', '2135.00', '100.00', 0, NULL, NULL, NULL, NULL, NULL, 'Almacen', 1, '2024-02-26 01:00:09', '2023-12-16 17:32:04');
+(1, 'PR001', 2, 1, 2, 1, 1, 1, 1, 'Producto 1', '2000.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-03-12', NULL, 1, '2024-03-13 02:59:09', '2024-03-13 02:52:13'),
+(2, 'PR002', 3, 2, 2, 1, 2, 1, 1, 'Producto 2', '2000.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-12-31', NULL, 1, '2024-03-13 02:59:14', '2024-03-13 02:53:52'),
+(3, 'PR003', 4, 3, 2, 1, 1, 1, 1, 'Producto 3', '2000.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-12-31', NULL, 1, '2024-03-13 02:59:16', '2024-03-13 02:56:40');
 
 -- --------------------------------------------------------
 
@@ -1370,7 +1268,7 @@ INSERT INTO `productos_servicios` (`id_producto`, `codigo_producto`, `id_marca`,
 
 CREATE TABLE `producto_tipos` (
   `id_producto_tipo` tinyint UNSIGNED NOT NULL,
-  `tipo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `impuesto` tinyint DEFAULT NULL COMMENT '1=Gravado, 2=inafecto, 3= exonerado,\n4=icbper',
   `icbper` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1410,13 +1308,13 @@ CREATE TABLE `proveedores` (
   `id_tipo_doc` tinyint UNSIGNED DEFAULT NULL,
   `id_sucursal` int UNSIGNED DEFAULT NULL,
   `tipo_proveedor` tinyint UNSIGNED DEFAULT NULL COMMENT '	1=Interno, 2=Distribuidor	',
-  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nro_doc` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `direccion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contacto_nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contacto_telefono` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nro_doc` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contacto_nombre` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contacto_telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_departamento` int DEFAULT NULL,
   `id_provincia` int DEFAULT NULL,
   `id_distrito` int DEFAULT NULL,
@@ -1445,20 +1343,12 @@ CREATE TABLE `prv_cotizaciones` (
   `id_sucursal` int UNSIGNED DEFAULT NULL,
   `id_proveedor` bigint UNSIGNED NOT NULL,
   `numeracion` bigint DEFAULT NULL,
-  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_emision` date DEFAULT NULL,
   `id_estado` tinyint UNSIGNED NOT NULL DEFAULT '3' COMMENT '1=Aprobada, 2=Desestimada, 3=Espera',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `prv_cotizaciones`
---
-
-INSERT INTO `prv_cotizaciones` (`id_cotizacion_prv`, `id_usuario`, `id_sucursal`, `id_proveedor`, `numeracion`, `email`, `fecha_emision`, `id_estado`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 1, 'proveedordistribuidor@gmail.com', '2024-02-25', 1, '2024-02-25 17:23:18', '2024-02-25 17:23:26'),
-(2, 2, 1, 1, 2, 'proveedorinterno@gmail.com', '2024-02-28', 1, '2024-02-29 01:57:59', '2024-02-29 01:58:10');
 
 -- --------------------------------------------------------
 
@@ -1470,20 +1360,11 @@ CREATE TABLE `prv_cotizacion_detalle` (
   `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL,
   `id_cotizacion_prv` bigint UNSIGNED NOT NULL,
   `id_producto` bigint UNSIGNED NOT NULL,
-  `nombre_producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_producto` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_unidad_medida` int UNSIGNED DEFAULT NULL,
-  `und_simbolo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `und_simbolo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cantidad` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `prv_cotizacion_detalle`
---
-
-INSERT INTO `prv_cotizacion_detalle` (`id_cotz_detalle_prv`, `id_cotizacion_prv`, `id_producto`, `nombre_producto`, `id_unidad_medida`, `und_simbolo`, `cantidad`) VALUES
-(1, 1, 1, 'Producto 1', 2, 'UND', '100.00'),
-(2, 1, 2, 'Producto 2', 2, 'UND', '100.00'),
-(3, 2, 2, 'Producto 2', 2, 'UND', '1000.00');
 
 -- --------------------------------------------------------
 
@@ -1493,9 +1374,9 @@ INSERT INTO `prv_cotizacion_detalle` (`id_cotz_detalle_prv`, `id_cotizacion_prv`
 
 CREATE TABLE `roles` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `active` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2013,7 +1894,7 @@ CREATE TABLE `series_inv` (
   `id_serie` int UNSIGNED NOT NULL,
   `id_sucursal` int UNSIGNED NOT NULL,
   `id_tipo_comprobante` tinyint UNSIGNED NOT NULL,
-  `serie` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serie` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP
@@ -2038,20 +1919,20 @@ INSERT INTO `series_inv` (`id_serie`, `id_sucursal`, `id_tipo_comprobante`, `ser
 CREATE TABLE `sucursales` (
   `id_sucursal` int UNSIGNED NOT NULL,
   `id_empresa` bigint UNSIGNED DEFAULT NULL,
-  `nombre_sucursal` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cod_domicilio_fiscal` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `direccion_fiscal` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_sucursal` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cod_domicilio_fiscal` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion_fiscal` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_departamento` int DEFAULT NULL,
   `id_provincia` int DEFAULT NULL,
   `id_distrito` int DEFAULT NULL,
-  `telefono` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `direccion_comercial` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `direccion_web` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nro_cuenta_bancario` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cci_bancario` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `api_url` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `api_token` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion_comercial` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion_web` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nro_cuenta_bancario` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cci_bancario` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `api_url` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `api_token` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP
@@ -2073,8 +1954,8 @@ INSERT INTO `sucursales` (`id_sucursal`, `id_empresa`, `nombre_sucursal`, `cod_d
 
 CREATE TABLE `tipos_comprobante` (
   `id_tipo_comprobante` tinyint UNSIGNED NOT NULL,
-  `tipo_comprobante` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `codigo_sunat` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `tipo_comprobante` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codigo_sunat` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2093,7 +1974,7 @@ INSERT INTO `tipos_comprobante` (`id_tipo_comprobante`, `tipo_comprobante`, `cod
 
 CREATE TABLE `tipos_egreso` (
   `id_tipo_egreso` tinyint UNSIGNED NOT NULL,
-  `tipo_egreso` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `tipo_egreso` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2114,7 +1995,7 @@ INSERT INTO `tipos_egreso` (`id_tipo_egreso`, `tipo_egreso`) VALUES
 
 CREATE TABLE `tipos_movimiento` (
   `id_tipo_movimiento` tinyint UNSIGNED NOT NULL,
-  `tipo_movimiento` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `tipo_movimiento` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2135,7 +2016,7 @@ INSERT INTO `tipos_movimiento` (`id_tipo_movimiento`, `tipo_movimiento`) VALUES
 
 CREATE TABLE `tipo_cambio` (
   `id_tipo_cambio` tinyint UNSIGNED NOT NULL,
-  `tipo_cambio` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo_cambio` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cambio` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -2144,7 +2025,7 @@ CREATE TABLE `tipo_cambio` (
 --
 
 INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `tipo_cambio`, `cambio`) VALUES
-(1, 'Dólares', '3.79');
+(1, 'Dólares', '3.69');
 
 -- --------------------------------------------------------
 
@@ -2154,8 +2035,8 @@ INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `tipo_cambio`, `cambio`) VALUES
 
 CREATE TABLE `tipo_documento` (
   `id_tipo_doc` tinyint UNSIGNED NOT NULL,
-  `tipo_documento` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `codigo_sunat` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL
+  `tipo_documento` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codigo_sunat` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -4326,9 +4207,9 @@ INSERT INTO `ubigeo_peru_provinces` (`id`, `name`, `department_id`) VALUES
 
 CREATE TABLE `unidades_medida` (
   `id_unidad_medida` int UNSIGNED NOT NULL,
-  `unidad_medida` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `codigo_sunat` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `simbolo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `unidad_medida` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codigo_sunat` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `simbolo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -4354,11 +4235,11 @@ CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
   `id_role` bigint UNSIGNED NOT NULL DEFAULT '1',
   `id_sucursal` int UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` tinyint NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -4852,13 +4733,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `almacen_movimientos`
 --
 ALTER TABLE `almacen_movimientos`
-  MODIFY `id_almacen_movimientos` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_almacen_movimientos` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id_caja` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_caja` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `caja_detalle`
@@ -4882,13 +4763,13 @@ ALTER TABLE `cliente_direcciones`
 -- AUTO_INCREMENT for table `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `compras_detalle`
 --
 ALTER TABLE `compras_detalle`
-  MODIFY `id_compra_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_compra_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `compra_estado`
@@ -4906,13 +4787,13 @@ ALTER TABLE `compressed_tables`
 -- AUTO_INCREMENT for table `comprobantes`
 --
 ALTER TABLE `comprobantes`
-  MODIFY `id_comprobante` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_comprobante` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `comprobante_detalle`
 --
 ALTER TABLE `comprobante_detalle`
-  MODIFY `id_comp_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_comp_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `comprobante_estados`
@@ -4930,13 +4811,13 @@ ALTER TABLE `condiciones_almacenamiento`
 -- AUTO_INCREMENT for table `deudas_compras`
 --
 ALTER TABLE `deudas_compras`
-  MODIFY `id_deuda` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_deuda` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `deudas_compras_pagos`
 --
 ALTER TABLE `deudas_compras_pagos`
-  MODIFY `id_pago` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pago` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `deudas_comprobantes`
@@ -4954,7 +4835,7 @@ ALTER TABLE `deudas_comprobantes_pagos`
 -- AUTO_INCREMENT for table `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_egreso` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `egreso_motivos`
@@ -4996,13 +4877,13 @@ ALTER TABLE `lista_precios`
 -- AUTO_INCREMENT for table `lista_precios_detalle`
 --
 ALTER TABLE `lista_precios_detalle`
-  MODIFY `id_lista_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_lista_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `lote_productos`
 --
 ALTER TABLE `lote_productos`
-  MODIFY `id_lote` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_lote` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `marcas_productos`
@@ -5044,7 +4925,7 @@ ALTER TABLE `orden_compra`
 -- AUTO_INCREMENT for table `orden_compra_detalle`
 --
 ALTER TABLE `orden_compra_detalle`
-  MODIFY `id_orden_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_orden_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -5080,13 +4961,13 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT for table `prv_cotizaciones`
 --
 ALTER TABLE `prv_cotizaciones`
-  MODIFY `id_cotizacion_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cotizacion_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `prv_cotizacion_detalle`
 --
 ALTER TABLE `prv_cotizacion_detalle`
-  MODIFY `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cotz_detalle_prv` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -5146,7 +5027,7 @@ ALTER TABLE `unidades_medida`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- Constraints for dumped tables
@@ -5170,6 +5051,12 @@ ALTER TABLE `caja`
   ADD CONSTRAINT `Caja_Usuario_fk	` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`);
 
 --
+-- Constraints for table `caja_detalle`
+--
+ALTER TABLE `caja_detalle`
+  ADD CONSTRAINT `CajaDetalle_Caja_fk` FOREIGN KEY (`id_caja`) REFERENCES `caja` (`id_caja`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
 -- Constraints for table `clientes`
 --
 ALTER TABLE `clientes`
@@ -5180,7 +5067,7 @@ ALTER TABLE `clientes`
 -- Constraints for table `cliente_direcciones`
 --
 ALTER TABLE `cliente_direcciones`
-  ADD CONSTRAINT `ClienteDireccion_Cliente` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
+  ADD CONSTRAINT `ClienteDireccion_Cliente_fk` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `compras`

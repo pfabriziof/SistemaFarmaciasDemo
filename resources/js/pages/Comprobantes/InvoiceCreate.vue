@@ -714,8 +714,15 @@ export default {
                     r_listapre.push(val);
                 });
                 
-                //--- Descartar lotes sin stock ---
-                if (result.lotes.length <= 0){
+                let prod_lotes = [];
+                result.lotes.forEach(function(l){
+                    if(l.estado == 1 && l.cantidad > 0){
+                        prod_lotes.push(l)
+                    }
+                })
+
+                //--- Descartar productos sin lotes ---
+                if (prod_lotes.length <= 0){
                     Swal.fire({
                         icon: 'error',
                         title: 'El producto "'+result.nombreProducto+'" no cuenta con stock en este momento.'
@@ -743,8 +750,8 @@ export default {
                     icbper:         result.tipo_producto.icbper,
                     tipo_impuesto:  result.tipo_producto.impuesto,
 
-                    lotes:          result.lotes,
-                    lote:           result.lotes[0],
+                    lotes:          prod_lotes,
+                    lote:           prod_lotes[0],
                     list_precios:   r_listapre,
                     lista_detalle:  r_listapre[0] ? r_listapre[0] : null,
 

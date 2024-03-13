@@ -17,10 +17,13 @@ use App\Models\LoteProducto;
 use App\Utils\EMailer;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ComprobanteController extends Controller
 {
     public function index(Request $request){
+        // $startTime = microtime(true); // Capture start time
+
         $authUser = auth('api')->user();
 
         $searchTerm = $request->searchTerm;
@@ -52,10 +55,16 @@ class ComprobanteController extends Controller
             $data = $data->where('id_estado_comprobante', $estado);
         }
 
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Comprobante Index: Tiempo de ejecución: " . $executionTime . " segs");
+
         return $data->latest()->paginate($request->perPage);
     }
 
     public function store(Request $request){
+        // $startTime = microtime(true); // Capture start time
+
         // ==== Validacion de campos ====
         $this->validate($request, [
             'id_tipo_comprobante' => 'required|integer',
@@ -291,16 +300,9 @@ class ComprobanteController extends Controller
             }
         }
 
-        //--- Funcion envio a la SUNAT ---
-        // $response_sunat = $this->enviarComprobanteSunat($id_comprobante);
-        // $response_sunat = json_decode($response_sunat->content());
-        // // dd($response_sunat->success);
-        // if($response_sunat->success==false){
-        //     //!!!!Devolucion de movimientos a almacen
-
-        // }
-        // return $response_sunat;
-        //--- End ---
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Comprobante Create: Tiempo de ejecución: " . $executionTime . " segs");
 
         return response()->json(['success'=>true, 'message' => 'Comprobante creado correctamente!', 'id_comprobante' => $comprobante->id_comprobante]);
     }
@@ -317,6 +319,8 @@ class ComprobanteController extends Controller
     }
     
     public function destroy($id, Request $request){
+        // $startTime = microtime(true); // Capture start time
+
         $this->validate($request, [
             'motivo_anulacion' => 'required',
         ]);
@@ -362,6 +366,10 @@ class ComprobanteController extends Controller
             $movimiento->fecha_movimiento = date('Y-m-d');
             $movimiento->save();
         }
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Comprobante Delete: Tiempo de ejecución: " . $executionTime . " segs");
 
         return ['message' => 'Comprobante anulado.'];
     }

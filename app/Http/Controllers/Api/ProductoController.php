@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Log;
 class ProductoController extends Controller
 {
     public function index(Request $request){
+        // $startTime = microtime(true); // Capture start time
+
         try {
             $authUser = auth('api')->user();
             $searchTerm = $request->searchTerm;
@@ -34,6 +36,10 @@ class ProductoController extends Controller
                 });
             }
 
+            // $endTime = microtime(true); // Capture end time
+            // $executionTime = $endTime - $startTime;
+            // Log::debug("Productos Index: Tiempo de ejecución: " . $executionTime . " segs");
+
             return $data->latest()->paginate($request->perPage);
 
         } catch (Exception $e) {
@@ -42,24 +48,26 @@ class ProductoController extends Controller
     }
 
     public function store(Request $request){
-        // $messages = [
-        //     'data.stock_minimo.required'     => 'El campo stock mínimo es requerido',
-        //     'data.id_categoria.required'     => 'El campo categoria es requerido',
-        //     'data.id_laboratorio.required'   => 'El campo laboratorio es requerido',
-        //     'data.id_marca.required'         => 'El campo marca es requerido',
-        //     'data.nombreProducto.required'   => 'El campo nombre producto es requerido',
-        //     'data.codigo_producto.required'  => 'El campo codigo producto es requerido',
-        // ];
+        // $startTime = microtime(true); // Capture start time
 
-        // //---Validacion de campos---
-        // $this->validate($request, [
-        //     'data.id_laboratorio'   => 'required|integer',
-        //     'data.stock_minimo'     => 'required',
-        //     'data.id_marca'         => 'required|integer',
-        //     'data.nombreProducto'   => 'required|string|max: 250',
-        //     'data.id_categoria'     => 'required|integer',
-        //     'data.codigo_producto'  => 'required|string|max: 250',
-        // ], $messages);
+        $messages = [
+            'data.stock_minimo.required'     => 'El campo stock mínimo es requerido',
+            'data.id_categoria.required'     => 'El campo categoria es requerido',
+            'data.id_laboratorio.required'   => 'El campo laboratorio es requerido',
+            'data.id_marca.required'         => 'El campo marca es requerido',
+            'data.nombreProducto.required'   => 'El campo nombre producto es requerido',
+            'data.codigo_producto.required'  => 'El campo codigo producto es requerido',
+        ];
+
+        //---Validacion de campos---
+        $this->validate($request, [
+            'data.id_laboratorio'   => 'required|integer',
+            'data.stock_minimo'     => 'required',
+            'data.id_marca'         => 'required|integer',
+            'data.nombreProducto'   => 'required|string|max: 250',
+            'data.id_categoria'     => 'required|integer',
+            'data.codigo_producto'  => 'required|string|max: 250',
+        ], $messages);
         
         //====Validacion de Lotes====
         foreach($request->lotes as $lt){
@@ -108,7 +116,7 @@ class ProductoController extends Controller
         ]);
         //--- End ---
 
-        if(empty($request->lotes)){
+        if(!empty($request->lotes)){
             $movimiento = new AlmacenMovimiento();
             $movimiento->id_sucursal = $id_sucursal;
             $movimiento->id_usuario  = $id_usuario;
@@ -126,6 +134,10 @@ class ProductoController extends Controller
             $movimiento->save();
         }
 
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Productos Create: Tiempo de ejecución: " . $executionTime . " segs");
+
         return response()->json(['success'=>true, 'message' => 'Producto creado correctamente!',]);
     }
 
@@ -142,6 +154,8 @@ class ProductoController extends Controller
     }
 
     public function update(Request $request, $id){
+        // $startTime = microtime(true); // Capture start time
+
         $messages = [
             'data.stock_minimo.required'     => 'El campo stock mínimo es requerido',
             'data.id_categoria.required'     => 'El campo categoria es requerido',
@@ -199,10 +213,16 @@ class ProductoController extends Controller
         }
         // --- Fin ---
         
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Productos Update: Tiempo de ejecución: " . $executionTime . " segs");
+
         return response()->json(['success'=>true, 'message' => 'Producto actualizado correctamente!']);
     }
 
     public function destroy($id){
+        // $startTime = microtime(true); // Capture start time
+
         try {
             //Relaciones: Almacen Movimientos, Compras Detalle, Comprobante Detalle, Lista Precios Detalle, Lote Productos, Orden Compra Detalle, Prv Cotizacion Detalle, 
             //--- Comprobacion de Existencia de Operaciones ---
@@ -225,7 +245,12 @@ class ProductoController extends Controller
             $data->estado = $data->estado != 1? 1 : 0;
             $data->save();
 
+            // $endTime = microtime(true); // Capture end time
+            // $executionTime = $endTime - $startTime;
+            // Log::debug("Productos Delete: Tiempo de ejecución: " . $executionTime . " segs");
+
             return response()->json(["success"=>true], 200);
+
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

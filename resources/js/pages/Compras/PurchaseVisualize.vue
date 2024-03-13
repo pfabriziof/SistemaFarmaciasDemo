@@ -250,13 +250,14 @@ export default {
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.value == true) {
+                    this.preloader = true;
                     axios.delete('/api/compra/'+this.id_compra).then(()=>{
                         Toast.fire({
                             icon: 'success',
                             title: toast_text,
                         });
                         this.$router.go();
-                    });
+                    }).finally(()=>(this.preloader = false));
                 }
             });
         },

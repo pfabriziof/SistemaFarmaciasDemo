@@ -13,7 +13,8 @@ class LoteProducto extends Model
         'cantidad',
         'fecha_expiracion',
         'id_producto',
-        'id_sucursal'
+        'id_sucursal',
+        'estado'
     ];
     
     public $timestamps = false;

@@ -235,7 +235,6 @@
 <script>
 export default {
     data: () => ({
-        loading: false,
         preloader: false,
         breadcrumbs: [{
             text: 'Productos',
@@ -322,6 +321,7 @@ export default {
             });
         },
         create(){
+            this.preloader = true;
             axios.post('/api/producto',{
                 data: this.producto,
                 lotes: this.lotes,
@@ -342,7 +342,7 @@ export default {
                     });
                 }
                 
-            }).finally(()=>(this.loading = false));
+            }).finally(()=>(this.preloader = false));
         },
 
         //--- Date Formatting ---
