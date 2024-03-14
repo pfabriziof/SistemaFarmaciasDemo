@@ -4,7 +4,7 @@
 @endphp
 <html>
 <head>
-    <title>{Orden de Compra { $document_number }}</title>
+    <title>Orden de Compra {{ $document_number }}</title>
     <link href="{{ asset('css/comprobante_pdf.css') }}" rel="stylesheet">
 </head>
 <body>

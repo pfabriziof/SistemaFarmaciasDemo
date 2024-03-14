@@ -17,6 +17,7 @@ use App\Models\Sucursal;
 use App\Utils\EMailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
 
 class DocGenerationController extends Controller
@@ -35,10 +36,19 @@ class DocGenerationController extends Controller
         return view('compras/prv_cotizacion_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
     }
     public function generarProveedorCotizacionPDF($id, Mpdf $mpdf){
+        // $startTime = microtime(true); // Capture start time
+
+        $document = ProveedorCotizacion::find($id);
+        $document_number = 'N'.str_pad($document->numeracion, 8, '0', STR_PAD_LEFT);
+
         $html =  $this->vistaProveedorCotizacion($id)->render();
-        $filename = 'pdf_'.time().'.pdf';
+        $filename = 'Cotizacion_'.$document_number.'_'.time().'.pdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Cotizacion PDF: Tiempo de ejecución: " . $executionTime . " segs");
     }
     public function sendMailCotizacion(Request $request){
         //---Validacion de campos---
@@ -83,10 +93,19 @@ class DocGenerationController extends Controller
         return view('compras/ordcomp_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
     }
     public function generarOrdenCompraPDF($id, Mpdf $mpdf){
+        // $startTime = microtime(true); // Capture start time
+
+        $document = OrdenCompra::find($id);
+        $document_number = 'N'.str_pad($document->numeracion, 8, '0', STR_PAD_LEFT);
+
         $html =  $this->vistaOrdenCompra($id)->render();
-        $filename = 'pdf_'.time().'.pdf';
+        $filename = 'OrdenCompra_'.$document_number.'_'.time().'.pdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Orden Compra PDF: Tiempo de ejecución: " . $executionTime . " segs");
     }
     public function sendMailOrdenCompra(Request $request){
         //---Validacion de campos---
@@ -133,10 +152,19 @@ class DocGenerationController extends Controller
         return view('compras/compra_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
     }
     public function generarCompraPDF($id, Mpdf $mpdf){
+        // $startTime = microtime(true); // Capture start time
+
+        $document = Compra::find($id);
+        $document_number = 'N°'.str_pad($document->correlativo, 8, '0', STR_PAD_LEFT);
+
         $html = $this->vistaCompra($id)->render();
-        $filename = 'pdf_'.time().'.pdf';
+        $filename = 'Compra_'.$document_number.'_'.time().'.pdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Compra PDF: Tiempo de ejecución: " . $executionTime . " segs");
     }
     public function sendMailCompra(Request $request){
         //---Validacion de campos---

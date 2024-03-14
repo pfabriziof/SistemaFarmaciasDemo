@@ -138,6 +138,7 @@ export default {
     mounted () {
         // this.filter.fechaInicio = this.firstDateMonth();
         this.filter.fechaFin    = this.todaysDateDefault();
+        this.getExportData();
     },
 
     methods: {
@@ -155,6 +156,7 @@ export default {
                 this.currentPage = this.dataReg.current_page;
                 this.pageCount    = this.dataReg.last_page;
                 this.totalReg    = this.dataReg.total;
+                this.getExportData();
                 
             }).finally(() => (this.loadingTable = false));
         },

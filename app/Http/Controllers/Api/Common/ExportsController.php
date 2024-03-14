@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Exports\Reports\CuentasCobrarExport;
 use App\Exports\Reports\CuentasPagarExport;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use LengthException;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,6 +20,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ExportsController extends Controller
 {
     public function exportarKardexValorizado($params, Xlsx $writer){
+        // $startTime = microtime(true); // Capture start time
+
         $authUser = auth()->user();
 
         $params = json_decode($params);
@@ -132,33 +135,39 @@ class ExportsController extends Controller
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
         $writer->save('php://output');
         //--- END --- 
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Kardex Xlsx: Tiempo de ejecución: " . $executionTime . " segs");
     }
     
     public function exportarReporteAlmacen($params, Xlsx $writer){
+        // $startTime = microtime(true); // Capture start time
+
         $authUser = auth()->user();
 
         $params = json_decode($params);
-        $search_query = $params->search_query;
-        $fecha_inicio = $params->fecha_inicio;
-        $fecha_fin    = $params->fecha_fin;
+        $searchTerm = $params->searchTerm;
+        $fechaInicio = $params->fechaInicio;
+        $fechaFin    = $params->fechaFin;
 
         $datos = AlmacenMovimiento::where([
             ['id_sucursal', $authUser->id_sucursal],
         ]);
 
-        if($search_query != null){
-            $datos = $datos->where(function ($query) use ($search_query) {
-                $query->where('nombreProducto', 'like', "%{$search_query}%");
+        if(isset($searchTerm)){
+            $datos = $datos->where(function ($query) use ($searchTerm) {
+                $query->where('nombreProducto', 'like', "%{$searchTerm}%");
             });
         }
         $period_string = '';
-        if($fecha_inicio != null){
-            if($fecha_fin != null){
-                $period_string = date("Y/m", strtotime($fecha_inicio)).' - '.date("Y/m", strtotime($fecha_fin));
-                $datos = $datos->whereBetween('fecha_movimiento', [$fecha_inicio, $fecha_fin]);
+        if(isset($fechaInicio)){
+            if(isset($fechaFin)){
+                $period_string = date("Y/m", strtotime($fechaInicio)).' - '.date("Y/m", strtotime($fechaFin));
+                $datos = $datos->whereBetween('fecha_movimiento', [$fechaInicio, $fechaFin]);
             }else{
-                $period_string = date("Y/m", strtotime($fecha_inicio));
-                $datos = $datos->where('fecha_movimiento', '>=', $fecha_inicio);
+                $period_string = date("Y/m", strtotime($fechaInicio));
+                $datos = $datos->where('fecha_movimiento', '>=', $fechaInicio);
             }
         }
         $datos = $datos->get();
@@ -215,6 +224,10 @@ class ExportsController extends Controller
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
         $writer->save('php://output');
         //--- END ---
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Reporte Almacen Xlsx: Tiempo de ejecución: " . $executionTime . " segs");
     }
 
     public function exportarReporteCompraFormat($params, Xlsx $writer){
@@ -379,6 +392,8 @@ class ExportsController extends Controller
     }
 
     public function exportarReporteComprobanteGeneral($params, Xlsx $writer){
+        // $startTime = microtime(true); // Capture start time
+
         $authUser = auth()->user();
 
         $params = json_decode($params);
@@ -483,6 +498,10 @@ class ExportsController extends Controller
         header('Content-Disposition: attachment; filename="'.$file_name.'"');
         $writer->save('php://output');
         //--- END ---
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Reporte Comprobantes Xlsx: Tiempo de ejecución: " . $executionTime . " segs");
     }
 
     //--- Cuentas ---
