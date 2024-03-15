@@ -8,12 +8,14 @@ class Compra extends Model
 {
     protected $table= 'compras';
     protected $primaryKey= 'id_compra';
+
+    protected $guarded = [
+        'id_usuario',
+        'id_sucursal',
+    ];
     protected $fillable = [
-        'id_sucursal', 
-        'id_usuario', 
-        'id_sucursal', 
         'id_proveedor',
-        'id_moneda', 
+        'id_moneda',
         'id_medio_pago',
         'id_tipo_cambio',
         'id_tipo_comprobante',
@@ -21,10 +23,10 @@ class Compra extends Model
         'nombreProveedor',
         'nroDocProveedor',
         'email',
-        'nro_guia_remision', 
+        'nro_guia_remision',
         'serie_factura',
-        'nro_factura', 
-        'fecha_emision', 
+        'nro_factura',
+        'fecha_emision',
         'fecha_vencimiento',
         'origen_dinero',
 
@@ -34,12 +36,12 @@ class Compra extends Model
         'icbper',
         'porcentaje_igv',
         'igv',
-        'total', 
-        
+        'total',
+
         'deuda_id',
         'deuda_generada',
         'deuda_adelanto',
-        
+
         'id_estado',
         'fecha_anulacion',
     ];

@@ -8,11 +8,13 @@ class CompraDetalle extends Model
 {
     protected $table= 'compras_detalle';
     protected $primaryKey= 'id_compra_detalle';
-    protected $fillable = [
+    protected $guarded = [
         'id_compra',
         'id_producto',
-        'nombre_producto',
         'id_unidad_medida',
+    ];
+    protected $fillable = [
+        'nombre_producto',
         'und_simbolo',
         'id_lista_detalle',
 

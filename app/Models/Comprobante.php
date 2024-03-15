@@ -8,12 +8,14 @@ class Comprobante extends Model
 {
     protected $table= 'comprobantes';
     protected $primaryKey= 'id_comprobante';
+    protected $guarded = [
+        'id_usuario',
+        'id_sucursal',
+    ];
     protected $fillable = [
         'id_tipo_comprobante',
         'id_estado_comprobante',
-        'id_cliente', 
-        'id_usuario',
-        'id_sucursal',
+        'id_cliente',
         'id_moneda',
         'id_medio_pago',
         'id_tipo_cambio',
@@ -31,13 +33,13 @@ class Comprobante extends Model
         'op_gravadas',
         'icbper',
         'porcentaje_igv',
-        'igv',  
+        'igv',
         'total',
 
         'correlativo',
-        'external_id', 
-        'formato_impresion', 
-        'fecha_anulacion', 
+        'external_id',
+        'formato_impresion',
+        'fecha_anulacion',
         'motivo_anulacion',
     ];
     public $timestamps = true;
