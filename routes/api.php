@@ -83,7 +83,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //--- PROCEDIMIENTOS ---
     //Comprobantes
-    Route::post('sendMailComprobante', [ComprobanteController::class, 'sendMailComprobante']);
+    Route::post('sendMailComprobante', [DocGenerationController::class, 'sendMailComprobante']);
     Route::get('enviarComprobanteSunat/{id}', [ComprobanteController::class, 'enviarComprobanteSunat']);
     Route::get('seriesComprobanteCombo/{id}', [ServicesController::class, 'seriesComprobanteCombo']);
 

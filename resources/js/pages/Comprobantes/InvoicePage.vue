@@ -124,10 +124,10 @@
                     <v-btn small icon :to="'/comprobantes_visualize/'+item.id_comprobante">
                         <v-icon small> mdi-file-eye-outline</v-icon>
                     </v-btn>
+                    <v-btn small icon @click="generarPDF(item)">
+                        <v-icon small>mdi-file-pdf</v-icon>
+                    </v-btn>
                     <template v-if="item.id_estado_comprobante != 2">
-                        <v-btn small icon v-if="item.external_id" @click="verPdf(item)">
-                            <v-icon small>mdi-file-pdf</v-icon>
-                        </v-btn>
                         <v-btn small icon v-if="item.external_id" @click="verXml(item)">
                             <v-icon small>mdi-xml</v-icon>
                         </v-btn>
@@ -223,6 +223,10 @@ export default {
         },
         verXml(item){
             window.open('https://pruebas.bytesoluciones.net/downloads/document/xml/'+item.external_id);
+        },
+
+        generarPDF(item){
+            window.open('/generarComprobantePDF/'+item.id_comprobante);
         },
         //--- End ---
 

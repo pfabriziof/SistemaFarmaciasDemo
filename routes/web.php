@@ -37,6 +37,7 @@ Route::post('files/upload-company-file', [FilesUploadingController::class, 'uplo
 Route::get('/generarProveedorCotizacionPDF/{id}', [DocGenerationController::class, 'generarProveedorCotizacionPDF'])->middleware('auth');
 Route::get('/generarOrdenCompraPDF/{id}', [DocGenerationController::class, 'generarOrdenCompraPDF'])->middleware('auth');
 Route::get('/generarCompraPDF/{id}', [DocGenerationController::class, 'generarCompraPDF'])->middleware('auth');
+Route::get('/generarComprobantePDF/{id}', [DocGenerationController::class, 'generarComprobantePDF'])->middleware('auth');
 //--- End ---
 //--- Caja ---
 Route::get('/generarCajaPDF/{id}', [DocGenerationController::class, 'generarCajaPDF'])->middleware('auth');

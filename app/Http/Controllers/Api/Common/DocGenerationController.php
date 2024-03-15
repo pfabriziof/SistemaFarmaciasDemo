@@ -7,6 +7,7 @@ use App\Models\Caja;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
 use App\Models\Comprobante;
+use App\Models\ComprobanteDetalle;
 use App\Models\Egresos;
 use App\Models\MedioPago;
 use App\Models\OrdenCompra;
@@ -186,6 +187,60 @@ class DocGenerationController extends Controller
         $mpdf->WriteHTML($html);
 
         EMailer::send('compra_mail', $request->to_email,
+            [
+                "to_name"        => $request->to_name,
+                "pdf_attachment" => $mpdf->Output('', 'S'),
+            ]
+        );
+
+        return response()->json(['success'=>true, 'message' => 'El email con el archivo adjunto ha sido enviado correctamente',]);
+    }
+    //--- End ---
+
+    //--- Generar PDF Comprobante ---
+    public function vistaComprobante($id){
+        $document = Comprobante::find($id);
+        $document_detail_pr = ComprobanteDetalle::join('productos_servicios', 'comprobante_detalle.id_producto', '=', 'productos_servicios.id_producto')
+        ->where("id_comprobante", $id)
+        ->where("productos_servicios.servicio", 0)->get();
+
+        return view('ventas/comprobante_pdf',compact("document", "document_detail_pr"));
+    }
+    public function generarComprobantePDF($id, Mpdf $mpdf){
+        // $startTime = microtime(true); // Capture start time
+
+        $document = Comprobante::find($id);
+        $document_number = 'N°'.str_pad($document->correlativo, 8, '0', STR_PAD_LEFT);
+
+        $html = $this->vistaComprobante($id)->render();
+        $filename = 'Compra_'.$document_number.'_'.time().'.pdf';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($filename, 'I');
+
+        // $endTime = microtime(true); // Capture end time
+        // $executionTime = $endTime - $startTime;
+        // Log::debug("Compra PDF: Tiempo de ejecución: " . $executionTime . " segs");
+    }
+    public function sendMailComprobante(Request $request){
+        //---Validacion de campos---
+        $messages = [
+            'to_email.required' => 'El campo email destinatario es requerido',
+            'to_email.email'    => 'El formato email destinatario es inválido',
+            
+            'to_name.required'  => 'El campo nombre destinatario es requerido',
+        ];
+        $this->validate($request, [
+            'to_email' => 'required|string|email',
+            'to_name'  => 'required|string',
+        ], $messages);
+        //--- End ---
+
+
+        $html =  $this->vistaComprobante($request->id)->render();
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+
+        EMailer::send('comprobante_mail', $request->to_email,
             [
                 "to_name"        => $request->to_name,
                 "pdf_attachment" => $mpdf->Output('', 'S'),

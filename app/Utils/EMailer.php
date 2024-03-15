@@ -3,8 +3,8 @@
 namespace App\Utils;
 
 use App\Mail\CompraMail;
+use App\Mail\ComprobanteMail;
 use App\Mail\CotizacionMail;
-use App\Mail\InvoiceMail;
 use App\Mail\OrdenCompraMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -24,6 +24,10 @@ class EMailer
 
             case 'orden_compra_mail':
                 return new OrdenCompraMail($data);
+                break;
+            
+            case 'comprobante_mail':
+                return new ComprobanteMail($data);
                 break;
 
             default:

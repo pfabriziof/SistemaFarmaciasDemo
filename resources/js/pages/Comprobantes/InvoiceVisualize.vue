@@ -6,7 +6,7 @@
         <div class="d-flex align-center py-3" v-if="comprobante">
             <div>
                 <h2 style="color: #37474F">
-                    Visualizar {{this.comprobante.tipo_comprobante.tipo_comprobante}} #{{this.comprobante.serie.serie}}-{{this.correlativo}}
+                    {{this.comprobante.tipo_comprobante.tipo_comprobante}} #{{this.comprobante.serie.serie}}-{{this.correlativo}}
                 </h2>
                 <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
             </div>
@@ -17,10 +17,15 @@
                     <v-col cols="12" v-if="comprobante.id_estado_comprobante == 2">
                         <v-alert dense type="warning">El comprobante fue <b>anulado</b> y no puede realizar ninguna acción.</v-alert>
                     </v-col>
-                    <v-col class="text-right" v-if="comprobante.id_estado_comprobante != 2">
-                        <v-btn depressed color="teal" v-if="comprobante.external_id" @click="dialogEmail = true" dark>
+                    <v-col class="text-right">
+                        <v-btn depressed color="teal" @click="dialogEmail = true" dark>
                             <v-icon>mdi-email-send</v-icon>Email
                         </v-btn>
+                        <v-btn depressed color="error" @click="generarPDF">
+                            <v-icon>mdi-file-pdf</v-icon>PDF
+                        </v-btn>
+                    </v-col>
+                    <!-- <v-col class="text-right" v-if="comprobante.id_estado_comprobante != 2">
                         <v-btn depressed color="error" v-if="comprobante.external_id" @click="verPdf">
                             <v-icon>mdi-file-pdf</v-icon>PDF
                         </v-btn>
@@ -30,10 +35,10 @@
                         <v-btn depressed color="success" v-if="comprobante.external_id && comprobante.id_tipo_comprobante === 1" @click="verCdr">
                             <v-icon>mdi-file-document</v-icon>CDR
                         </v-btn>
-                        <!-- <v-btn depressed color="info" v-if="$can('invoice_update', 'all') && comprobante.external_id==null" @click="enviarSunat">
+                        <v-btn depressed color="info" v-if="$can('invoice_update', 'all') && comprobante.external_id==null" @click="enviarSunat">
                             <v-icon>mdi-send-lock</v-icon>SUNAT
-                        </v-btn> -->
-                    </v-col>
+                        </v-btn>
+                    </v-col> -->
                 </v-row>
             </v-card-title>
             <v-row dense class="pa-2">
@@ -371,6 +376,10 @@ export default {
         },
         verCdr(){
             window.open('https://pruebas.bytesoluciones.net/downloads/document/cdr/'+this.comprobante.external_id);
+        },
+
+        generarPDF(){
+            window.open('/generarComprobantePDF/'+this.id_comprobante);
         },
 
         //--- Email Functions ---
