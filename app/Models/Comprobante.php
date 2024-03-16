@@ -41,6 +41,8 @@ class Comprobante extends Model
         'formato_impresion',
         'fecha_anulacion',
         'motivo_anulacion',
+
+        'time_elapsed',
     ];
     public $timestamps = true;
 

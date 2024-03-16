@@ -275,6 +275,8 @@ class ComprobanteController extends Controller
         $comprobante->porcentaje_igv = 18;
         $comprobante->igv            = $sum_gravadas - $op_gravadas;
         $comprobante->total          = $sumaTotal + $total_icbper;
+
+        $comprobante->time_elapsed = $request->time_elapsed;
         $comprobante->save();
         //--- End ---
 

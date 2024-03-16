@@ -38,7 +38,6 @@ class ServicesController extends Controller
 
     //--- Tipo Cambio Functions ---
     public function tiposCambioCombo() {
-        $this->updateTipoCambio();
         return response()->json(TipoCambio::all());
     }
     public function updateTipoCambio(){

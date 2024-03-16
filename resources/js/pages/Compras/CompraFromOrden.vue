@@ -283,6 +283,9 @@ export default {
         comp_total: '0,00',
         //--- End ---
 
+        startTime: null,
+        endTime: null,
+
         requiredRules: [
             v => !!v || 'Campo obligatorio',
         ],
@@ -293,6 +296,8 @@ export default {
         this.getOrdenCompra();
         this.monedasCombo();
         this.mediosPagoCombo();
+
+        this.startTime = new Date();
     },
     methods:{
         getOrdenCompra(){
@@ -323,6 +328,13 @@ export default {
         //--- Funciones Compra ---
         createCompra(){
             this.preloader = true;
+
+            //Se calcula el tiempo de permanencia
+            this.endTime = new Date();
+            let timeDiff = this.endTime - this.startTime;
+            timeDiff /= 1000;
+            
+            this.addForm.time_elapsed = Math.round(timeDiff);
             this.addForm.compra_detalle = this.purchase_detail;
             this.addForm.comp_total = this.comp_total;
             this.addForm.post('/api/compra').then((result)=>{

@@ -205,6 +205,8 @@ class CompraController extends Controller
         $compra->porcentaje_igv = 18;
         $compra->igv            = $sum_gravadas - $op_gravadas;
         $compra->total          = $sumaTotal + $total_icbper;
+        
+        $compra->time_elapsed = $request->time_elapsed;
         $compra->save();
         //--- End ---
 

@@ -475,6 +475,9 @@ export default {
         distritos: [],
         //--- End ---
 
+        startTime: null,
+        endTime: null,
+
         requiredRules: [
             v => !!v || 'Campo obligatorio',
         ],
@@ -498,84 +501,20 @@ export default {
 
         this.addForm.fecha_emision     = this.todaysDate();
         this.addForm.fecha_vencimiento = this.todaysDateDefault();
+
+        this.startTime = new Date();
     },
 
     methods: {
-        //--- Carga de Datos ---
-        tiposCambioCombo(){
-            axios.get('/api/tiposCambioCombo').then(response => {
-                this.tipos_cambio = response.data;
-                this.addForm.id_tipo_cambio = 1;
-            }).catch(e => {
-                console.error(e);
-            });
-        },
-        tiposDocCombo(){
-            axios.get('api/tiposDocCombo').then((response) => {
-                this.combo_TiposDoc = response.data;
-                this.cli_tipos_doc = response.data;
-
-            }).catch(e => {
-                console.error(e);
-            }) 
-        },
-        tiposComprobantesCombo(){
-            axios.get('api/tiposComprobantesCombo').then((response) => {
-                this.tipos_comp = response.data;
-
-            }).catch(e => {
-                console.error(e);
-            }) 
-        },
-        seriesComprobanteCombo(){
-            axios.get('api/seriesComprobanteCombo/'+this.addForm.id_tipo_comprobante).then((response) => {
-                this.series_combo = response.data;
-                this.addForm.id_serie = response.data[0].id_serie;
-
-            }).catch(e => {
-                console.error(e);
-            }) 
-        },
-        mediosPagoCombo(){
-            axios.get('/api/mediosPagoCombo').then((response) => {
-                this.medios_pago = response.data;
-                this.addForm.id_medio_pago = 1;
-
-            }).catch(e => {
-                console.error(e);
-            });
-        },
-        monedasCombo(){
-            axios.get('/api/monedasCombo').then((response) => {
-                this.combo_monedas = response.data;
-                this.addForm.id_moneda = 1;
-
-            }).catch(e => {
-                console.error(e);
-            });
-        },
-        getDirecciones(item){
-            this.cli_direcciones = [];
-            axios.get('/api/getClienteDirecciones/'+item.id_cliente).then((response) => {
-                response.data.direcciones.forEach((val, index)  => {
-                    if(index == 0){
-                        this.addForm.id_direccion = val.id_direccion;
-                    }
-                    this.cli_direcciones.push({
-                        id_direccion: val.id_direccion,
-                        direccion: val.direccion,
-                    })
-                });
-            });
-        },
-        cambioItemText(item){
-            return `${item.tipo_cambio} - ${item.cambio}`
-        },
-        //--- End ---
-
-
         createComprobante(){
             this.preloader = true;
+
+            //Se calcula el tiempo de permanencia
+            this.endTime = new Date();
+            let timeDiff = this.endTime - this.startTime;
+            timeDiff /= 1000;
+            
+            this.addForm.time_elapsed = Math.round(timeDiff);
             this.addForm.inv_detalle = this.invoice_detail;
             this.addForm.inv_total = this.inv_total;
             this.addForm.post('/api/comprobante').then((response)=>{
@@ -597,7 +536,7 @@ export default {
                         this.$router.push('/comprobantes');
                     }
                 }
-            }).finally(() =>{this.preloader = false});
+            }).finally(() => { this.preloader = false });
         },
         
         //--- Eventos ---
@@ -955,6 +894,77 @@ export default {
         // Fin 
         //--- End ---
 
+        //--- Carga de Datos ---
+        tiposCambioCombo(){
+            axios.get('/api/tiposCambioCombo').then(response => {
+                this.tipos_cambio = response.data;
+                this.addForm.id_tipo_cambio = 1;
+            }).catch(e => {
+                console.error(e);
+            });
+        },
+        tiposDocCombo(){
+            axios.get('api/tiposDocCombo').then((response) => {
+                this.combo_TiposDoc = response.data;
+                this.cli_tipos_doc = response.data;
+
+            }).catch(e => {
+                console.error(e);
+            }) 
+        },
+        tiposComprobantesCombo(){
+            axios.get('api/tiposComprobantesCombo').then((response) => {
+                this.tipos_comp = response.data;
+
+            }).catch(e => {
+                console.error(e);
+            }) 
+        },
+        seriesComprobanteCombo(){
+            axios.get('api/seriesComprobanteCombo/'+this.addForm.id_tipo_comprobante).then((response) => {
+                this.series_combo = response.data;
+                this.addForm.id_serie = response.data[0].id_serie;
+
+            }).catch(e => {
+                console.error(e);
+            }) 
+        },
+        mediosPagoCombo(){
+            axios.get('/api/mediosPagoCombo').then((response) => {
+                this.medios_pago = response.data;
+                this.addForm.id_medio_pago = 1;
+
+            }).catch(e => {
+                console.error(e);
+            });
+        },
+        monedasCombo(){
+            axios.get('/api/monedasCombo').then((response) => {
+                this.combo_monedas = response.data;
+                this.addForm.id_moneda = 1;
+
+            }).catch(e => {
+                console.error(e);
+            });
+        },
+        getDirecciones(item){
+            this.cli_direcciones = [];
+            axios.get('/api/getClienteDirecciones/'+item.id_cliente).then((response) => {
+                response.data.direcciones.forEach((val, index)  => {
+                    if(index == 0){
+                        this.addForm.id_direccion = val.id_direccion;
+                    }
+                    this.cli_direcciones.push({
+                        id_direccion: val.id_direccion,
+                        direccion: val.direccion,
+                    })
+                });
+            });
+        },
+        cambioItemText(item){
+            return `${item.tipo_cambio} - ${item.cambio}`
+        },
+        //--- End ---
         
         //--- Date Formatting ---
         todaysDate(){

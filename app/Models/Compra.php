@@ -44,6 +44,8 @@ class Compra extends Model
 
         'id_estado',
         'fecha_anulacion',
+
+        'time_elapsed',
     ];
     public $timestamps = true;
 
