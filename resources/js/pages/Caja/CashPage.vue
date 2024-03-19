@@ -277,7 +277,6 @@ export default {
         }),
         //--- End ---
         
-        datos:{},
         montosDia: [],
         montoFinal: 0,
 
@@ -327,7 +326,7 @@ export default {
         //--- Caja Abierta pendiente de Cierre ---
         consultarCaja(){
             this.preloader = true;
-            axios.get('/api/cajaAbierta').then(response => {
+            axios.get('/api/getCajaAbierta').then(response => {
                 if(response.data != ''){
                     this.opened_cash=response.data;
                 }
@@ -343,22 +342,24 @@ export default {
                 });
             }).finally(() => (this.preloader = false));
         },
-        cerrarCaja (item) {
+        cerrarCaja(item) {
             this.editedIndex = this.data.data.indexOf(item)
             this.formAbrirCaja = Object.assign({}, item)
             this.dialogCerrarCaja = true
         },
-        cerrarCajaConfirm () {
+        cerrarCajaConfirm() {
+            this.preloader = true;
             this.loadingTable = true;
-            this.datos.caja = this.opened_cash;
-            this.datos.caja_detalle = this.montosDia;
-            axios.put('/api/caja/'+this.opened_cash.id_caja, this.datos).then(response => {
+            this.dialogCerrarCaja = false
+
+            axios.get('/api/cerrarCaja').then(response => {
                 Toast.fire({
                     icon: 'success',
                     title: response.data.message,
                 });
-                this.$router.go();
-            }).finally(() => (this.loadingTable = false, this.dialogCerrarCaja = false));
+                // this.$router.go();
+                
+            }).finally(() => (this.loadingTable = false, this.preloader = false));
         },
         //--- End ---
 

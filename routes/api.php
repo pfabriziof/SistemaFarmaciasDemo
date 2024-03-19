@@ -88,9 +88,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('seriesComprobanteCombo/{id}', [ServicesController::class, 'seriesComprobanteCombo']);
 
     //Caja
-    Route::get('cajaAbierta', [CajaController::class, 'cajaAbierta']);
-    Route::get('getDetalleCaja/{id}', [CajaController::class, 'getDetalleCaja']);
+    Route::get('getCajaAbierta', [CajaController::class, 'getCajaAbierta']);
     Route::get('getMontosDelDia', [CajaController::class, 'getMontosDelDia']);
+    Route::get('cerrarCaja', [CajaController::class, 'cerrarCaja']);
 
     //Compras
     Route::post('sendMailCompra', [DocGenerationController::class, 'sendMailCompra']);

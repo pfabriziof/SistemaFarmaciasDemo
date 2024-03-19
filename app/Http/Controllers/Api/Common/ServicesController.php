@@ -36,34 +36,9 @@ class ServicesController extends Controller
         return response()->json(TipoComprobante::all());
     }
 
-    //--- Tipo Cambio Functions ---
     public function tiposCambioCombo() {
         return response()->json(TipoCambio::all());
     }
-    public function updateTipoCambio(){
-        $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://www.sunat.gob.pe/a/txt/tipoCambio.txt',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 15,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-            ));
-
-            $response = curl_exec($curl);
-            $response = explode('|', $response);
-            // dd($response [2]);
-
-            $cambio_usd = TipoCambio::find(1);
-            $cambio_usd->cambio = (float) $response[2];
-            $cambio_usd->save();
-
-        curl_close($curl);
-    }
-    //--- End ---
 
     public function mediosPagoCombo() {
         return response()->json(MedioPago::all());

@@ -210,7 +210,7 @@ export default {
         //--- Caja Abierta pendiente de Cierre ---
         consultarCaja(){
             this.preloader = true;
-            axios.get('/api/cajaAbierta').then(response => {
+            axios.get('/api/getCajaAbierta').then(response => {
                 if(response.data != ''){
                     this.opened_caja = response.data;
                 }

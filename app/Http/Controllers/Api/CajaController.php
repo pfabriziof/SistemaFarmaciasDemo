@@ -53,28 +53,7 @@ class CajaController extends Controller
 
     public function update(Request $request, $id)
     {
-        //Cerrar Caja
-        $caja= Caja::findOrFail($id);
-        $caja_detalle = $request->caja_detalle;
-
-        $monto_cierre = (float) $caja->monto_apertura;
-        foreach ($caja_detalle as $value) {
-            CajaDetalle::create([
-                'id_caja'  => $id,
-                'id_medio_pago' => $value["id_medio_pago"],
-                'monto' =>$value["monto"]
-            ]);
-
-            $monto_cierre += (float) $value["monto"];
-        }
-
-        $upd_data = array(
-            'fecha_cierre'  =>  date('Y-m-d H:i:s'),
-            'monto_cierre'  => $monto_cierre,
-        );
-        $caja->update($upd_data);
-
-        return response()->json(['success'=>true, 'message' => 'Caja cerrada correctamente!',]);
+        //
     }
 
     public function destroy($id)
@@ -82,12 +61,7 @@ class CajaController extends Controller
         //
     }
 
-    public function getDetalleCaja($id){
-        $detail = CajaDetalle::where('id_caja', $id)->get();
-        return $detail;
-    }
-
-    public function cajaAbierta(){
+    public function getCajaAbierta(){
         $authUser = auth('api')->user();
 
         $data = Caja::where([
@@ -101,9 +75,10 @@ class CajaController extends Controller
     public function getMontosDelDia(){
         $authUser = auth('api')->user();
         $mediosPago = MedioPago::all();
-        $cajaAbierta = $this->cajaAbierta();
+
+        $cajaAbierta = $this->getCajaAbierta();
         if(!isset($cajaAbierta)) return array();
-        
+
         $montosDelDia = array();
         foreach ($mediosPago as $medioPago) {
             $comprobantesCaja = DB::table('comprobantes')
@@ -118,9 +93,33 @@ class CajaController extends Controller
             else{
                 $medioPago->monto = $comprobantesCaja->total;
             }
-            array_push($montosDelDia, $medioPago);  
+            array_push($montosDelDia, $medioPago);
         }
-        
+
         return $montosDelDia;
+    }
+
+    public function cerrarCaja(){
+        $caja= $this->getCajaAbierta();
+        $caja_detalle = $this->getMontosDelDia();
+
+        $monto_cierre = (float) $caja->monto_apertura;
+        foreach ($caja_detalle as $row) {
+            CajaDetalle::create([
+                'id_caja'  => $caja->id_caja,
+                'id_medio_pago' => $row["id_medio_pago"],
+                'monto' =>$row["monto"]
+            ]);
+
+            $monto_cierre += (float) $row["monto"];
+        }
+
+        $upd_data = array(
+            'fecha_cierre'  =>  date('Y-m-d H:i:s'),
+            'monto_cierre'  => $monto_cierre,
+        );
+        $caja->update($upd_data);
+
+        return response()->json(['success'=>true, 'message' => 'Caja cerrada correctamente!',]);
     }
 }
