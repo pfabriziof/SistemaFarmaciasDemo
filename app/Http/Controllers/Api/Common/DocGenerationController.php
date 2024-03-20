@@ -254,36 +254,38 @@ class DocGenerationController extends Controller
 
     //--- Generar PDF Caja ---
     public function vistaCaja($id){
+        $authUser = auth()->user();
+
         $document = Caja::find($id);
+        $sucursal = Sucursal::find($authUser->id_sucursal);
 
         //--- Pagos Efectivo / Tarjeta / Deposito ---
-        $authUser = auth()->user();
-        $sucursal = Sucursal::find($authUser->id_sucursal);
         $medios_pago = MedioPago::all();
 
         $document_detail = array();
-        foreach ($medios_pago as $val) {
+        foreach ($medios_pago as $medio) {
             $data_monto = DB::table('comprobantes')
-                                ->where([
-                                    ['created_at', '>=', $document->fecha_apertura],
-                                    ["id_sucursal", $authUser->id_sucursal],
-                                    ['id_estado_comprobante', 1]
-                                ]);
+                ->where([
+                    ["created_at", '>=', $document->fecha_apertura],
+                    ["id_medio_pago",$medio->id_medio_pago],
+                    ["id_sucursal", $authUser->id_sucursal]
+                    // ['id_estado_comprobante', 1]
+                ]);
             if(isset($document->fecha_cierre)){
                 $data_monto = $data_monto->where('created_at', '<=', $document->fecha_cierre);
             }
+
             $data_monto = $data_monto
-                ->where("id_medio_pago",$val->id_medio_pago)
-                ->where("id_sucursal",$sucursal->id_sucursal)
                 ->select(DB::raw('SUM(total) as total'))
                 ->first();
-            if($data_monto->total==null){
-                $val->monto = "0.00";
+
+            if(!isset($data_monto->total)){
+                $medio->monto = 0;
             }
             else{
-                $val->monto = $data_monto->total;
+                $medio->monto = $data_monto->total;
             }
-            array_push($document_detail, $val);  
+            array_push($document_detail, $medio);  
         }
         //--- End ---
         
@@ -291,8 +293,8 @@ class DocGenerationController extends Controller
         //SELECT * FROM comprobantes WHERE created_at >= '2021-03-17 09:49:59' AND created_at <= '2021-03-18 11:21:14'
         $document_sales = Comprobante::where([
             ['created_at', '>=', $document->fecha_apertura],
-            ["id_sucursal", $authUser->id_sucursal],
-            ['id_estado_comprobante', 1]
+            ["id_sucursal", $authUser->id_sucursal]
+            // ['id_estado_comprobante', 1]
         ]);
         if(isset($document->fecha_cierre)){
             $document_sales = $document_sales->where('created_at', '<=', $document->fecha_cierre);
@@ -325,7 +327,7 @@ class DocGenerationController extends Controller
             $sum_egresos = $sum_egresos->where('fecha_egreso', '<=', $document->fecha_cierre);
         }
 
-        $sum_egresos = $sum_egresos->where("id_sucursal",$sucursal->id_sucursal)->sum('monto');
+        $sum_egresos = $sum_egresos->where("id_sucursal",$authUser->id_sucursal)->sum('monto');
         $sum_purchases += $sum_egresos;
         //--- End ---
 

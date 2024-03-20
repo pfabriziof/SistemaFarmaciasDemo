@@ -1,7 +1,7 @@
 @php
     $empresa = $sucursal->empresa;
     $fecha_reporte = date("d-m-Y");
-    $estado_caja = $document->fecha_cierre == null ? 'Abierta' : 'Cerrada';
+    $estado_caja = isset($document->fecha_cierre) ? 'Cerrada' : 'Abierta';
     $vendedor = $document->usuario;
 @endphp
 <html>

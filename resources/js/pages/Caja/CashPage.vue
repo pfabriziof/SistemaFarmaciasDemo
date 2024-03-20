@@ -345,7 +345,7 @@ export default {
         cerrarCaja(item) {
             this.editedIndex = this.data.data.indexOf(item)
             this.formAbrirCaja = Object.assign({}, item)
-            this.dialogCerrarCaja = true
+            this.dialogCerrarCaja = true;
         },
         cerrarCajaConfirm() {
             this.preloader = true;
@@ -357,7 +357,7 @@ export default {
                     icon: 'success',
                     title: response.data.message,
                 });
-                // this.$router.go();
+                this.$router.go();
                 
             }).finally(() => (this.loadingTable = false, this.preloader = false));
         },

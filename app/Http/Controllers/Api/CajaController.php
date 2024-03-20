@@ -73,7 +73,6 @@ class CajaController extends Controller
         return $data;
     }
     public function getMontosDelDia(){
-        $authUser = auth('api')->user();
         $mediosPago = MedioPago::all();
 
         $cajaAbierta = $this->getCajaAbierta();
@@ -82,16 +81,19 @@ class CajaController extends Controller
         $montosDelDia = array();
         foreach ($mediosPago as $medioPago) {
             $comprobantesCaja = DB::table('comprobantes')
-            ->where('created_at', '>=', $cajaAbierta->fecha_apertura)
-            ->where("id_medio_pago",$medioPago->id_medio_pago)
-            ->where("id_sucursal",$authUser->id_sucursal)
+            ->where([
+                ["created_at", '>=', $cajaAbierta->fecha_apertura],
+                ["id_medio_pago",$medioPago->id_medio_pago],
+                ["id_sucursal",$cajaAbierta->id_sucursal],
+            ])
             ->select(DB::raw('SUM(total) as total'))
             ->first();
-            if($comprobantesCaja->total==null){
-                $medioPago->monto = "0.00";
+
+            if(!isset($comprobantesCaja->total)){
+                $medioPago->monto = 0;
             }
             else{
-                $medioPago->monto = $comprobantesCaja->total;
+                $medioPago->monto = (float) $comprobantesCaja->total;
             }
             array_push($montosDelDia, $medioPago);
         }

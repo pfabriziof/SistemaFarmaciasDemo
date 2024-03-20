@@ -43,14 +43,16 @@ class CerrarCaja extends Command
             $montos_dia = array();
             foreach ($medios_pago as $medio_pago){
                 $ventas_caja = DB::table('comprobantes')
-                    ->where('created_at', '>=', $caja->fecha_apertura)
-                    ->where("id_medio_pago",$medio_pago->id_medio_pago)
-                    ->where("id_sucursal",$caja->id_sucursal)
+                    ->where([
+                        ["created_at", '>=', $caja->fecha_apertura],
+                        ["id_medio_pago",$medio_pago->id_medio_pago],
+                        ["id_sucursal",$caja->id_sucursal],
+                    ])
                     ->select(DB::raw('SUM(total) as total'))
                     ->first();
 
                 if(!isset($ventas_caja->total)){
-                    $medio_pago->monto = 0.00;
+                    $medio_pago->monto = 0;
                 }else{
                     $medio_pago->monto = (float) $ventas_caja->total;
                 }
