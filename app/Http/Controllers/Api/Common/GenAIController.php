@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use OpenAI\Laravel\Facades\OpenAI;
 
-class ChatGptController extends Controller
+class GenAIController extends Controller
 {
     public function SendQuery(Request $request){
         try{
             $inputText = $request["text"];
             $table = CompressedTable::where('table_name', $request["dbTable"])->first();
 
-            // 1. Primer llamado a modelo GPT, se construye la consulta SQL en base a la
+            // 1. Primer llamado a LLM, se construye la consulta SQL en base a la
             // tabla seleccionada y pregunta del usuario.
             $sqlQueryPrompt = "
                 Dada la tabla: {$table->query}
@@ -30,7 +30,7 @@ class ChatGptController extends Controller
             ]);
             $sqlQuery = $sqlQuery['choices'][0]['text'];
             $sqlQuery = trim(preg_replace('/\s\s+/', ' ', $sqlQuery));
-
+            
             // 2. Se detectan comandos con riesgo de SQL Injection
             $forbidden_commands = ["INSERT", "UPDATE", "DELETE", "DROP"];
             foreach ($forbidden_commands as $command){
@@ -43,7 +43,7 @@ class ChatGptController extends Controller
             $queryResult = DB::select(DB::raw("$sqlQuery"));
             $queryResult = json_encode($queryResult);
             // dd($queryResult);
-            // 4. Segundo llamado a modelo GPT, expresa la respuesta de la base de datos en
+            // 4. Segundo llamado a LLM, expresa la respuesta de la base de datos en
             // lenguaje natural.
             $naturalLangPrompt = "
                 Dada una consulta del usuario: {$inputText}\n

@@ -7,7 +7,7 @@ export default {
     routes: [
         { path: '/', name:'inicio', component: require('../pages/Inicio.vue').default },
         { path: '/dashboard', name:'dashboard', component: require('../pages/Inicio.vue').default },
-        { path: '/chat-gpt', name:'chat-gpt', component: require('../pages/ChatGpt/ChatGPTPage.vue').default },
+        { path: '/chatbot-genai', name:'chatbot-genai', component: require('../pages/ChatbotGenAI/ChatbotGenAIPage.vue').default },
 
         //--- REPORTES ---
         { path: '/reporte_compras', component: require('../pages/Reportes/ReporteCompras.vue').default },

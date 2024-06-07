@@ -16,12 +16,12 @@
                         <v-list-item-title>Dashboard</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item v-if="$can('chat_gpt', 'all')" link :to="'/chat-gpt'">
+                <v-list-item v-if="$can('chatbot_genai', 'all')" link :to="'/chatbot-genai'">
                     <v-list-item-icon>
                         <v-icon>mdi-robot-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>Chat GPT</v-list-item-title>
+                        <v-list-item-title>Chatbot Gen AI</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 

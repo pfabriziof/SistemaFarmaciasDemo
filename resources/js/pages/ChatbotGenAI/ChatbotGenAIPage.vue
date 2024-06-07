@@ -4,7 +4,7 @@
             <div class="triple-spinner"></div>
         </div>
         <div class="d-flex align-center py-3">
-            <h2 style="color: #37474F">Chat GPT</h2>
+            <h2 style="color: #37474F">Chatbot Gen AI</h2>
         </div>
         <v-card class="mb-4" light style="padding: 15px">
             <v-row dense class="pa-2 align-center">

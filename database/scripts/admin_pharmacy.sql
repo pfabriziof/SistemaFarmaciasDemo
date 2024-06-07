@@ -1339,7 +1339,7 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `title`, `status`, `activ
 (111, 'menu_ventas', 'web', 'Menu ventas', 1, 1, '2023-12-16 17:31:40', '2023-12-16 17:31:40'),
 (112, 'menu_invreport', 'web', 'Menu reporte comprobantes', 1, 1, '2023-12-16 17:31:41', '2023-12-16 17:31:41'),
 (113, 'menu_digemid', 'web', 'Menu digemid', 1, 1, '2023-12-16 17:31:42', '2023-12-16 17:31:42'),
-(114, 'chat_gpt', 'web', 'Chat GPT', 1, 1, '2023-12-16 17:31:42', '2023-12-16 17:31:42'),
+(114, 'chatbot_genai', 'web', 'Chatbot Gen AI', 1, 1, '2023-12-16 17:31:42', '2023-12-16 17:31:42'),
 (115, 'clients_create', 'web', 'Crear clientes', 1, 1, '2024-01-17 02:43:50', '2024-01-17 02:43:50'),
 (116, 'clients_index', 'web', 'Leer clientes', 1, 1, '2024-01-17 02:43:50', '2024-01-17 02:43:50'),
 (117, 'clients_update', 'web', 'Actualizar clientes', 1, 1, '2024-01-17 02:43:50', '2024-01-17 02:43:50'),

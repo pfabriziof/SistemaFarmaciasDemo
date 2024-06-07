@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Common\ServicesController;
-use App\Http\Controllers\Api\Common\ChatGptController;
+use App\Http\Controllers\Api\Common\GenAIController;
 use App\Http\Controllers\Api\Common\DocGenerationController;
 use App\Http\Controllers\Api\Common\UbigeoController;
 use App\Http\Controllers\Auth\LoginController;
@@ -154,9 +154,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('buscarLotes/{id}', [ServicesController::class, 'buscarLotes']);
     //--- End ---
 
-    //--- Chat GPT ---
-    Route::post('chatgpt/SendQuery', [ChatGptController::class, 'SendQuery']);
-    Route::get('compressedTablesCombo', [ChatGptController::class, 'compressedTablesCombo']);
+    //--- Chat Gen AI ---
+    Route::post('genAI/SendQuery', [GenAIController::class, 'SendQuery']);
+    Route::get('compressedTablesCombo',[GenAIController::class, 'compressedTablesCombo']);
     //--- End ---
 
 

@@ -563,8 +563,8 @@ class RolesPermissionsSeeder extends Seeder
 
 
         Permission::create([
-            'name' => 'chat_gpt',
-            'title' => 'Chat GPT'
+            'name' => 'chatbot_genai',
+            'title' => 'Chatbot Gen AI'
         ])->syncRoles([$role_superadmin, $role_admin]);
         //--- End ---
     }

@@ -40,7 +40,7 @@ export default {
         this.messages.push({
             isMine: false,
             text: "Hola "+this.username+", elige un tópico en el selector de arriba y hazme una pregunta sobre él.",
-            author: "ChatGPT"
+            author: "GenAI"
         });
     },
     methods: {
@@ -54,21 +54,21 @@ export default {
             });
             this.ScrollToLastMessage();
 
-            this.SendQueryToChatGPT(text);
+            this.SendQueryToLLM(text);
         },
-        SendQueryToChatGPT(text){
+        SendQueryToLLM(text){
             this.$parent.$parent.chatForm.text = text;
             this.$parent.$parent.preloader = true;
-            axios.post('/api/chatgpt/SendQuery', this.$parent.$parent.chatForm).then((response)=>{
+            axios.post('/api/genAI/SendQuery', this.$parent.$parent.chatForm).then((response)=>{
                 this.messages.push({
                     isMine: false,
                     text: response.data.message,
-                    author: "ChatGPT"
+                    author: "GenAI"
                 });
                 this.messages.push({
                     isMine: false,
                     text: this.text_help[Math.floor(Math.random()* this.text_help.length)],
-                    author: "ChatGPT"
+                    author: "GenAI"
                 });
                 this.ScrollToLastMessage();
 
@@ -77,12 +77,12 @@ export default {
                 this.messages.push({
                     isMine: false,
                     text: e.response.data.message,
-                    author: "ChatGPT"
+                    author: "GenAI"
                 });
                 this.messages.push({
                     isMine: false,
                     text: this.text_help[Math.floor(Math.random()* this.text_help.length)],
-                    author: "ChatGPT"
+                    author: "GenAI"
                 });
                 this.ScrollToLastMessage();
                 
