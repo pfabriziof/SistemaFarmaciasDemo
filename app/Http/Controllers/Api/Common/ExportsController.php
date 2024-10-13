@@ -19,7 +19,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportsController extends Controller
 {
-    public function exportarKardexValorizado($params, Xlsx $writer){
+    public function exportarKardexValorizado($params, Xlsx $writer)
+    {
         // $startTime = microtime(true); // Capture start time
 
         $authUser = auth()->user();
@@ -52,15 +53,15 @@ class ExportsController extends Controller
                 TRUNCATE(SUM(comprobante_detalle.precio_total) - (SUM(comprobante_detalle.cantidad) * precio_compra), 2) as unidad_valorizada
             '));
 
-        if(isset($searchTerm)){
-            $datos = $datos->where('productos_servicios.nombreProducto','like', "%{$searchTerm}%");
+        if (isset($searchTerm)) {
+            $datos = $datos->where('productos_servicios.nombreProducto', 'like', "%{$searchTerm}%");
         }
         $period_string = '';
-        if(isset($fechaInicio)){
-            if(isset($fechaFin)){
-                $period_string = date("Y/m", strtotime($fechaInicio)).' - '.date("Y/m", strtotime($fechaFin));
+        if (isset($fechaInicio)) {
+            if (isset($fechaFin)) {
+                $period_string = date("Y/m", strtotime($fechaInicio)) . ' - ' . date("Y/m", strtotime($fechaFin));
                 $datos = $datos->whereBetween('comprobantes.fecha_emision', [$fechaInicio, $fechaFin]);
-            }else{
+            } else {
                 $period_string = date("Y/m", strtotime($fechaInicio));
                 $datos = $datos->where('comprobantes.fecha_emision', '>=', $fechaInicio);
             }
@@ -94,11 +95,11 @@ class ExportsController extends Controller
         $sheet->mergeCells('A1:AD1');
         $sheet->mergeCells('A2:AD2');
         $sheet->mergeCells('A3:AD3');
-        
+
         $sheet->getStyle('A1:F1')->getAlignment()->setHorizontal('left');
         $sheet->getStyle('A2:F2')->getAlignment()->setHorizontal('left');
         $sheet->setCellValue('A1', $authUser->sucursal->empresa->nombre);
-        $sheet->setCellValue('A3', 'REPORTE KÁRDEX VALORIZADO DEL PERIODO '.$period_string);
+        $sheet->setCellValue('A3', 'REPORTE KÁRDEX VALORIZADO DEL PERIODO ' . $period_string);
         //--- End ---
 
         //--- Cabecera Tabla ---
@@ -115,24 +116,24 @@ class ExportsController extends Controller
 
         //--- Contenido de la Tabla ---
         $sprst_row = 5;
-        foreach($datos as $key=>$dt){
-            $sheet->setCellValue('A'.$sprst_row, $dt->nombreProducto);
-            $sheet->setCellValue('B'.$sprst_row, $dt->categoria);
-            $sheet->setCellValue('C'.$sprst_row, $dt->marca);
-            $sheet->setCellValue('D'.$sprst_row, $dt->unidad_medida);
-            $sheet->setCellValue('E'.$sprst_row, $dt->und_vendido);
-            $sheet->setCellValue('F'.$sprst_row, $dt->costo_unitario);
-            $sheet->setCellValue('G'.$sprst_row, $dt->valor_ventas);
-            $sheet->setCellValue('H'.$sprst_row, $dt->costo_producto);
-            $sheet->setCellValue('I'.$sprst_row, $dt->unidad_valorizada);
-            $sprst_row+=1;
+        foreach ($datos as $key => $dt) {
+            $sheet->setCellValue('A' . $sprst_row, $dt->nombreProducto);
+            $sheet->setCellValue('B' . $sprst_row, $dt->categoria);
+            $sheet->setCellValue('C' . $sprst_row, $dt->marca);
+            $sheet->setCellValue('D' . $sprst_row, $dt->unidad_medida);
+            $sheet->setCellValue('E' . $sprst_row, $dt->und_vendido);
+            $sheet->setCellValue('F' . $sprst_row, $dt->costo_unitario);
+            $sheet->setCellValue('G' . $sprst_row, $dt->valor_ventas);
+            $sheet->setCellValue('H' . $sprst_row, $dt->costo_producto);
+            $sheet->setCellValue('I' . $sprst_row, $dt->unidad_valorizada);
+            $sprst_row += 1;
         }
         //--- End ---
-        
+
         $writer->setSpreadsheet($spreadsheet);
-        $file_name = "Reporte_Kardex_Valorizado_".time().".xlsx";
+        $file_name = "Reporte_Kardex_Valorizado_" . time() . ".xlsx";
         header('Content-type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename="'.$file_name.'"');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
         $writer->save('php://output');
         //--- END --- 
 
@@ -140,8 +141,9 @@ class ExportsController extends Controller
         // $executionTime = $endTime - $startTime;
         // Log::debug("Kardex Xlsx: Tiempo de ejecución: " . $executionTime . " segs");
     }
-    
-    public function exportarReporteAlmacen($params, Xlsx $writer){
+
+    public function exportarReporteAlmacen($params, Xlsx $writer)
+    {
         // $startTime = microtime(true); // Capture start time
 
         $authUser = auth()->user();
@@ -155,17 +157,17 @@ class ExportsController extends Controller
             ['id_sucursal', $authUser->id_sucursal],
         ]);
 
-        if(isset($searchTerm)){
+        if (isset($searchTerm)) {
             $datos = $datos->where(function ($query) use ($searchTerm) {
                 $query->where('nombreProducto', 'like', "%{$searchTerm}%");
             });
         }
         $period_string = '';
-        if(isset($fechaInicio)){
-            if(isset($fechaFin)){
-                $period_string = date("Y/m", strtotime($fechaInicio)).' - '.date("Y/m", strtotime($fechaFin));
+        if (isset($fechaInicio)) {
+            if (isset($fechaFin)) {
+                $period_string = date("Y/m", strtotime($fechaInicio)) . ' - ' . date("Y/m", strtotime($fechaFin));
                 $datos = $datos->whereBetween('fecha_movimiento', [$fechaInicio, $fechaFin]);
-            }else{
+            } else {
                 $period_string = date("Y/m", strtotime($fechaInicio));
                 $datos = $datos->where('fecha_movimiento', '>=', $fechaInicio);
             }
@@ -176,7 +178,7 @@ class ExportsController extends Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle("Hoja1");
-        
+
         $sheet->getColumnDimension('A')->setWidth(20);
         $sheet->getColumnDimension('B')->setWidth(50);
         $sheet->getColumnDimension('C')->setWidth(20);
@@ -186,13 +188,13 @@ class ExportsController extends Controller
 
         $sheet->getStyle('F')->getAlignment()->setHorizontal('center');
 
-        
+
         //--- Cabecera Doc. ---
         $sheet->mergeCells('A1:F1');
         $sheet->mergeCells('A2:F2');
-        
+
         $sheet->getStyle('A1:F1')->getAlignment()->setHorizontal('left');
-        $sheet->setCellValue('A1', 'REPORTE MOVIMIENTOS DE ALMACEN DEL PERIODO'.$period_string);
+        $sheet->setCellValue('A1', 'REPORTE MOVIMIENTOS DE ALMACEN DEL PERIODO' . $period_string);
         //--- End ---
 
         //--- Cabecera Tabla ---
@@ -206,22 +208,22 @@ class ExportsController extends Controller
 
         //--- Contenido de la Tabla ---
         $sprst_row = 4;
-        foreach($datos as $key=>$dt){
-            $sheet->setCellValue('A'.$sprst_row, $dt->tipo_movimiento->tipo_movimiento);
-            $sheet->setCellValue('B'.$sprst_row, $dt->NombreProducto);
-            $sheet->setCellValue('C'.$sprst_row, $dt->producto->laboratorio->nombre);
-            $sheet->setCellValue('D'.$sprst_row, $dt->fecha_movimiento);
-            $sheet->setCellValue('E'.$sprst_row, $dt->cantidad);
-            $sheet->setCellValue('F'.$sprst_row, $dt->und_simbolo);
+        foreach ($datos as $key => $dt) {
+            $sheet->setCellValue('A' . $sprst_row, $dt->tipo_movimiento->tipo_movimiento);
+            $sheet->setCellValue('B' . $sprst_row, $dt->NombreProducto);
+            $sheet->setCellValue('C' . $sprst_row, $dt->producto->laboratorio->nombre);
+            $sheet->setCellValue('D' . $sprst_row, $dt->fecha_movimiento);
+            $sheet->setCellValue('E' . $sprst_row, $dt->cantidad);
+            $sheet->setCellValue('F' . $sprst_row, $dt->und_simbolo);
 
-            $sprst_row+=1;
+            $sprst_row += 1;
         }
         //--- End ---
 
         $writer->setSpreadsheet($spreadsheet);
-        $file_name = "Reporte_Movimientos_Almacen".time().".xlsx";
+        $file_name = "Reporte_Movimientos_Almacen" . time() . ".xlsx";
         header('Content-type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename="'.$file_name.'"');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
         $writer->save('php://output');
         //--- END ---
 
@@ -230,10 +232,11 @@ class ExportsController extends Controller
         // Log::debug("Reporte Almacen Xlsx: Tiempo de ejecución: " . $executionTime . " segs");
     }
 
-    public function exportarReporteCompraFormat($params, Xlsx $writer){
+    public function exportarReporteCompraFormat($params, Xlsx $writer)
+    {
         $authUser = auth()->user();
         $params = json_decode($params);
-        
+
         $searchTerm = $params->searchTerm;
         $fechaInicio = $params->fechaInicio;
         $fechaFin    = $params->fechaFin;
@@ -243,18 +246,18 @@ class ExportsController extends Controller
             ["id_estado", 1],
         ]);
 
-        if(isset($searchTerm)){
+        if (isset($searchTerm)) {
             $datos = $datos->where(function ($query) use ($searchTerm) {
                 $query->where('nombreProveedor', 'like', "%{$searchTerm}%")
-                      ->orWhere('nroDocProveedor', 'like', "%{$searchTerm}%");
+                    ->orWhere('nroDocProveedor', 'like', "%{$searchTerm}%");
             });
         }
         $period_string = '';
-        if(isset($fechaInicio)){
-            if(isset($fechaFin)){
-                $period_string = date("Y/m", strtotime($fechaInicio)).' - '.date("Y/m", strtotime($fechaFin));
+        if (isset($fechaInicio)) {
+            if (isset($fechaFin)) {
+                $period_string = date("Y/m", strtotime($fechaInicio)) . ' - ' . date("Y/m", strtotime($fechaFin));
                 $datos = $datos->whereBetween('fecha_emision', [$fechaInicio, $fechaFin]);
-            }else{
+            } else {
                 $period_string = date("Y/m", strtotime($fechaInicio));
                 $datos = $datos->where('fecha_emision', '>=', $fechaInicio);
             }
@@ -278,11 +281,11 @@ class ExportsController extends Controller
         $sheet->mergeCells('A1:AD1');
         $sheet->mergeCells('A2:AD2');
         $sheet->mergeCells('A3:AD3');
-        
+
         $sheet->getStyle('A1:F1')->getAlignment()->setHorizontal('left');
         $sheet->getStyle('A2:F2')->getAlignment()->setHorizontal('left');
         $sheet->setCellValue('A1', $authUser->sucursal->empresa->nombre);
-        $sheet->setCellValue('A3', 'FORMATO 14.1 : "REGISTRO DE COMPRAS DEL PERIODO '.$period_string);
+        $sheet->setCellValue('A3', 'FORMATO 14.1 : "REGISTRO DE COMPRAS DEL PERIODO ' . $period_string);
         //--- End ---
 
         //--- Cabecera Tabla ---
@@ -299,27 +302,27 @@ class ExportsController extends Controller
         $sheet->setCellValue('C4', 'FECHA DE EMISION DEL COMPROBANTE DE PAGO O EMISION DEL DOCUMENTO');
         $sheet->setCellValue('D4', 'FECHA VENC.');
         $sheet->setCellValue('E4', 'COMPROBANTE DE PAGO O DOCUMENTO');
-            $sheet->setCellValue('E5', 'TIPO');
-            $sheet->setCellValue('F5', 'SERIE');
-            $sheet->setCellValue('G5', 'AÑO DE EMISION DE DUA');
+        $sheet->setCellValue('E5', 'TIPO');
+        $sheet->setCellValue('F5', 'SERIE');
+        $sheet->setCellValue('G5', 'AÑO DE EMISION DE DUA');
 
         $sheet->setCellValue('H4', 'NRO. DEL COMPROBANTE DE PAGO O DOCUMENTO');
         $sheet->setCellValue('I4', 'INFORMACION DE PROVEEDOR');
-            $sheet->setCellValue('I5', 'TIPO');
-            $sheet->setCellValue('J5', 'NÚMERO');
-            $sheet->setCellValue('K5', 'APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL');
+        $sheet->setCellValue('I5', 'TIPO');
+        $sheet->setCellValue('J5', 'NÚMERO');
+        $sheet->setCellValue('K5', 'APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL');
 
         $sheet->setCellValue('L4', 'ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES GRAVADAS Y/O EXPORTACION');
-            $sheet->setCellValue('L5', 'BASE IMPONIBLE');
-            $sheet->setCellValue('M5', 'IGV');
+        $sheet->setCellValue('L5', 'BASE IMPONIBLE');
+        $sheet->setCellValue('M5', 'IGV');
 
         $sheet->setCellValue('N4', 'ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES GRAVADAS Y/O EXPORTACION Y A OPERACIONES NO GRAVADAS');
-            $sheet->setCellValue('N5', 'BASE IMPONIBLE');
-            $sheet->setCellValue('O5', 'IGV');
+        $sheet->setCellValue('N5', 'BASE IMPONIBLE');
+        $sheet->setCellValue('O5', 'IGV');
 
         $sheet->setCellValue('P4', 'ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES NO GRAVADAS');
-            $sheet->setCellValue('P5', 'BASE IMPONIBLE');
-            $sheet->setCellValue('Q5', 'IGV');
+        $sheet->setCellValue('P5', 'BASE IMPONIBLE');
+        $sheet->setCellValue('Q5', 'IGV');
 
         $sheet->setCellValue('R4', 'VALOR DE LAS ADQUISICIONES NO GRAVADAS');
         $sheet->setCellValue('S4', 'ISC');
@@ -328,70 +331,71 @@ class ExportsController extends Controller
         $sheet->setCellValue('V4', 'IMPORTE TOTAL');
         $sheet->setCellValue('W4', 'MONEDA');
         $sheet->setCellValue('X4', 'CONSTANCIA DE DEPOSITO DE DETRACCION');
-            $sheet->setCellValue('X5', 'NÚMERO');
-            $sheet->setCellValue('Y5', 'FECHA DE EMISIÓN');
+        $sheet->setCellValue('X5', 'NÚMERO');
+        $sheet->setCellValue('Y5', 'FECHA DE EMISIÓN');
 
         $sheet->setCellValue('Z4', 'TIPO DE CAMBIO');
         $sheet->setCellValue('AA4', 'REFERENCIA DEL COMPROBANTE DE PAGO O DOCUMENTO ORIGINAL QUE SE MODIFICA');
-            $sheet->setCellValue('AA5', 'FECHA');
-            $sheet->setCellValue('AB5', 'TIPO');
-            $sheet->setCellValue('AC5', 'SERIE');
-            $sheet->setCellValue('AD5', 'NÚMERO');
+        $sheet->setCellValue('AA5', 'FECHA');
+        $sheet->setCellValue('AB5', 'TIPO');
+        $sheet->setCellValue('AC5', 'SERIE');
+        $sheet->setCellValue('AD5', 'NÚMERO');
         //--- End ---
 
         //--- Contenido de la Tabla ---
         $sprst_row = 6;
-        foreach($datos as $key=>$dt){
-            $sheet->setCellValue('A'.$sprst_row, '05');
-            $sheet->setCellValue('B'.$sprst_row, $dt->correlativo);
-            $sheet->setCellValue('C'.$sprst_row, date("d/m/Y", strtotime($dt->fecha_emision)));
-            $sheet->setCellValue('D'.$sprst_row, date("d/m/Y", strtotime($dt->fecha_vencimiento)));
+        foreach ($datos as $key => $dt) {
+            $sheet->setCellValue('A' . $sprst_row, '05');
+            $sheet->setCellValue('B' . $sprst_row, $dt->correlativo);
+            $sheet->setCellValue('C' . $sprst_row, date("d/m/Y", strtotime($dt->fecha_emision)));
+            $sheet->setCellValue('D' . $sprst_row, date("d/m/Y", strtotime($dt->fecha_vencimiento)));
 
-            $sheet->setCellValue('E'.$sprst_row, $dt->tipo_comprobante->codigo_sunat);
-            $sheet->setCellValue('F'.$sprst_row, $dt->serie_factura);
+            $sheet->setCellValue('E' . $sprst_row, $dt->tipo_comprobante->codigo_sunat);
+            $sheet->setCellValue('F' . $sprst_row, $dt->serie_factura);
             // $sheet->setCellValue('G'.$sprst_row, $dt->); // En Blanco
-            $sheet->setCellValue('H'.$sprst_row, $dt->nro_factura);
+            $sheet->setCellValue('H' . $sprst_row, $dt->nro_factura);
 
-            $sheet->setCellValue('I'.$sprst_row, $dt->proveedor->tipo_doc->codigo_sunat);
-            $sheet->setCellValue('J'.$sprst_row, $dt->nroDocProveedor);
-            $sheet->setCellValue('K'.$sprst_row, $dt->nombreProveedor);
+            $sheet->setCellValue('I' . $sprst_row, $dt->proveedor->tipo_doc->codigo_sunat);
+            $sheet->setCellValue('J' . $sprst_row, $dt->nroDocProveedor);
+            $sheet->setCellValue('K' . $sprst_row, $dt->nombreProveedor);
 
             // $sheet->setCellValue('L'.$sprst_row, $dt->); // En Blanco
             // $sheet->setCellValue('M'.$sprst_row, $dt->); // En Blanco
-            $sheet->setCellValue('N'.$sprst_row, $dt->op_gravadas);
-            $sheet->setCellValue('O'.$sprst_row, $dt->igv);
+            $sheet->setCellValue('N' . $sprst_row, $dt->op_gravadas);
+            $sheet->setCellValue('O' . $sprst_row, $dt->igv);
             // $sheet->setCellValue('P'.$sprst_row, $dt->); // En Blanco
             // $sheet->setCellValue('Q'.$sprst_row, $dt->); // En Blanco
             $adqs_nogravadas = $dt->op_inafectas + $dt->op_exoneradas;
-            $sheet->setCellValue('R'.$sprst_row, $adqs_nogravadas);
-            $sheet->setCellValue('S'.$sprst_row, $dt->icbper);
+            $sheet->setCellValue('R' . $sprst_row, $adqs_nogravadas);
+            $sheet->setCellValue('S' . $sprst_row, $dt->icbper);
 
             // $sheet->setCellValue('T'.$sprst_row, $dt->fecha_emision); // En Blanco
             // $sheet->setCellValue('U'.$sprst_row, $dt->fecha_emision); // En Blanco
-            $sheet->setCellValue('V'.$sprst_row, $dt->total);
-            $sheet->setCellValue('W'.$sprst_row, $dt->moneda->simbolo);
+            $sheet->setCellValue('V' . $sprst_row, $dt->total);
+            $sheet->setCellValue('W' . $sprst_row, $dt->moneda->simbolo);
             // $sheet->setCellValue('X'.$sprst_row, $dt->); // En Blanco
             // $sheet->setCellValue('Y'.$sprst_row, $dt->); // En Blanco
-            $sheet->setCellValue('Z'.$sprst_row, $dt->tipo_cambio->cambio);
-        
+            $sheet->setCellValue('Z' . $sprst_row, $dt->tipo_cambio->cambio);
+
             // $sheet->setCellValue('AA'.$sprst_row, $dt->); // En Blanco
             // $sheet->setCellValue('AB'.$sprst_row, $dt->); // En Blanco
             // $sheet->setCellValue('AC'.$sprst_row, $dt->); // En Blanco
             // $sheet->setCellValue('AD'.$sprst_row, $dt->); // En Blanco
 
-            $sprst_row+=1;
+            $sprst_row += 1;
         }
         //--- End ---  
 
         $writer->setSpreadsheet($spreadsheet);
-        $file_name = "Reporte_Formato_Compras_141_".time().".xlsx";
+        $file_name = "Reporte_Formato_Compras_141_" . time() . ".xlsx";
         header('Content-type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename="'.$file_name.'"');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
         $writer->save('php://output');
         //--- END ---
     }
 
-    public function exportarReporteComprobanteGeneral($params, Xlsx $writer){
+    public function exportarReporteComprobanteGeneral($params, Xlsx $writer)
+    {
         // $startTime = microtime(true); // Capture start time
 
         $authUser = auth()->user();
@@ -407,36 +411,36 @@ class ExportsController extends Controller
             ["id_sucursal", $authUser->id_sucursal],
         ]);
 
-        if(isset($searchTerm)){
+        if (isset($searchTerm)) {
             $datos = $datos->where(function ($query) use ($searchTerm) {
                 $query->where('nombreCliente', 'like', "%{$searchTerm}%")
-                      ->orWhere('nroDocCliente', 'like', "%{$searchTerm}%");
+                    ->orWhere('nroDocCliente', 'like', "%{$searchTerm}%");
             });
         }
         $period_string = '';
-        if(isset($fechaInicio)){
-            if(isset($fechaFin)){
-                $period_string = date("Y/m", strtotime($fechaInicio)).' - '.date("Y/m", strtotime($fechaFin));
+        if (isset($fechaInicio)) {
+            if (isset($fechaFin)) {
+                $period_string = date("Y/m", strtotime($fechaInicio)) . ' - ' . date("Y/m", strtotime($fechaFin));
                 $datos = $datos->whereBetween('fecha_emision', [$fechaInicio, $fechaFin]);
-            }else{
+            } else {
                 $period_string = date("Y/m", strtotime($fechaInicio));
                 $datos = $datos->where('fecha_emision', '>=', $fechaInicio);
             }
         }
-        if(isset($tipo_doc)){
+        
+        if ($tipo_doc!="") {
             $datos = $datos->where('id_tipo_comprobante', $tipo_doc);
         }
-        if(isset($id_estado)){
+        if ($id_estado!="") {
             $datos = $datos->where('id_estado_comprobante', $id_estado);
         }
         $datos = $datos->get();
-
 
         //--- CREACION DE HOJA EXCEL ---
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle("Hoja1");
-        
+
         $sheet->getColumnDimension('A')->setWidth(15);
         $sheet->getColumnDimension('B')->setWidth(15);
         $sheet->getColumnDimension('C')->setWidth(15);
@@ -445,7 +449,7 @@ class ExportsController extends Controller
         $sheet->getColumnDimension('F')->setWidth(10);
         $sheet->getColumnDimension('G')->setWidth(10);
         $sheet->getColumnDimension('H')->setWidth(10);
-        
+
         $sheet->getStyle('F')->getNumberFormat()->setFormatCode('0.00');
         $sheet->getStyle('G')->getNumberFormat()->setFormatCode('0.00');
         $sheet->getStyle('H')->getNumberFormat()->setFormatCode('0.00');
@@ -455,12 +459,12 @@ class ExportsController extends Controller
         $sheet->mergeCells('A1:I1');
         $sheet->mergeCells('A2:I2');
         $sheet->mergeCells('A3:I3');
-        
+
         $sheet->getStyle('A1:I1')->getAlignment()->setHorizontal('left');
         $sheet->getStyle('A2:I2')->getAlignment()->setHorizontal('left');
         $sheet->getStyle('A3:I3')->getAlignment()->setHorizontal('left');
         $sheet->setCellValue('A1', $authUser->sucursal->empresa->nombre);
-        $sheet->setCellValue('A3', 'REPORTE GENERAL DE COMPROBANTES DEL PERIODO '.$period_string);
+        $sheet->setCellValue('A3', 'REPORTE GENERAL DE COMPROBANTES DEL PERIODO ' . $period_string);
         //--- End ---
 
         //--- Cabecera Tabla ---
@@ -477,25 +481,25 @@ class ExportsController extends Controller
 
         //--- Contenido de la Tabla ---
         $sprst_row = 6;
-        foreach($datos as $key=>$dt){
-            $sheet->setCellValue('A'.$sprst_row, $dt->tipo_comprobante->tipo_comprobante);
-            $sheet->setCellValue('B'.$sprst_row, $dt->serie->serie.' - '.str_pad($dt->correlativo, 8, '0', STR_PAD_LEFT));
-            $sheet->setCellValue('C'.$sprst_row, $dt->fecha_emision);
-            $sheet->setCellValue('D'.$sprst_row, $dt->nombreCliente);
-            $sheet->setCellValue('E'.$sprst_row, $dt->nroDocCliente);
-            $sheet->setCellValue('F'.$sprst_row, $dt->op_gravadas);
-            $sheet->setCellValue('G'.$sprst_row, $dt->igv);
-            $sheet->setCellValue('H'.$sprst_row, $dt->total);
+        foreach ($datos as $key => $dt) {
+            $sheet->setCellValue('A' . $sprst_row, $dt->tipo_comprobante->tipo_comprobante);
+            $sheet->setCellValue('B' . $sprst_row, $dt->serie->serie . ' - ' . str_pad($dt->correlativo, 8, '0', STR_PAD_LEFT));
+            $sheet->setCellValue('C' . $sprst_row, $dt->fecha_emision);
+            $sheet->setCellValue('D' . $sprst_row, $dt->nombreCliente);
+            $sheet->setCellValue('E' . $sprst_row, $dt->nroDocCliente);
+            $sheet->setCellValue('F' . $sprst_row, $dt->op_gravadas);
+            $sheet->setCellValue('G' . $sprst_row, $dt->igv);
+            $sheet->setCellValue('H' . $sprst_row, $dt->total);
             // $sheet->setCellValue('I'.$sprst_row, $dt->estado->estado);
 
-            $sprst_row+=1;
+            $sprst_row += 1;
         }
         //--- End ---
 
         $writer->setSpreadsheet($spreadsheet);
-        $file_name = "Reporte_Ventas_General".time().".xlsx";
+        $file_name = "Reporte_Ventas_General" . time() . ".xlsx";
         header('Content-type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename="'.$file_name.'"');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
         $writer->save('php://output');
         //--- END ---
 
@@ -505,13 +509,15 @@ class ExportsController extends Controller
     }
 
     //--- Cuentas ---
-    public function exportarCuentasCobrar($params, Excel $excel){
+    public function exportarCuentasCobrar($params, Excel $excel)
+    {
         $params_json = json_decode($params, true);
-        return $excel::download(new CuentasCobrarExport($params_json), 'ReporteCuentasCobrar_'.time().'.xlsx');
+        return $excel::download(new CuentasCobrarExport($params_json), 'ReporteCuentasCobrar_' . time() . '.xlsx');
     }
-    public function exportarCuentasPagar($params, Excel $excel){
+    public function exportarCuentasPagar($params, Excel $excel)
+    {
         $params_json = json_decode($params, true);
-        return $excel::download(new CuentasPagarExport($params_json), 'ReporteCuentasPagar_'.time().'.xlsx');
+        return $excel::download(new CuentasPagarExport($params_json), 'ReporteCuentasPagar_' . time() . '.xlsx');
     }
     //--- End ---
 }

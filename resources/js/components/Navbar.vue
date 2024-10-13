@@ -21,7 +21,7 @@
                         <v-icon>mdi-robot-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>Chatbot Gen AI</v-list-item-title>
+                        <v-list-item-title>Asistente IA</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 16, 2024 at 04:57 PM
--- Server version: 8.0.36-0ubuntu0.22.04.1
--- PHP Version: 8.2.16
+-- Generation Time: Oct 13, 2024 at 02:40 AM
+-- Server version: 8.0.39-0ubuntu0.22.04.1
+-- PHP Version: 8.2.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -176,7 +176,14 @@ INSERT INTO `almacen_movimientos` (`id_almacen_movimientos`, `id_sucursal`, `id_
 (50, 1, 2, 3, 'Producto 3', 1, 2, 'UND', '1000.00', '2.00', '2000.00', '4480.00', '2024-03-16', '2024-03-16 16:33:15', '2024-03-16 16:33:15'),
 (51, 1, 2, 1, 'Producto 1', 1, 2, 'UND', '1000.00', '1.00', '1000.00', '5465.00', '2024-03-16', '2024-03-16 16:33:16', '2024-03-16 16:33:16'),
 (52, 1, 2, 2, 'Producto 2', 2, 2, 'UND', '8.00', '2.00', '16.00', '4469.00', '2024-03-16', '2024-03-16 16:54:12', '2024-03-16 16:54:12'),
-(53, 1, 2, 1, 'Producto 1', 2, 2, 'UND', '40.00', '5.00', '20.00', '5425.00', '2024-03-16', '2024-03-16 16:54:12', '2024-03-16 16:54:12');
+(53, 1, 2, 1, 'Producto 1', 2, 2, 'UND', '40.00', '5.00', '20.00', '5425.00', '2024-03-16', '2024-03-16 16:54:12', '2024-03-16 16:54:12'),
+(54, 1, 2, 1, 'Producto 1', 2, 2, 'UND', '30.00', '5.00', '15.00', '5395.00', '2024-03-18', '2024-03-19 03:53:09', '2024-03-19 03:53:09'),
+(55, 1, 2, 4, 'IBUPROFENO', 5, 2, 'UND', '500.00', NULL, NULL, '500.00', '2024-10-12', '2024-10-13 01:11:20', '2024-10-13 01:11:20'),
+(56, 1, 1, 4, 'IBUPROFENO', 2, 3, 'CAJA', '5.00', '0.25', '1.25', '495.00', '2024-10-12', '2024-10-13 01:32:26', '2024-10-13 01:32:26'),
+(57, 1, 1, 4, 'IBUPROFENO', 2, 3, 'CAJA', '10.00', '2.00', '2.00', '485.00', '2024-10-12', '2024-10-13 01:32:27', '2024-10-13 01:32:27'),
+(58, 1, 1, 4, 'IBUPROFENO', 2, 3, 'CAJA', '100.00', '2.00', '20.00', '385.00', '2024-10-12', '2024-10-13 01:34:00', '2024-10-13 01:34:00'),
+(59, 1, 1, 1, 'Producto 1', 2, 2, 'UND', '500.00', '60.00', '600.00', '4895.00', '2024-10-12', '2024-10-13 01:34:02', '2024-10-13 01:34:02'),
+(60, 1, 1, 4, 'IBUPROFENO', 1, 3, 'CAJA', '1000.00', '1.50', '150.00', '1385.00', '2024-10-12', '2024-10-13 01:41:52', '2024-10-13 01:41:52');
 
 -- --------------------------------------------------------
 
@@ -199,7 +206,8 @@ CREATE TABLE `caja` (
 --
 
 INSERT INTO `caja` (`id_caja`, `id_sucursal`, `id_usuario`, `fecha_apertura`, `fecha_cierre`, `monto_apertura`, `monto_cierre`) VALUES
-(4, 1, 2, '2024-03-14 01:21:14', NULL, '0.00', NULL);
+(4, 1, 2, '2024-03-14 01:21:14', '2024-03-19 12:51:50', '0.00', '208.00'),
+(6, 1, 2, '2024-08-13 01:59:35', NULL, '0.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -213,6 +221,15 @@ CREATE TABLE `caja_detalle` (
   `id_medio_pago` tinyint UNSIGNED DEFAULT NULL,
   `monto` decimal(11,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `caja_detalle`
+--
+
+INSERT INTO `caja_detalle` (`id_caja_det`, `id_caja`, `id_medio_pago`, `monto`) VALUES
+(1, 4, 1, '163.00'),
+(2, 4, 2, '15.00'),
+(3, 4, 3, '30.00');
 
 -- --------------------------------------------------------
 
@@ -320,7 +337,8 @@ CREATE TABLE `compras` (
 INSERT INTO `compras` (`id_compra`, `id_usuario`, `id_sucursal`, `id_proveedor`, `id_moneda`, `id_medio_pago`, `id_tipo_cambio`, `id_tipo_comprobante`, `correlativo`, `nombreProveedor`, `nroDocProveedor`, `email`, `nro_guia_remision`, `serie_factura`, `nro_factura`, `fecha_emision`, `fecha_vencimiento`, `origen_dinero`, `op_inafectas`, `op_exoneradas`, `op_gravadas`, `icbper`, `porcentaje_igv`, `igv`, `total`, `deuda_id`, `deuda_generada`, `deuda_adelanto`, `id_estado`, `fecha_anulacion`, `time_elapsed`, `updated_at`, `created_at`) VALUES
 (1, 2, 1, 1, 1, 1, 1, 1, 1, 'PROVEEDOR INTERNO', '12345678912', 'proveedorinterno@gmail.com', NULL, 'F001', '12345612', '2024-03-13', '2024-03-13', 1, '0.00', '0.00', '1694.92', '0.00', '18.00', '305.08', '2000.00', NULL, NULL, NULL, 1, NULL, 89, '2024-03-16 16:55:15', '2024-03-14 01:43:43'),
 (2, 2, 1, 2, 1, 1, 1, 1, 2, 'PROVEEDOR DISTRIBUIDOR', '98765432198', 'proveedordistribuidor@gmail.com', NULL, 'F002', '35123541', '2024-03-16', '2024-03-16', 1, '0.00', '0.00', '2542.37', '0.00', '18.00', '457.63', '3000.00', NULL, NULL, NULL, 1, NULL, 86, '2024-03-16 15:59:20', '2024-03-16 15:58:42'),
-(3, 2, 1, 2, 1, 1, 1, 1, 3, 'PROVEEDOR DISTRIBUIDOR', '98765432198', 'proveedordistribuidor@gmail.com', NULL, 'F002', '854761', '2024-03-16', '2024-03-16', 1, '0.00', '0.00', '3389.83', '0.00', '18.00', '610.17', '4000.00', 3, 1, '1500.00', 1, NULL, 76, '2024-03-16 16:33:16', '2024-03-16 16:33:03');
+(3, 2, 1, 2, 1, 1, 1, 1, 3, 'PROVEEDOR DISTRIBUIDOR', '98765432198', 'proveedordistribuidor@gmail.com', NULL, 'F002', '854761', '2024-03-16', '2024-03-16', 1, '0.00', '0.00', '3389.83', '0.00', '18.00', '610.17', '4000.00', 3, 1, '1500.00', 1, NULL, 76, '2024-03-16 16:33:16', '2024-03-16 16:33:03'),
+(4, 1, 1, 1, 1, 1, 1, 1, 4, 'PROVEEDOR INTERNO', '12345678912', 'proveedorinterno@gmail.com', NULL, 'F002', '4512351', '2024-10-12', '2024-10-12', 1, '0.00', '0.00', '127.12', '0.00', '18.00', '22.88', '150.00', 4, 1, NULL, 1, NULL, 74, '2024-10-13 01:41:53', '2024-10-13 01:35:34');
 
 -- --------------------------------------------------------
 
@@ -357,7 +375,8 @@ INSERT INTO `compras_detalle` (`id_compra_detalle`, `id_compra`, `id_producto`, 
 (11, 2, 3, 'Producto 3', 2, 'UND', 7, 16, 'LXXX2', '2025-12-31', '1000.00', '1000.00', '2.00', '2000.00'),
 (12, 3, 2, 'Producto 2', 2, 'UND', 4, 17, 'L2009', '2025-12-31', '1000.00', '1000.00', '1.00', '1000.00'),
 (13, 3, 3, 'Producto 3', 2, 'UND', 7, 18, 'L3009', '2025-12-31', '1000.00', '1000.00', '2.00', '2000.00'),
-(14, 3, 1, 'Producto 1', 2, 'UND', 1, 19, 'L1009', '2025-12-31', '1000.00', '1000.00', '1.00', '1000.00');
+(14, 3, 1, 'Producto 1', 2, 'UND', 1, 19, 'L1009', '2025-12-31', '1000.00', '1000.00', '1.00', '1000.00'),
+(15, 4, 4, 'IBUPROFENO', 3, 'CAJA', 20, 21, 'IBFN002', '2025-12-31', '1000.00', '100.00', '1.50', '150.00');
 
 -- --------------------------------------------------------
 
@@ -399,7 +418,7 @@ CREATE TABLE `compressed_tables` (
 
 INSERT INTO `compressed_tables` (`id`, `title`, `table_name`, `query`, `prompt`) VALUES
 (1, 'Productos', 'productos_servicios', 'TABLE productos_servicios(id_producto int,codigo_producto varchar,id_marca int,id_categoria int,id_unidad_medida int,id_sucursal int,nombreProducto varchar,stock decimal,servicio tinyint COMMENT \'0=no, 1=si\',registro_sanitario varchar,vigencia_registro date,estado tinyint COMMENT \'0=inactivo, 1=activo\')\r\nTABLE marcas_productos (id_marca int,marca varchar,estado tinyint COMMENT \'0=inactivo,1=activo\')', 'Si existen los siguientes datos en la consulta, debes incluirlos: codigo producto, nombre producto, stock, stock minimo, servicio, ubicacion, registro sanitario y marca.'),
-(2, 'Comprobantes', 'comprobantes', 'TABLE comprobantes(id_comprobante int,id_tipo_comprobante tinyint,id_estado_comprobante tinyint,id_serie int,correlativo int,nombreCliente varchar,nroDocCliente varchar,fecha_emision date,igv float,total float) TABLE comprobantes_detalle(id int,id_comprobante int, nombre_producto,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', 'Si existen los siguientes datos en la consulta, debes incluirlos: tipo_comprobante, serie, correlativo, nombreCliente, nroDocCliente, fecha_emision, igv, total, nombre_producto, precio_unitario, cantidad.'),
+(2, 'Comprobantes', 'comprobantes', 'TABLE comprobantes/ventas(id_comprobante int,id_tipo_comprobante tinyint,id_estado_comprobante tinyint,id_serie int,correlativo int,nombreCliente varchar,nroDocCliente varchar,fecha_emision date,igv float,total float) TABLE comprobante_detalle(id_comp_detalle int,id_comprobante int, nombre_producto,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', 'Si existen los siguientes datos en la consulta, debes incluirlos: tipo_comprobante, serie, correlativo, nombreCliente, nroDocCliente, fecha_emision, igv, total, nombre_producto, precio_unitario, cantidad.'),
 (3, 'Compras', 'compras', 'TABLE compras(id_compra int,id_sucursal int, id_tipo_comprobante tinyint,nombreProveedor varchar,nroDocProveedor varchar,nro_guia_remision varchar, serie_factura varchar, nro_factura,fecha_emision date,igv float,total float) TABLE compras_detalle(id int,id_compra int, nombre_producto,lote_name varchar,precio_unitario, cantidad) TABLE tipos_comprobante(id int,tipo_comprobante varchar)', 'Si existen los siguientes datos en la consulta, debes incluirlos: tipo_comprobante,nombreProveedor,nroDocProveedor,serie_factura,nro_factura,nro_guia_remision,fecha_emision,igv,total,nombre_producto,precio_unitario,cantidad,lote_name.');
 
 -- --------------------------------------------------------
@@ -451,8 +470,11 @@ INSERT INTO `comprobantes` (`id_comprobante`, `id_cliente`, `id_usuario`, `id_su
 (12, 1, 2, 1, 2, 1, 4, 1, 1, 2, 2, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-03-13', '2024-03-13', NULL, '0.00', '0.00', '33.90', '0.00', '18.00', '6.10', '40.00', NULL, 'ticket', NULL, NULL, 86, '2024-03-16 16:54:46', '2024-03-14 01:55:45'),
 (13, 1, 2, 1, 2, 1, 4, 1, 1, 2, 3, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-03-13', '2024-03-13', NULL, '0.00', '0.00', '33.90', '0.00', '18.00', '6.10', '40.00', NULL, 'ticket', NULL, NULL, 64, '2024-03-16 16:54:37', '2024-03-14 01:56:30'),
 (14, 1, 2, 1, 2, 1, 4, 1, 1, 2, 4, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-03-16', '2024-03-16', 'Venta de prueba', '0.00', '0.00', '5.93', '0.00', '18.00', '1.07', '7.00', NULL, 'ticket', NULL, NULL, 38, '2024-03-16 16:31:20', '2024-03-16 16:15:24'),
-(15, 1, 2, 1, 2, 1, 4, 1, 1, 2, 5, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-03-16', '2024-03-16', 'Venta de prueba', '0.00', '0.00', '25.42', '0.00', '18.00', '4.58', '30.00', NULL, 'ticket', NULL, NULL, 42, '2024-03-16 16:16:48', '2024-03-16 16:16:46'),
-(16, 2, 2, 1, 2, 1, 4, 1, 1, 2, 6, 'RENZO PAREDES RAMIREZ', '12345678', 'URB. LOS GIRASOLES 123', '2024-03-16', '2024-03-16', 'Venta de prueba, producto 1 y 2', '0.00', '0.00', '30.51', '0.00', '18.00', '5.49', '36.00', NULL, 'ticket', NULL, NULL, 73, '2024-03-16 16:54:12', '2024-03-16 16:54:11');
+(15, 1, 2, 1, 2, 1, 4, 3, 1, 2, 5, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-03-16', '2024-03-16', 'Venta de prueba', '0.00', '0.00', '25.42', '0.00', '18.00', '4.58', '30.00', NULL, 'ticket', NULL, NULL, 42, '2024-03-19 03:53:50', '2024-03-16 16:16:46'),
+(16, 2, 2, 1, 2, 1, 4, 1, 1, 2, 6, 'RENZO PAREDES RAMIREZ', '12345678', 'URB. LOS GIRASOLES 123', '2024-03-16', '2024-03-16', 'Venta de prueba, producto 1 y 2', '0.00', '0.00', '30.51', '0.00', '18.00', '5.49', '36.00', NULL, 'ticket', NULL, NULL, 73, '2024-03-16 16:54:12', '2024-03-16 16:54:11'),
+(17, 1, 2, 1, 2, 1, 4, 2, 1, 2, 7, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-03-18', '2024-03-18', NULL, '0.00', '0.00', '12.71', '0.00', '18.00', '2.29', '15.00', NULL, 'ticket', NULL, NULL, 31, '2024-03-19 03:53:09', '2024-03-19 03:53:07'),
+(18, 1, 1, 1, 2, 1, 4, 1, 1, 2, 8, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-10-12', '2024-10-12', NULL, '0.00', '0.00', '2.75', '0.00', '18.00', '0.50', '3.25', NULL, 'ticket', NULL, NULL, 483, '2024-10-13 01:32:27', '2024-10-13 01:32:24'),
+(19, 1, 1, 1, 2, 1, 4, 1, 1, 2, 9, 'CLIENTES VARIOS', '00000000', 'Calle Las Rosas 123', '2024-10-12', '2024-10-12', NULL, '0.00', '0.00', '525.42', '0.00', '18.00', '94.58', '620.00', NULL, 'ticket', NULL, NULL, 75, '2024-10-13 01:34:02', '2024-10-13 01:33:59');
 
 -- --------------------------------------------------------
 
@@ -494,7 +516,12 @@ INSERT INTO `comprobante_detalle` (`id_comp_detalle`, `id_comprobante`, `id_prod
 (21, 15, 1, 'Producto 1', 2, 'UND', 2, 12, 'L1003', '5.00', '20.00', '2.00', '10.00'),
 (22, 15, 3, 'Producto 3', 2, 'UND', 7, 16, 'LXXX2', '4.00', '5.00', '5.00', '20.00'),
 (23, 16, 2, 'Producto 2', 2, 'UND', 4, 15, 'LXXX1', '2.00', '8.00', '8.00', '16.00'),
-(24, 16, 1, 'Producto 1', 2, 'UND', 2, 12, 'L1003', '5.00', '40.00', '4.00', '20.00');
+(24, 16, 1, 'Producto 1', 2, 'UND', 2, 12, 'L1003', '5.00', '40.00', '4.00', '20.00'),
+(25, 17, 1, 'Producto 1', 2, 'UND', 2, 12, 'L1003', '5.00', '30.00', '3.00', '15.00'),
+(26, 18, 4, 'IBUPROFENO', 3, 'CAJA', 19, 20, 'LIBF001', '0.25', '5.00', '5.00', '1.25'),
+(27, 18, 4, 'IBUPROFENO', 3, 'CAJA', 20, 20, 'LIBF001', '2.00', '10.00', '1.00', '2.00'),
+(28, 19, 4, 'IBUPROFENO', 3, 'CAJA', 20, 20, 'LIBF001', '2.00', '100.00', '10.00', '20.00'),
+(29, 19, 1, 'Producto 1', 2, 'UND', 3, 12, 'L1003', '60.00', '500.00', '10.00', '600.00');
 
 -- --------------------------------------------------------
 
@@ -561,7 +588,8 @@ CREATE TABLE `deudas_compras` (
 --
 
 INSERT INTO `deudas_compras` (`id_deuda`, `id_compra`, `id_proveedor`, `total_adelanto`, `total_deuda`, `total_monto_pagado`, `total_monto_pendiente`, `fecha`, `estado`) VALUES
-(3, 3, 2, '1500.00', '4000.00', '1500.00', '2500.00', '2024-03-16', 1);
+(3, 3, 2, '1500.00', '4000.00', '1500.00', '2500.00', '2024-03-16', 1),
+(4, 4, 1, '0.00', '150.00', '0.00', '150.00', '2024-10-12', 1);
 
 -- --------------------------------------------------------
 
@@ -659,7 +687,8 @@ CREATE TABLE `egresos` (
 INSERT INTO `egresos` (`id_egreso`, `id_sucursal`, `id_usuario`, `id_compra`, `id_tipo_egreso`, `id_motivo_egreso`, `metodo_gasto`, `fecha_egreso`, `monto`, `detalle`, `estado`) VALUES
 (7, 1, 2, 1, 4, 3, 1, '2024-03-13 20:43:52', '2000.00', NULL, 1),
 (8, 1, 2, 2, 4, 3, 1, '2024-03-16 10:59:21', '3000.00', NULL, 1),
-(9, 1, 2, 3, 4, 3, 1, '2024-03-16 11:33:17', '4000.00', NULL, 1);
+(9, 1, 2, 3, 4, 3, 1, '2024-03-16 11:33:17', '4000.00', NULL, 1),
+(10, 1, 1, 4, 4, 3, 1, '2024-10-12 20:41:53', '150.00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -809,7 +838,9 @@ INSERT INTO `lista_precios_detalle` (`id_lista_detalle`, `id_lista_precio`, `id_
 (6, 2, 2, 1, '70.00', '45.00', 80, 1),
 (7, 1, 3, 1, '4.00', '2.00', 1, 1),
 (8, 3, 3, 1, '15.00', '8.00', 10, 1),
-(9, 2, 3, 1, '135.00', '70.00', 100, 1);
+(9, 2, 3, 1, '135.00', '70.00', 100, 1),
+(19, 1, 4, 1, '0.25', '0.15', 1, 1),
+(20, 3, 4, 1, '2.00', '1.50', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -838,14 +869,16 @@ INSERT INTO `lote_productos` (`id_lote`, `id_sucursal`, `id_producto`, `lote`, `
 (4, 1, 3, 'L3002', 1000, '2024-12-31', 1),
 (5, 1, 1, 'L1002', 1000, '2024-12-31', 1),
 (6, 1, 2, 'L2002', 1000, '2024-12-31', 1),
-(12, 1, 1, 'L1003', 2425, '2024-12-31', 1),
+(12, 1, 1, 'L1003', 1895, '2024-12-31', 1),
 (13, 1, 2, 'L2003', 485, '2024-12-31', 1),
 (14, 1, 3, 'L3003', 485, '2024-12-31', 1),
 (15, 1, 2, 'L2004', 984, '2025-12-31', 1),
 (16, 1, 3, 'L3004', 995, '2025-12-31', 1),
 (17, 1, 2, 'L2005', 1000, '2025-12-31', 1),
 (18, 1, 3, 'L3005', 1000, '2025-12-31', 1),
-(19, 1, 1, 'L1004', 1000, '2025-12-31', 1);
+(19, 1, 1, 'L1004', 1000, '2025-12-31', 1),
+(20, 1, 4, 'LIBF001', 385, '2025-12-31', 1),
+(21, 1, 4, 'IBFN002', 1000, '2025-12-31', 1);
 
 -- --------------------------------------------------------
 
@@ -1339,7 +1372,7 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `title`, `status`, `activ
 (111, 'menu_ventas', 'web', 'Menu ventas', 1, 1, '2023-12-16 17:31:40', '2023-12-16 17:31:40'),
 (112, 'menu_invreport', 'web', 'Menu reporte comprobantes', 1, 1, '2023-12-16 17:31:41', '2023-12-16 17:31:41'),
 (113, 'menu_digemid', 'web', 'Menu digemid', 1, 1, '2023-12-16 17:31:42', '2023-12-16 17:31:42'),
-(114, 'chatbot_genai', 'web', 'Chatbot Gen AI', 1, 1, '2023-12-16 17:31:42', '2023-12-16 17:31:42'),
+(114, 'chatbot_genai', 'web', 'Chat Gen AI', 1, 1, '2023-12-16 17:31:42', '2023-12-16 17:31:42'),
 (115, 'clients_create', 'web', 'Crear clientes', 1, 1, '2024-01-17 02:43:50', '2024-01-17 02:43:50'),
 (116, 'clients_index', 'web', 'Leer clientes', 1, 1, '2024-01-17 02:43:50', '2024-01-17 02:43:50'),
 (117, 'clients_update', 'web', 'Actualizar clientes', 1, 1, '2024-01-17 02:43:50', '2024-01-17 02:43:50'),
@@ -1407,9 +1440,10 @@ CREATE TABLE `productos_servicios` (
 --
 
 INSERT INTO `productos_servicios` (`id_producto`, `codigo_producto`, `id_marca`, `id_categoria`, `id_unidad_medida`, `id_sucursal`, `id_laboratorio`, `id_condicion_alm`, `id_tipo_producto`, `nombreProducto`, `stock`, `stock_minimo`, `servicio`, `principio_activo`, `indicaciones`, `concentracion`, `registro_sanitario`, `vigencia_registro`, `ubicacion`, `estado`, `updated_at`, `created_at`) VALUES
-(1, 'PR001', 2, 1, 2, 1, 1, 1, 1, 'Producto 1', '5425.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-03-12', 'Almacen', 1, '2024-03-16 16:54:12', '2024-03-13 02:52:13'),
+(1, 'PR001', 2, 1, 2, 1, 1, 1, 1, 'Producto 1', '4895.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-03-12', 'Almacen', 1, '2024-10-13 01:34:00', '2024-03-13 02:52:13'),
 (2, 'PR002', 3, 2, 2, 1, 2, 1, 1, 'Producto 2', '4469.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-12-31', 'Almacen', 1, '2024-03-16 16:54:11', '2024-03-13 02:53:52'),
-(3, 'PR003', 4, 3, 2, 1, 3, 1, 1, 'Producto 3', '4480.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-12-31', 'Almacen', 1, '2024-03-16 16:33:15', '2024-03-13 02:56:40');
+(3, 'PR003', 4, 3, 2, 1, 3, 1, 1, 'Producto 3', '4480.00', '100.00', 0, NULL, NULL, NULL, NULL, '2024-12-31', 'Almacen', 1, '2024-03-16 16:33:15', '2024-03-13 02:56:40'),
+(4, 'IBFN001', 1, 1, 3, 1, 1, 1, 1, 'IBUPROFENO', '1385.00', '100.00', 0, 'ibuprofeno', 'IBUPROFENO es un analgésico y antiinflamatorio utilizado para el tratamiento de estados dolorosos, acompañados de inflamación significativa como artritis reumatoide leve y alteraciones musculoesqueléticas (osteoar­tritis, lumbago, bursitis, tendiniti', '200 mg', 'RS001', '2024-01-01', 'Ambiente', 1, '2024-10-13 01:41:51', '2024-10-13 01:11:18');
 
 -- --------------------------------------------------------
 
@@ -1703,10 +1737,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (120, 1),
 (121, 1),
 (122, 1),
-(1, 2),
 (2, 2),
-(3, 2),
-(4, 2),
 (14, 2),
 (15, 2),
 (16, 2),
@@ -4421,7 +4452,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `id_role`, `id_sucursal`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Superadmin', 'superadmin@gmail.com', NULL, '$2y$10$aQr48bi7hpbzz1l32dI8hucoX//pP87fAcGyuBUFBfEI.R3Jt7RqG', NULL, 1, '2023-12-16 17:31:51', '2023-12-16 17:31:51'),
+(1, 1, 1, 'Superadmin', 'superadmin@gmail.com', NULL, '$2y$10$b1EFgoW47SO/XSRnDXc7qOx13PvBKK6/8AHeVt1/z9SHSKtig3s3G', NULL, 1, '2023-12-16 17:31:51', '2024-10-13 01:22:08'),
 (2, 2, 1, 'Administrador', 'admin@gmail.com', NULL, '$2y$10$0l0PCG.76eLWQFlSjdVbgu4NpvFpziJuxYtxLDLmz9DjqVBK3aapK', NULL, 1, '2023-12-16 17:31:52', '2023-12-16 17:31:52'),
 (3, 5, 1, 'Cajero', 'cajero@gmail.com', NULL, '$2y$10$PLtkIQz1ZGOp.9x4oKu0Get8N/gD.xuCJnEE0s3wziVtcuta4I/16', NULL, 1, '2023-12-16 17:31:52', '2023-12-16 17:31:52'),
 (4, 4, 1, 'Almacén', 'almacen@gmail.com', NULL, '$2y$10$frlNT9BsnP7pY7.3pnzYfu3FR.hZMvavN4D7nHYJVcKrZDCBDS.EO', NULL, 1, '2023-12-16 17:31:53', '2023-12-16 17:31:53'),
@@ -4904,19 +4935,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `almacen_movimientos`
 --
 ALTER TABLE `almacen_movimientos`
-  MODIFY `id_almacen_movimientos` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id_almacen_movimientos` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id_caja` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_caja` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `caja_detalle`
 --
 ALTER TABLE `caja_detalle`
-  MODIFY `id_caja_det` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_caja_det` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `clientes`
@@ -4934,13 +4965,13 @@ ALTER TABLE `cliente_direcciones`
 -- AUTO_INCREMENT for table `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_compra` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `compras_detalle`
 --
 ALTER TABLE `compras_detalle`
-  MODIFY `id_compra_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_compra_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `compra_estado`
@@ -4958,13 +4989,13 @@ ALTER TABLE `compressed_tables`
 -- AUTO_INCREMENT for table `comprobantes`
 --
 ALTER TABLE `comprobantes`
-  MODIFY `id_comprobante` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_comprobante` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `comprobante_detalle`
 --
 ALTER TABLE `comprobante_detalle`
-  MODIFY `id_comp_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_comp_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `comprobante_estados`
@@ -4982,7 +5013,7 @@ ALTER TABLE `condiciones_almacenamiento`
 -- AUTO_INCREMENT for table `deudas_compras`
 --
 ALTER TABLE `deudas_compras`
-  MODIFY `id_deuda` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_deuda` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `deudas_compras_pagos`
@@ -5006,7 +5037,7 @@ ALTER TABLE `deudas_comprobantes_pagos`
 -- AUTO_INCREMENT for table `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_egreso` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `egreso_motivos`
@@ -5048,13 +5079,13 @@ ALTER TABLE `lista_precios`
 -- AUTO_INCREMENT for table `lista_precios_detalle`
 --
 ALTER TABLE `lista_precios_detalle`
-  MODIFY `id_lista_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_lista_detalle` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `lote_productos`
 --
 ALTER TABLE `lote_productos`
-  MODIFY `id_lote` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_lote` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `marcas_productos`
@@ -5114,7 +5145,7 @@ ALTER TABLE `productos_categorias`
 -- AUTO_INCREMENT for table `productos_servicios`
 --
 ALTER TABLE `productos_servicios`
-  MODIFY `id_producto` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_producto` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `producto_tipos`

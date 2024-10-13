@@ -40,7 +40,7 @@ export default {
         this.messages.push({
             isMine: false,
             text: "Hola "+this.username+", elige un tópico en el selector de arriba y hazme una pregunta sobre él.",
-            author: "GenAI"
+            author: "Asistente IA"
         });
     },
     methods: {
@@ -63,12 +63,12 @@ export default {
                 this.messages.push({
                     isMine: false,
                     text: response.data.message,
-                    author: "GenAI"
+                    author: "Asistente IA"
                 });
                 this.messages.push({
                     isMine: false,
                     text: this.text_help[Math.floor(Math.random()* this.text_help.length)],
-                    author: "GenAI"
+                    author: "Asistente IA"
                 });
                 this.ScrollToLastMessage();
 
@@ -77,12 +77,12 @@ export default {
                 this.messages.push({
                     isMine: false,
                     text: e.response.data.message,
-                    author: "GenAI"
+                    author: "Asistente IA"
                 });
                 this.messages.push({
                     isMine: false,
                     text: this.text_help[Math.floor(Math.random()* this.text_help.length)],
-                    author: "GenAI"
+                    author: "Asistente IA"
                 });
                 this.ScrollToLastMessage();
                 
