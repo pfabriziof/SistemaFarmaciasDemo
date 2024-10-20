@@ -14,10 +14,7 @@ use App\Models\DeudaComprobantePago;
 use App\Models\ListaPreciosDetalle;
 use App\Models\Producto;
 use App\Models\LoteProducto;
-use App\Utils\EMailer;
-use Mpdf\Mpdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ComprobanteController extends Controller
 {

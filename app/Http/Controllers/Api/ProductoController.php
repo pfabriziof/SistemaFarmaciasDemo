@@ -217,7 +217,7 @@ class ProductoController extends Controller
         // $executionTime = $endTime - $startTime;
         // Log::debug("Productos Update: Tiempo de ejecución: " . $executionTime . " segs");
 
-        return response()->json(['success'=>true, 'message' => 'Producto actualizado correctamente!']);
+        return response()->json(['success'=>true, 'message' => 'Producto actualizado correctamente!'], 200);
     }
 
     public function destroy($id){

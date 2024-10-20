@@ -24,6 +24,7 @@
         "symfony/postmark-mailer": "^6.3"
     },
     "require-dev": {
+        "brianium/paratest": "^6.11",
         "enlightn/enlightn": "^2.7",
         "fzaninotto/faker": "^1.9.1",
         "kitloong/laravel-migrations-generator": "^6.10",

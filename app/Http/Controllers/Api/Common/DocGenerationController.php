@@ -18,7 +18,6 @@ use App\Models\Sucursal;
 use App\Utils\EMailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
 
 class DocGenerationController extends Controller
@@ -36,7 +35,7 @@ class DocGenerationController extends Controller
 
         return view('compras/prv_cotizacion_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
     }
-    public function generarProveedorCotizacionPDF($id, Mpdf $mpdf){
+    public function generarProveedorCotizacionPDF($id){
         // $startTime = microtime(true); // Capture start time
 
         $document = ProveedorCotizacion::find($id);
@@ -44,6 +43,7 @@ class DocGenerationController extends Controller
 
         $html =  $this->vistaProveedorCotizacion($id)->render();
         $filename = 'Cotizacion_'.$document_number.'_'.time().'.pdf';
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
 
@@ -66,7 +66,7 @@ class DocGenerationController extends Controller
         //--- End ---
 
         $html =  $this->vistaProveedorCotizacion($request->id)->render();
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
 
         EMailer::send('cotizacion_mail', $request->to_email,
@@ -93,7 +93,7 @@ class DocGenerationController extends Controller
 
         return view('compras/ordcomp_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
     }
-    public function generarOrdenCompraPDF($id, Mpdf $mpdf){
+    public function generarOrdenCompraPDF($id){
         // $startTime = microtime(true); // Capture start time
 
         $document = OrdenCompra::find($id);
@@ -101,6 +101,7 @@ class DocGenerationController extends Controller
 
         $html =  $this->vistaOrdenCompra($id)->render();
         $filename = 'OrdenCompra_'.$document_number.'_'.time().'.pdf';
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
 
@@ -124,7 +125,7 @@ class DocGenerationController extends Controller
 
 
         $html =  $this->vistaOrdenCompra($request->id)->render();
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
 
         EMailer::send('orden_compra_mail', $request->to_email,
@@ -152,7 +153,7 @@ class DocGenerationController extends Controller
 
         return view('compras/compra_pdf',compact("document", "document_detail_pr", "document_detail_sv"));
     }
-    public function generarCompraPDF($id, Mpdf $mpdf){
+    public function generarCompraPDF($id){
         // $startTime = microtime(true); // Capture start time
 
         $document = Compra::find($id);
@@ -160,6 +161,7 @@ class DocGenerationController extends Controller
 
         $html = $this->vistaCompra($id)->render();
         $filename = 'Compra_'.$document_number.'_'.time().'.pdf';
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
 
@@ -183,7 +185,7 @@ class DocGenerationController extends Controller
 
 
         $html =  $this->vistaCompra($request->id)->render();
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
 
         EMailer::send('compra_mail', $request->to_email,
@@ -206,7 +208,7 @@ class DocGenerationController extends Controller
 
         return view('ventas/comprobante_pdf',compact("document", "document_detail_pr"));
     }
-    public function generarComprobantePDF($id, Mpdf $mpdf){
+    public function generarComprobantePDF($id){
         // $startTime = microtime(true); // Capture start time
 
         $document = Comprobante::find($id);
@@ -214,6 +216,7 @@ class DocGenerationController extends Controller
 
         $html = $this->vistaComprobante($id)->render();
         $filename = 'Compra_'.$document_number.'_'.time().'.pdf';
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
 
@@ -237,7 +240,7 @@ class DocGenerationController extends Controller
 
 
         $html =  $this->vistaComprobante($request->id)->render();
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
 
         EMailer::send('comprobante_mail', $request->to_email,
@@ -333,9 +336,10 @@ class DocGenerationController extends Controller
 
         return view('caja/caja_pdf',compact("document", "sucursal", "document_detail", "document_sales", "sum_sales", "document_purchases", "sum_purchases"));
     }
-    public function generarCajaPDF($id, Mpdf $mpdf){
+    public function generarCajaPDF($id){
         $html =  $this->vistaCaja($id)->render();
         $filename = 'pdf_'.time().'.pdf';
+        $mpdf = new Mpdf(['tempDir' => base_path() . '/storage/app/mypdf']);
         $mpdf->WriteHTML($html);
         $mpdf->Output($filename, 'I');
     }

@@ -18,7 +18,6 @@ class CrudsTest extends TestCase
             'searchTerm' => "",
             'perPage' => 15,
         ]);
-        // dd($response);
         $response->assertStatus(200);
     }
     
