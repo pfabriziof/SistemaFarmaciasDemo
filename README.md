@@ -10,7 +10,7 @@ El siguiente diagrama representa la arquitectura diseñada para la integración 
 
 <img src="https://github.com/paolo-fabrizio/SistemaFarmaciasDemo/blob/main/public/assets/images/arquitectura_integracion_iagenerativa.png" alt="Arquitectura Integración con IA Generativa" align="center">
 
-# Documentacion
+# Documentación
 Puede consultar el informe de tesis y demás documentos en los links a continuación.  
 - [Informe de tesis]()
 - [Diagrama relacional de base de datos](https://www.dropbox.com/scl/fi/tt6t58m5hi46vql3lcxz6/DatabaseDiagram.png?rlkey=m2dgv5y67hcgxb8afvpm63hm7&dl=0)
